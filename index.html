@@ -30,10 +30,13 @@ html, body { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 
 /* ---------- Frame ---------- */
-#deck { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+/* Horizontal deck: slides sit side by side on a track that GSAP slides left/right. Each slide scrolls vertically on its own if it is taller than the screen. */
+#deck { height: 100%; overflow: hidden; position: relative; touch-action: pan-y; }
+#track { display: flex; height: 100%; will-change: transform; }
+html, body { overscroll-behavior-x: none; }
 .slide {
-  min-height: 100%; scroll-snap-align: start; position: relative; overflow: hidden;
-  display: flex; flex-direction: column; justify-content: center;
+  flex: 0 0 100%; width: 100%; height: 100%; position: relative; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  display: flex; flex-direction: column; justify-content: safe center;
   padding-inline: max(16px, 6vw); padding-block: 96px 72px;
 }
 .slide.dark { background: var(--night); color: var(--night-ink); }
@@ -226,6 +229,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .note { margin-top: 18px; padding: 18px 22px; border-radius: 18px; border: 1px solid var(--line); background: #fff; font-size: 15px; color: var(--muted); display: flex; gap: 12px; align-items: baseline; }
 .note b { color: var(--ink); font-weight: 600; white-space: nowrap; }
 
+/* ---------- Orb hand-off (chapter -> engine) ---------- */
+#flyer { position: fixed; z-index: 15; border-radius: 50%; pointer-events: none; --hole: 0%;
+  -webkit-mask: radial-gradient(circle, transparent var(--hole), #000 calc(var(--hole) + .5%));
+          mask: radial-gradient(circle, transparent var(--hole), #000 calc(var(--hole) + .5%)); }
+
 /* ---------- 10 Performance Engine (GSAP) ---------- */
 #method { padding-block: 80px 48px; }
 .eng-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
@@ -264,7 +272,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .score-track i { position: absolute; left: 0; top: 0; bottom: 0; width: 36%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), #6E93FF); }
 .score-track.hit i { background: linear-gradient(90deg, var(--blue), var(--orange)); }
 .score-track em { position: absolute; top: -5px; bottom: -5px; left: 75%; width: 2px; background: var(--orange); border-radius: 2px; }
-.score-track em::after { content: "Target 1400"; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font: 600 10px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); font-style: normal; }
+.score-track em::after { content: "Target 1400"; white-space: nowrap; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font: 600 10px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); font-style: normal; }
 .skills { display: grid; gap: 4px; position: relative; margin-top: 14px; }
 .skill { display: grid; grid-template-columns: 84px minmax(0, 1fr) 40px 128px 18px; gap: 12px; align-items: center; padding: 8px 0; font-size: 14px; }
 .skill .nm { font-weight: 500; }
@@ -343,7 +351,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   .skill { grid-template-columns: 72px minmax(0, 1fr) 34px 18px; } .skill .ch { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #deck { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
 </style>
@@ -352,9 +359,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   <a class="brandmark" href="#intro" id="home" aria-label="TestPrep, back to the start"><img class="on-light-logo" src="assets/logo-testprep.svg" alt="" width="2018" height="407"><img class="on-dark-logo" src="assets/logo-testprep-white.svg" alt="" width="2018" height="407"></a>
 </header>
 <div id="progress"></div>
+<div id="flyer" class="orb tp-warm" hidden></div>
 <aside id="notes" hidden><small>Presenter notes &#183; press N to hide</small><span id="notes-text"></span></aside>
 
 <main id="deck">
+<div id="track">
 
   <!-- 00 &#183; Intro -->
   <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="2"
@@ -560,7 +569,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         <h2 class="display">Not a course.<br>A <span class="accent">system.</span></h2>
         <p class="lede">The TestPrep Performance Engine: seven steps that turn effort into a score. Every student starts in a different place, so no two plans look the same.</p>
       </div>
-      <div class="big-orb"><div class="orb tp-warm spin" style="inset:0"></div></div>
+      <div class="big-orb" id="method-orb"><div class="orb tp-warm spin" style="inset:0"></div></div>
     </div>
   </section>
 
@@ -668,6 +677,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
+</div>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
@@ -676,6 +686,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrambleTextPlugin.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Observer.min.js"></script>
 <script>
 (() => {
   const deck = document.getElementById('deck');
@@ -742,7 +753,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   brandEls.forEach(b => b.addEventListener('click', () => { const k = order.indexOf(b.querySelector('.name').textContent); state.ecosystem = k; lightBrand(k); }));
 
   /* ---------- Performance Engine (GSAP: DrawSVG, MotionPath, ScrambleText, SplitText, Flip) ---------- */
-  gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin, ScrambleTextPlugin, SplitText, Flip);
+  gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin, ScrambleTextPlugin, SplitText, Flip, Observer);
   const SK = ['Algebra', 'Geometry', 'Reading', 'Grammar'];
   const F3 = 'Focus \u00b7 3\u00d7 / week', F2 = 'Focus \u00b7 2\u00d7 / week', M1 = 'Maintain \u00b7 1\u00d7 / week', OK = 'On track';
   const ENG = [
@@ -848,11 +859,16 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       else tl.set(halo, { attr: { r: 22 }, opacity: .25 });
       return tl;
     },
-    enter() {
-      // First arrival: draw the ring, pop the nodes in, then run step 1.
+    prime() {
+      // Empty state before the first run: no progress drawn, bars at zero, score at baseline.
       gsap.set([ringPath, ringGlow], { drawSVG: '0% 0%' }); rows.forEach(r => { r.querySelector('.fl').style.width = '0'; r.querySelector('.vl').textContent = '0'; });
+    },
+    enter(fromOrb) {
+      // First arrival: draw the ring (or take over from the flying orb), pop the nodes in, then run step 1.
+      engine.prime();
       if (reduce) { engine.go(at, true); return; }
-      gsap.from('.ring-track', { drawSVG: '50% 50%', duration: 1.2, ease: 'power3.inOut' });
+      if (fromOrb) gsap.from(numEl.parentElement, { opacity: 0, scale: .85, duration: .8, ease: 'power3.out' });
+      else gsap.from('.ring-track', { drawSVG: '50% 50%', duration: 1.2, ease: 'power3.inOut' });
       gsap.from(nodeEls, { scale: 0, transformOrigin: '50% 50%', duration: .6, ease: 'back.out(3)', stagger: .07, delay: .4 });
       gsap.delayedCall(.9, () => engine.go(at));
     },
@@ -936,25 +952,74 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
   };
 
-  function goTo(i) { cur = Math.max(0, Math.min(slides.length - 1, i)); slides[cur].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+  const track = document.getElementById('track'), flyer = document.getElementById('flyer');
+  const ringWrap = document.querySelector('.ring-wrap'), methodOrb = document.getElementById('method-orb');
+  let moving = null;
+
+  // Called whenever a slide becomes current: notes, progress, theme, first-visit effects.
+  function arrive(i, fromOrb) {
+    const el = slides[i], first = !el.dataset.seen; el.dataset.seen = 1;
+    notesText.textContent = el.dataset.notes || '';
+    progress.style.width = ((i + 1) / slides.length * 100) + '%';
+    document.body.classList.toggle('on-dark', el.classList.contains('dark'));
+    if (el.id === 'numbers' && first) countUp();
+    if (el.id === 'method' && first) engine.enter(fromOrb);
+  }
+
+  function goTo(i, instant) {
+    i = Math.max(0, Math.min(slides.length - 1, i));
+    if (i === cur && !instant) return;
+    const from = cur; cur = i;
+    moving?.progress(1);
+    const x = -i * deck.clientWidth;
+    const handoff = !instant && !reduce && slides[from].id === 'ch-method' && slides[i].id === 'method' && !slides[i].dataset.seen;
+    if (instant || reduce) { gsap.set(track, { x }); arrive(i); return; }
+    if (handoff) { moving = orbHandoff(x); return; }
+    document.body.classList.toggle('on-dark', slides[i].classList.contains('dark'));
+    moving = gsap.to(track, { x, duration: .95, ease: 'power3.inOut', onComplete: () => arrive(i) });
+  }
+
+  // Chapter 04 -> Engine: the orb lifts off, rides across with the slide change, lands on the ring,
+  // its middle dissolves until only the ring is left, then the engine takes over.
+  function orbHandoff(x) {
+    const r0 = methodOrb.getBoundingClientRect();
+    const W = deck.clientWidth;
+    const rw = ringWrap.getBoundingClientRect();                 // ring position while the method slide is still off-screen
+    const ringD = rw.width * 440 / 600;                           // ring circle is r=220 in a 600 viewBox
+    const target = { left: rw.left - W + rw.width / 2 - ringD / 2, top: rw.top + rw.height / 2 - ringD / 2 };
+    const spin = gsap.getProperty(methodOrb.firstElementChild, 'rotation') || 0;
+    gsap.set(flyer, { left: r0.left, top: r0.top, width: r0.width, height: r0.height, rotation: spin, '--hole': '0%' });
+    flyer.hidden = false; methodOrb.style.visibility = 'hidden'; engine.prime();
+    gsap.set(ringWrap, { opacity: 0 });
+    const tl = gsap.timeline({ onComplete: () => { flyer.hidden = true; methodOrb.style.visibility = ''; } });
+    tl.to(flyer, { scale: 1.08, duration: .35, ease: 'power2.out' })                                   // lift
+      .to(track, { x, duration: 1.15, ease: 'power3.inOut' }, .2)                                    // slides move
+      .to(flyer, { left: target.left, top: target.top, width: ringD, height: ringD, scale: 1, rotation: '+=220',
+                   duration: 1.15, ease: 'power3.inOut' }, .2)                                       // orb rides across and lands on the ring
+      .to(flyer, { '--hole': '97%', duration: .8, ease: 'power2.in' }, 1.25)                         // the middle disappears
+      .to(ringWrap, { opacity: 1, duration: .5, ease: 'power1.out' }, 1.6)
+      .add(() => arrive(cur, true), 1.6)                                                           // nodes pop, numbers start
+      .to(flyer, { opacity: 0, duration: .4 }, 1.9)
+      .set(flyer, { opacity: 1 });
+    return tl;
+  }
+
   function next() { const h = handlers[slides[cur].id]; if (h?.next?.()) return; goTo(cur + 1); }
   function prev() { const h = handlers[slides[cur].id]; if (h?.prev?.()) return; goTo(cur - 1); }
 
-  // Current slide = the one whose top is nearest the top of the viewport (works for slides taller than the screen).
-  let synced = -1;
-  function sync() {
-    const y = deck.scrollTop + deck.clientHeight * 0.35;
-    let i = 0; slides.forEach((sl, k) => { if (sl.offsetTop <= y) i = k; });
-    if (i === synced) return;
-    synced = cur = i; const el = slides[i]; const first = !el.dataset.seen; el.dataset.seen = 1;
-    notesText.textContent = el.dataset.notes || '';
-    progress.style.width = ((cur + 1) / slides.length * 100) + '%';
-    document.body.classList.toggle('on-dark', el.classList.contains('dark'));
-    if (el.id === 'numbers' && first) countUp();
-    if (el.id === 'method' && first) engine.enter();
-  }
-  let raf = 0; deck.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
-  sync();
+  // Swipes (touch, pen, trackpad sideways) move between slides; vertical scrolling stays inside the slide.
+  let lockUntil = 0;
+  const swipe = fn => self => {
+    const sideways = self.event.type.startsWith('wheel') || Math.abs(self.deltaX) > Math.abs(self.deltaY);
+    if (!sideways || Date.now() < lockUntil) return;
+    lockUntil = Date.now() + 900; fn();                       // one swipe = one slide, even with trackpad momentum
+  };
+  Observer.create({
+    target: deck, type: 'touch,pointer,wheel', lockAxis: true, tolerance: 40, dragMinimum: 6, wheelSpeed: -1,
+    onLeft: swipe(next), onRight: swipe(prev),
+  });
+  addEventListener('resize', () => gsap.set(track, { x: -cur * deck.clientWidth }));
+  cur = -1;
 
   document.addEventListener('keydown', e => {
     if (e.target.closest?.('input, textarea')) return;
@@ -968,11 +1033,10 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   function present() { const el = document.documentElement; const p = document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); p?.catch?.(() => {}); }
   // Logo: back to the very first slide, with the intro reset so the opener plays again.
   document.getElementById('home').addEventListener('click', e => {
-    e.preventDefault(); state.intro = 0; intro.dataset.step = 0;
-    deck.style.scrollBehavior = 'auto'; deck.scrollTop = 0; deck.style.scrollBehavior = '';
+    e.preventDefault(); state.intro = 0; intro.dataset.step = 0; goTo(0, true);
   });
 
   const start = slides.findIndex(s => s.id === location.hash.slice(1));
-  if (start > 0) requestAnimationFrame(() => slides[start].scrollIntoView());
+  goTo(Math.max(0, start), true);
 })();
 </script>
