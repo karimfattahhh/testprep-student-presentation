@@ -60,8 +60,9 @@ body.on-dark .brandmark .on-dark-logo { display: block; }
 .glow i:nth-child(3) { inset: 8%; background: conic-gradient(from 0deg, rgba(23,64,169,.16), rgba(255,150,62,.16), rgba(142,197,255,.16), rgba(23,64,169,.16)); animation: spin 22s linear infinite; filter: blur(80px); }
 @keyframes drift-a { 0% { transform: translate(-6%, -4%) scale(.94); } 100% { transform: translate(6%, 5%) scale(1.08); } }
 @keyframes drift-b { 0% { transform: translate(10%, 6%) scale(1.05); } 100% { transform: translate(-12%, -8%) scale(.9); } }
-.chapter { color: var(--muted); font-variant-numeric: tabular-nums; }
-.bar-actions { display: flex; gap: 8px; }
+.brandmark { cursor: pointer; border-radius: 6px; transition: opacity .2s; }
+.brandmark:hover { opacity: .75; }
+.brandmark:focus-visible { outline: 2px solid var(--orange); outline-offset: 6px; }
 .pill {
   font: 500 13px/1 var(--sans); border-radius: 999px; padding: 10px 16px; cursor: pointer;
   border: 1px solid var(--line); background: var(--bg); color: var(--ink);
@@ -320,8 +321,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   .timeline { gap: 32px; } .timeline::before { display: none; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chapter-slide .big-orb { width: 200px; }
-  .bar-actions .hide-sm { display: none; }
-  .chapter { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   #deck { scroll-behavior: auto; }
@@ -330,13 +329,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 </style>
 
 <header class="bar">
-  <div class="brandmark"><img class="on-light-logo" src="assets/logo-testprep.svg" alt="TestPrep" width="2018" height="407"><img class="on-dark-logo" src="assets/logo-testprep-white.svg" alt="" width="2018" height="407"></div>
-  <div class="chapter" id="chapter">Intro</div>
-  <div class="bar-actions">
-    <button class="pill hide-sm" id="btn-notes" aria-pressed="false">Notes</button>
-    <button class="pill hide-sm" id="btn-fs">Present</button>
-    <button class="pill solid" id="btn-next">Next</button>
-  </div>
+  <a class="brandmark" href="#intro" id="home" aria-label="TestPrep, back to the start"><img class="on-light-logo" src="assets/logo-testprep.svg" alt="" width="2018" height="407"><img class="on-dark-logo" src="assets/logo-testprep-white.svg" alt="" width="2018" height="407"></a>
 </header>
 <div id="progress"></div>
 <aside id="notes" hidden><small>Presenter notes &#183; press N to hide</small><span id="notes-text"></span></aside>
@@ -637,7 +630,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 (() => {
   const deck = document.getElementById('deck');
   const slides = [...document.querySelectorAll('.slide')];
-  const chapterEl = document.getElementById('chapter');
   const progress = document.getElementById('progress');
   const notes = document.getElementById('notes');
   const notesText = document.getElementById('notes-text');
@@ -813,7 +805,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     let i = 0; slides.forEach((sl, k) => { if (sl.offsetTop <= y) i = k; });
     if (i === synced) return;
     synced = cur = i; const el = slides[i]; const first = !el.dataset.seen; el.dataset.seen = 1;
-    chapterEl.textContent = el.dataset.chapter;
     notesText.textContent = el.dataset.notes || '';
     progress.style.width = ((cur + 1) / slides.length * 100) + '%';
     document.body.classList.toggle('on-dark', el.classList.contains('dark'));
@@ -830,11 +821,13 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     else if (e.key.toLowerCase() === 'n') toggleNotes();
     else if (e.key.toLowerCase() === 'f') present();
   });
-  function toggleNotes() { notes.hidden = !notes.hidden; document.getElementById('btn-notes').setAttribute('aria-pressed', !notes.hidden); }
+  function toggleNotes() { notes.hidden = !notes.hidden; }
   function present() { const el = document.documentElement; const p = document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); p?.catch?.(() => {}); }
-  document.getElementById('btn-notes').onclick = toggleNotes;
-  document.getElementById('btn-fs').onclick = present;
-  document.getElementById('btn-next').onclick = next;
+  // Logo: back to the very first slide, with the intro reset so the opener plays again.
+  document.getElementById('home').addEventListener('click', e => {
+    e.preventDefault(); state.intro = 0; intro.dataset.step = 0;
+    deck.style.scrollBehavior = 'auto'; deck.scrollTop = 0; deck.style.scrollBehavior = '';
+  });
 
   const start = slides.findIndex(s => s.id === location.hash.slice(1));
   if (start > 0) requestAnimationFrame(() => slides[start].scrollIntoView());
