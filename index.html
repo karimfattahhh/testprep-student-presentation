@@ -3,7 +3,7 @@
 <meta name="description" content="TestPrep by House of Prep: the live student presentation for grades 10&#8211;12.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Caveat:wght@500;700&display=swap">
 <style>
 /* Layout: a scroll-snapped stack of full-screen sections (one per slide); fixed top bar; arrow keys present, touch scrolls.
    Look: quiet near-white ground, light large display type, hairlines, soft brand-colour orbs. Colour used sparingly. */
@@ -258,10 +258,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .bcard[data-brand="testprep"] { --tint: #1740A9; }
 .bcard[data-brand="weguide"] { --tint: #6E41F4; }
 .bcard[data-brand="taleb"] { --tint: #26473F; }
+.bcard[data-brand="elmy"] { --tint: #2444E2; }
 .bcard .logo-area .stage-pill { background: rgba(255,255,255,.16); color: #fff; z-index: 1; }
 .bcard[data-brand="taleb"] .logo-area { padding: 0; }
 .bcard[data-brand="taleb"] .logo-area img { position: absolute; left: 50%; top: 50%; max-width: none; max-height: none; width: auto; height: 165%; transform: translate(-50%, -50%); }   /* square logo on the same green: scale so the wordmark matches the others */
-.eco-journey { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(16px, 3vh, 28px); }
+.eco-journey { position: relative; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: clamp(16px, 3vh, 28px); }
 .eco-journey::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; background: var(--line); }
 .eco-journey .fill { position: absolute; left: 0; top: 5px; height: 2px; width: 0; background: linear-gradient(90deg, var(--blue), var(--orange)); }
 .eco-journey button { all: unset; cursor: pointer; position: relative; padding-top: 22px; font-size: 13px; color: var(--faint); transition: color .3s; }
@@ -489,7 +490,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .shot-copy { display: grid; gap: 16px; align-content: start; padding-top: 8px; }
 .shot-copy .step-tag { font-size: 12px; font-weight: 600; color: var(--blue); background: var(--blue-soft); border-radius: 999px; padding: 6px 12px; justify-self: start; }
 
-/* ---------- 12 Spot the Glitch: a glitching week of planner cards ---------- */
+/* ---------- 12 Spot the Glitch: Nizar's desk of paper notes ---------- */
+/* A board tilted in 3D (Raylight depth); a caught note flies to centre stage next to a glowing reality card (Framer glow). */
+#glitch .wrap { display: grid; gap: clamp(10px, 2vh, 18px); }
 .g-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
 .g-title { position: relative; }
 .g-title.glitching { text-shadow: -3px 0 rgba(255,60,90,.75), 3px 0 rgba(0,190,255,.75); }
@@ -499,27 +502,36 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .g-bar { display: grid; grid-template-columns: repeat(7, 26px); gap: 5px; }
 .g-bar i { height: 6px; border-radius: 6px; background: var(--line); }
 .g-bar i.on { background: var(--orange); }
-.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(8px, 1vw, 14px); margin-top: clamp(20px, 3.5vh, 36px); }
-.gcard { all: unset; box-sizing: border-box; display: block; cursor: pointer; height: clamp(230px, 34vh, 310px); perspective: 1100px; }
-.gcard:focus-visible .gc-front { outline: 2px solid var(--orange); outline-offset: 3px; }
-.gc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
-.gc-front, .gc-back { position: absolute; inset: 0; border-radius: 20px; padding: 18px 16px; display: grid; align-content: start; gap: 12px;
-  backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-.gc-front { background: #fff; border: 1px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11,14,26,.5); transition: border-color .3s; }
-.gc-day { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
-.gc-day i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
-.gc-task { margin: 0; font-size: clamp(14px, 1.1vw, 17px); line-height: 1.4; font-weight: 500; color: var(--ink); }
-.gc-note { align-self: end; font-size: 11px; color: var(--faint); }
-.gcard.glitching .gc-task { text-shadow: -2px 0 rgba(255,60,90,.7), 2px 0 rgba(0,190,255,.7); }
-.gcard.glitching .gc-day i { background: var(--bad); }
-.gcard.caught .gc-front { border-color: var(--bad); }
-.gcard.caught .gc-task { text-decoration: line-through; text-decoration-color: var(--bad); color: var(--muted); }
-.gc-back { transform: rotateY(180deg); background: linear-gradient(160deg, #1740A9, #0F2C7A); color: #fff; align-content: space-between; }
-.gc-back .gc-step { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); }
-.gc-back b { display: block; font-size: clamp(17px, 1.4vw, 22px); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; }
-.gc-back p { margin: 0; font-size: 13px; line-height: 1.45; color: #C9D3F0; }
-.gc-back .gc-glitch { font-size: 11px; color: #9DB0FF; }
-.g-final { margin: clamp(16px, 3vh, 28px) 0 0; font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; letter-spacing: -.02em; opacity: 0; }
+.desk { position: relative; height: clamp(330px, 52vh, 470px); perspective: 1600px; perspective-origin: 50% 0%; }
+.board { position: absolute; inset: 0; transform: rotateX(16deg); transform-origin: 50% 100%; border-radius: 26px;
+  background: radial-gradient(120% 90% at 50% 0%, #EEF1F8, #E3E7F1); box-shadow: inset 0 0 0 1px #DCE1EC; }
+.note { all: unset; box-sizing: border-box; position: absolute; width: 22%; height: 40%; cursor: pointer; padding: 18px 16px 14px 34px;
+  background: repeating-linear-gradient(#FFFDF6 0 25px, #DCE6F6 25px 26px) 0 12px / 100% 26px, #FFFDF6;
+  border-radius: 4px; box-shadow: 0 14px 26px -16px rgba(11,14,26,.45), 0 1px 0 rgba(11,14,26,.06);
+  font-family: "Caveat", "Comic Sans MS", cursive; font-weight: 700; font-size: clamp(19px, 1.65vw, 27px); line-height: 26px; color: #1F2A55; }
+.note::before { content: ""; position: absolute; left: 24px; top: 0; bottom: 0; width: 1.5px; background: rgba(217,71,58,.45); }
+.note::after { content: ""; position: absolute; left: 50%; top: -10px; width: 64px; height: 20px; margin-left: -32px; background: rgba(255,214,160,.65); transform: rotate(-3deg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+.note:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.note.glitching { text-shadow: -2px 0 rgba(255,60,90,.65), 2px 0 rgba(0,190,255,.65); }
+.note .fixed { position: absolute; right: 10px; bottom: 8px; font: 700 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--good); border: 2px solid var(--good); border-radius: 6px; padding: 3px 7px; transform: rotate(-6deg); opacity: 0; }
+.note.found { color: #8A90A6; }
+.note.found .t { text-decoration: line-through; text-decoration-color: var(--bad); text-decoration-thickness: 2px; }
+.note.found .fixed { opacity: 1; }
+.note.away { visibility: hidden; }
+.g-focus { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
+.g-clone { position: absolute; z-index: 6; pointer-events: none; transform-origin: 50% 50%; }
+.g-clone .strike { position: absolute; left: 30px; right: 14px; height: 3px; background: var(--bad); border-radius: 3px; transform-origin: left center; transform: scaleX(0); }
+.g-panel { --sweep2: 0deg; position: absolute; right: 2%; top: 50%; width: 47%; transform: translateY(-50%); border-radius: 26px; padding: clamp(20px, 2.4vw, 32px);
+  color: #fff; display: grid; gap: 14px; opacity: 0;
+  background: radial-gradient(120% 120% at 100% 0%, #1E4DC4, #0F2C7A 60%, #0B1E5C) padding-box,
+              conic-gradient(from var(--sweep2), rgba(255,255,255,.1) 0deg, rgba(255,255,255,.1) 200deg, #6E93FF 260deg, var(--orange) 330deg, rgba(255,255,255,.1) 360deg) border-box;
+  border: 1.5px solid transparent; animation: sweep2 3.4s linear infinite; box-shadow: 0 40px 80px -30px rgba(15,44,122,.6); }
+.gp-k { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #9DB0FF; }
+.gp-k.do { color: var(--orange); }
+.gp-real { margin: 0; font-size: clamp(20px, 1.9vw, 30px); font-weight: 300; letter-spacing: -.02em; line-height: 1.25; }
+.gp-do { margin: 0; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.45; color: #DCE3F8; display: flex; gap: 10px; }
+.gp-do::before { content: "\2713"; color: var(--orange); font-weight: 700; }
+.g-final { margin: 0; font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; letter-spacing: -.02em; opacity: 0; }
 .g-final b { color: var(--blue); }
 
 /* ---------- 13 Challenge: Do U Think U Have What It Takes? ---------- */
@@ -586,7 +598,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  .week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .desk { height: auto; perspective: none; } .board { position: relative; transform: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 18px; } .note { position: relative; width: auto; height: 150px; left: auto !important; top: auto !important; } .g-panel { width: 92%; right: 4%; }
   .qcard { grid-template-columns: minmax(0, 1fr); }
   .eco-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
   .engine, .showcase, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
@@ -895,22 +907,32 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </section>
 
   <!-- Spot the Glitch -->
-  <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="7"
-    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. So why isn't it working?' The cards glitch on their own. When someone shouts a glitch, click that day (or press &#8594; to reveal in order): the card shakes, gets crossed out and flips to the step that fixes it. Seven glitches, seven steps. End on: 'Now let me show you the seven fixes.' and move into How we work.">
+  <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="8"
+    data-notes="Whole room plays. 'This is Nizar's desk. He studies every single day. So why isn't it working?' Let them shout. Click the note they name (or press &#8594; to go in order): it flies forward, gets crossed out, and the real SAT appears next to it. &#8594; again puts it back and brings up the next. These all link to what they just learned about the SAT. Finish on: 'He wasn't lazy. He was preparing for a test that doesn't exist anymore.' Then into How we work.">
     <div class="wrap">
       <div class="g-head">
         <div>
           <p class="label">Live game &#183; whole room</p>
           <h2 class="h2 g-title" id="g-title">Spot the Glitch.</h2>
+          <p class="lede" style="margin-top:10px">This is Nizar&#8217;s desk. He studies every single day. So why isn&#8217;t it working?</p>
         </div>
         <div class="g-meter" aria-live="polite">
           <span class="g-count"><b id="g-n">0</b>/ 7 glitches found</span>
           <div class="g-bar" id="g-bar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
       </div>
-      <p class="lede" style="margin-top:12px">This is Nizar&#8217;s study week. He works hard every single day. So why isn&#8217;t it working?</p>
-      <div class="week" id="week"></div>
-      <p class="g-final" id="g-final">Seven glitches. <b>Now, the seven fixes.</b></p>
+      <div class="desk" id="desk">
+        <div class="board" id="board"></div>
+        <div class="g-focus" id="g-focus">
+          <div class="g-panel" id="g-panel" aria-live="polite">
+            <span class="gp-k">The real SAT</span>
+            <p class="gp-real" id="gp-real"></p>
+            <span class="gp-k do">Do this instead</span>
+            <p class="gp-do" id="gp-do"></p>
+          </div>
+        </div>
+      </div>
+      <p class="g-final" id="g-final">He wasn&#8217;t lazy. <b>He was preparing for a test that doesn&#8217;t exist anymore.</b></p>
     </div>
   </section>
 
@@ -1059,8 +1081,8 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </div></div>
 
   <!-- Ecosystem -->
-  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="3"
-    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. Close on Taleb: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
+  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
+    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. On Taleb: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.' Last card, Elmy: 'And under all of it, the platform that tracks every answer.'">
     <div class="wrap">
       <div class="eco-head">
         <div>
@@ -1090,11 +1112,15 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
           <div class="info"><span class="who">University students</span><p class="what">The home of university learning, for when you get there.</p>
             <span class="chips"><span>Subject courses</span><span>Academic writing</span><span>Research support</span><span>Digital skills</span></span></div>
         </button>
+        <button class="bcard" data-brand="elmy" aria-label="Elmy">
+          <div class="logo-area"><span class="stage-pill">The platform</span><img src="assets/brands/elmy-full-white.svg" alt="Elmy, Learning Solutions" width="1521" height="573"></div>
+          <div class="info"><span class="who">Powers TestPrep</span><p class="what">The Learning Intelligence System behind your plan: it tracks every answer and shows what to fix next.</p>
+            <span class="chips"><span>Practice exams</span><span>Performance tracking</span><span>Common errors</span><span>Study plans</span></span></div>
+        </button>
       </div>
       <div class="eco-journey" id="eco-journey"><span class="fill" id="eco-fill"></span>
-        <button><b>School</b>PrepMe</button><button><b>Tests</b>TestPrep</button><button><b>Choosing</b>WeGuide</button><button><b>University</b>Taleb</button>
+        <button><b>School</b>PrepMe</button><button><b>Tests</b>TestPrep</button><button><b>Choosing</b>WeGuide</button><button><b>University</b>Taleb</button><button><b>Platform</b>Elmy</button>
       </div>
-      <p class="powered">The TestPrep platform is powered by <svg class="elmy-mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="300 300 1400 1400" fill="currentColor"><rect x="804.62" y="804.62" width="390.76" height="390.76" rx="195.38" ry="195.38"/><path d="M1579.46,900.7c-14.36,0-28.72-5.47-39.69-16.41l-317.4-316.62c-23.46-23.4-51.88-39.05-82.19-45.27-34.66-7.11-69.7-2.29-104.14,14.31-15.59,7.52-30.27,18.06-43.66,31.36l-317.45,315.29c-22.02,21.87-57.61,21.75-79.48-.27-21.87-22.02-21.75-57.61.27-79.48l317.45-315.29c22.27-22.11,47.18-39.9,74.04-52.85,57.13-27.56,116.2-35.36,175.54-23.18,51.88,10.63,99.95,36.84,138.99,75.79l317.41,316.62c21.97,21.92,22.02,57.5.1,79.48-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M1154.87,1636.29c-14.36,0-28.72-5.47-39.69-16.41-21.97-21.92-22.02-57.5-.1-79.48l316.62-317.4c23.4-23.46,39.05-51.89,45.27-82.2,7.11-34.66,2.29-69.7-14.32-104.13-7.52-15.6-18.07-30.28-31.36-43.66l-315.29-317.45c-21.87-22.02-21.75-57.61.27-79.48,22.02-21.88,57.61-21.75,79.48.27l315.29,317.45c22.11,22.26,39.89,47.17,52.85,74.04,27.56,57.13,35.36,116.19,23.18,175.54-10.64,51.89-36.85,99.95-75.8,139l-316.62,317.4c-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M891.47,1593.28c-18.02,0-36.1-1.85-54.22-5.57-51.88-10.64-99.94-36.85-138.99-75.8l-317.41-316.62c-21.97-21.92-22.02-57.5-.1-79.48,21.92-21.98,57.5-22.02,79.48-.1l317.4,316.62c23.46,23.4,51.88,39.06,82.2,45.27,34.65,7.09,69.69,2.29,104.13-14.32,15.59-7.52,30.28-18.07,43.66-31.36l317.45-315.29c22.02-21.87,57.61-21.75,79.48.27,21.87,22.02,21.75,57.61-.27,79.48l-317.45,315.29c-22.26,22.11-47.17,39.89-74.03,52.85-39.69,19.15-80.33,28.75-121.33,28.75Z"/><path d="M844.12,1420.24c-14.45,0-28.89-5.53-39.88-16.6l-315.29-317.45c-22.11-22.26-39.89-47.17-52.85-74.03-27.56-57.14-35.36-116.2-23.18-175.55,10.64-51.88,36.85-99.95,75.8-138.99l316.62-317.4c21.92-21.98,57.5-22.02,79.48-.1,21.97,21.92,22.02,57.5.1,79.48l-316.62,317.4c-23.4,23.46-39.05,51.88-45.27,82.2-7.11,34.66-2.29,69.7,14.32,104.14,7.52,15.58,18.07,30.27,31.36,43.65l315.29,317.45c21.87,22.02,21.75,57.61-.27,79.48-10.96,10.89-25.28,16.33-39.6,16.33Z"/></svg><b>elmy</b></p>
     </div>
   </section>
 
@@ -1468,63 +1494,104 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     copy.innerHTML = `<span class="step-tag fade-in">${s[2]}</span><h3 class="h2 fade-in" style="font-size:clamp(28px,2.8vw,40px)">${s[3]}</h3><p class="body fade-in" style="font-size:16px">${s[4]}</p>`;
   }
 
-  /* ---------- Spot the Glitch (GSAP: ScrambleText glitches, shake, 3D flip) ---------- */
+  /* ---------- Spot the Glitch: Nizar's desk (3D board, fly-to-focus, glow card) ---------- */
+  // Each glitch is a habit that ignores what the room just learned about the real, digital SAT.
   const PLAN = [
-    ['Mon', 'Open the big SAT book at chapter 1 and start reading.', '01', 'Diagnose', 'He never found out where he actually stands.'],
-    ['Tue', 'Watch whatever SAT videos come up on YouTube.', '02', 'Gap analysis', 'He has no idea which skills are costing him points.'],
-    ['Wed', 'Do 100 random math questions.', '03', 'Personalized plan', 'Random practice, no plan built around his target.'],
-    ['Thu', 'Re-read the reading tips he already knows.', '04', 'Targeted instruction', 'Comfortable review instead of his real weak spots.'],
-    ['Fri', 'Finish a practice set. Don&#8217;t check the answers.', '05', 'Micro-assessments', 'He never measures whether anything improved.'],
-    ['Sat', 'Same plan as last week.', '06', 'Adaptive optimization', 'Nothing changes, even when the results do.'],
-    ['Sun', 'First full-length test: on test day.', '07', 'Full-length simulation', 'No rehearsal under real conditions.'],
+    ['Practise on the paper tests from my 2019 SAT book.', 'The SAT is digital now. You take it on a laptop, in the Bluebook app.', 'Practise in the real digital format, on screen.'],
+    ['Do all the maths by hand. Calculators are cheating.', 'A Desmos graphing calculator is built into every Math question.', 'Learn the Desmos moves that save you minutes.'],
+    ['No timer. I\u2019ll go at my own pace.', 'You get roughly a minute to a minute and a half per question, against the clock.', 'Train with the clock from day one.'],
+    ['Only do the easy questions. They feel good.', 'It adapts: do well in Module 1 and Module 2 gets harder. That\u2019s where the top scores are.', 'Train on hard questions, not just comfortable ones.'],
+    ['Memorise a list of 500 vocabulary words.', 'Words are tested in context, inside short passages.', 'Read a little every day and work words out from context.'],
+    ['Skip what I don\u2019t know and leave it blank.', 'There\u2019s no penalty for a wrong answer.', 'Never leave a question blank.'],
+    ['Cram everything the night before.', 'It\u2019s a 2 h 14 min test of skills, not facts you can cram in one night.', 'Plan weeks ahead and practise a little every day.'],
   ];
-  const weekEl = document.getElementById('week'), gN = document.getElementById('g-n'), gBar = [...document.querySelectorAll('#g-bar i')];
+  const SPOTS = [[2, 4, -4], [26, 0, 3], [51, 6, -2], [76, 2, 4], [13, 54, 3], [39, 57, -3], [64, 52, 2]];
+  const board = document.getElementById('board'), gFocus = document.getElementById('g-focus'), gPanel = document.getElementById('g-panel');
+  const gpReal = document.getElementById('gp-real'), gpDo = document.getElementById('gp-do');
+  const gN = document.getElementById('g-n'), gBar = [...document.querySelectorAll('#g-bar i')];
   const gFinal = document.getElementById('g-final'), gTitle = document.getElementById('g-title');
-  const gCards = PLAN.map((p, i) => {
-    const b = document.createElement('button'); b.className = 'gcard'; b.type = 'button'; b.setAttribute('aria-label', p[0] + ': ' + p[1]);
-    b.innerHTML = `<div class="gc-inner"><div class="gc-front"><span class="gc-day">${p[0]}<i></i></span><p class="gc-task">${p[1]}</p><span class="gc-note">Nizar&#8217;s plan</span></div>`
-      + `<div class="gc-back"><div><span class="gc-step">Step ${p[2]}</span><b>${p[3]}</b></div><p>${p[4]}</p><span class="gc-glitch">${p[0]} &#183; glitch fixed</span></div></div>`;
-    b.addEventListener('click', () => reveal(i));
-    weekEl.appendChild(b); return b;
+  const gNotes = PLAN.map((p, i) => {
+    const b = document.createElement('button'); b.className = 'note'; b.type = 'button';
+    const [x, y, r] = SPOTS[i]; b.style.left = x + '%'; b.style.top = y + '%'; b.style.transform = `rotate(${r}deg)`;
+    b.innerHTML = `<span class="t">${p[0]}</span><span class="fixed">Glitch</span>`;
+    b.setAttribute('aria-label', 'Glitch ' + (i + 1) + ': ' + p[0]);
+    b.addEventListener('click', () => { if (focusK === i) release(); else focusNote(i); });
+    board.appendChild(b); return b;
   });
   const found = new Set();
-  // Idle glitches: a random un-caught day scrambles and jitters every so often (only while the slide is on screen).
-  const GLITCH_CHARS = '!<>-_\\/[]{}=+*^?#01';
+  let focusK = null, clone = null, gTl = null, gFinaled = false;
+  // idle glitches on the gNotes still waiting to be caught
   function glitchTick() {
-    if (slides[cur]?.id === 'glitch' && !reduce) {
-      const open = gCards.filter((_, k) => !found.has(k));
+    if (slides[cur]?.id === 'glitch' && !reduce && focusK === null) {
+      const open = gNotes.filter((_, k) => !found.has(k));
       if (open.length) {
-        const c = open[Math.floor(Math.random() * open.length)], task = c.querySelector('.gc-task'), txt = PLAN[gCards.indexOf(c)][1];
-        c.classList.add('glitching');
-        gsap.timeline({ onComplete: () => c.classList.remove('glitching') })
-          .to(c, { x: 3, duration: .04, repeat: 5, yoyo: true, ease: 'steps(1)' })
-          .to(task, { scrambleText: { text: txt, chars: GLITCH_CHARS, speed: 1.2, revealDelay: .15 }, duration: .55 }, 0)
-          .set(c, { x: 0 });
+        const n = open[Math.floor(Math.random() * open.length)];
+        n.classList.add('glitching');
+        gsap.timeline({ onComplete: () => n.classList.remove('glitching') }).to(n, { x: 3, duration: .04, repeat: 5, yoyo: true, ease: 'steps(1)' }).set(n, { x: 0 });
       }
       if (Math.random() < .25) { gTitle.classList.add('glitching'); gsap.delayedCall(.18, () => gTitle.classList.remove('glitching')); }
     }
     gsap.delayedCall(.9 + Math.random() * .9, glitchTick);
   }
   glitchTick();
-  function reveal(i) {
-    if (found.has(i)) return; found.add(i);
-    const c = gCards[i], inner = c.querySelector('.gc-inner');
-    c.classList.remove('glitching'); c.classList.add('caught');
-    gBar[found.size - 1].classList.add('on');
-    gsap.fromTo(gBar[found.size - 1], { scaleY: 3 }, { scaleY: 1, duration: .5, ease: 'back.out(3)' });
-    const n = { v: found.size - 1 };
-    gsap.to(n, { v: found.size, duration: .4, onUpdate: () => { gN.textContent = Math.round(n.v); } });
-    const tl = gsap.timeline();
-    tl.to(c, { x: -9, duration: .05, repeat: 7, yoyo: true, ease: 'none' })                       // caught: it shakes
-      .set(c, { x: 0 })
-      .to(inner, { rotationY: 180, duration: .8, ease: 'back.out(1.4)' }, .45)                  // and flips to its fix
-      .fromTo(c, { y: 0 }, { y: -10, duration: .3, yoyo: true, repeat: 1, ease: 'power2.out' }, .45);
-    if (found.size === 7) {
-      tl.to(gFinal, { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, 1.1)
-        .fromTo(gCards.map(g => g.querySelector('.gc-back')), { filter: 'brightness(1)' }, { filter: 'brightness(1.35)', duration: .25, yoyo: true, repeat: 1, stagger: .08 }, 1.2)
-        .to(gTitle, { scrambleText: { text: 'Glitch-free.', chars: GLITCH_CHARS, speed: .6 }, duration: .8 }, 1.3);
+  function focusNote(i) {
+    if (focusK !== null) release(true);
+    gTl?.progress(1);
+    focusK = i;
+    const n = gNotes[i], P = PLAN[i], dr = gFocus.getBoundingClientRect(), nr = n.getBoundingClientRect();
+    clone = n.cloneNode(true); clone.className = 'note g-clone'; clone.removeAttribute('style');
+    clone.insertAdjacentHTML('beforeend', '<span class="strike"></span>');
+    Object.assign(clone.style, { left: (nr.left - dr.left) + 'px', top: (nr.top - dr.top) + 'px', width: n.offsetWidth + 'px', height: n.offsetHeight + 'px' });
+    gFocus.appendChild(clone); n.classList.add('away');
+    const strike = clone.querySelector('.strike'), t = clone.querySelector('.t');
+    const W = dr.width, H = dr.height, SC = 1.45, chh = n.offsetHeight * SC;
+    gsap.set(clone, { rotation: SPOTS[i][2], transformOrigin: '0 0', scale: 1 });
+    gpReal.textContent = P[1]; gpDo.textContent = P[2];
+    const firstTime = !found.has(i);
+    if (firstTime) {
+      found.add(i); n.classList.add('found');
+      gBar[found.size - 1].classList.add('on');
+      gsap.fromTo(gBar[found.size - 1], { scaleY: 3 }, { scaleY: 1, duration: .5, ease: 'back.out(3)' });
+      const c = { v: found.size - 1 }; gsap.to(c, { v: found.size, duration: .4, onUpdate: () => { gN.textContent = Math.round(c.v); } });
     }
+    const d = reduce ? 0 : 1;
+    const tl = gTl = gsap.timeline();
+    tl.to(board.querySelectorAll('.note:not(.away)'), { filter: 'blur(3px)', opacity: .35, duration: .5 * d }, 0)
+      .to(clone, { left: W * .04, top: (H - chh) / 2, scale: SC, rotation: 0, duration: .8 * d, ease: 'power3.inOut' }, 0)   // the note flies forward (scaled, so the handwriting grows too)
+      .fromTo(clone, { x: 0 }, { x: -8, duration: .05, repeat: 5, yoyo: true, ease: 'none' }, .8 * d)                                   // caught
+      .set(strike, { top: (t.offsetTop + t.offsetHeight / 2) * 1 + 'px' }, .8 * d)
+      .to(strike, { scaleX: 1, duration: .45 * d, ease: 'power2.inOut' }, 1 * d)                                                          // crossed out
+      .fromTo(gPanel, { opacity: 0, x: 40, rotationY: -12 }, { opacity: 1, x: 0, rotationY: 0, duration: .7 * d, ease: 'power3.out' }, .85 * d)
+      .from(gPanel.children, { opacity: 0, y: 12, duration: .45 * d, stagger: .09 }, 1.05 * d);
     return tl;
+  }
+  function release(quick) {
+    if (focusK === null) return;
+    const n = gNotes[focusK], c = clone, dr = gFocus.getBoundingClientRect();
+    n.classList.remove('away'); n.style.visibility = 'hidden';
+    const nr = n.getBoundingClientRect(), rot = SPOTS[focusK][2];
+    focusK = null; clone = null;
+    const d = reduce || quick ? .5 : 1;
+    gsap.to(gPanel, { opacity: 0, x: 30, duration: .35 * d });
+    gsap.to(c, { left: nr.left - dr.left, top: nr.top - dr.top, scale: 1, rotation: rot, duration: .6 * d, ease: 'power3.inOut',
+      onComplete: () => { c.remove(); n.style.visibility = ''; } });
+    gsap.to(board.querySelectorAll('.note'), { filter: 'blur(0px)', opacity: 1, duration: .5 * d });
+  }
+  function finale() {
+    gFinaled = true;
+    const tl = gsap.timeline();
+    tl.to(gFinal, { opacity: 1, duration: .6, ease: 'power3.out' }, .3)
+      .to(gTitle, { scrambleText: { text: 'Glitch-free.', chars: '!<>-_\\/[]{}=+*^?#01', speed: .6 }, duration: .8 }, .3)
+      .to('#board', { rotationX: 0, duration: 1, ease: 'power3.inOut' }, 0)
+      .fromTo(gNotes.map(n => n.querySelector('.fixed')), { scale: 1.6 }, { scale: 1, duration: .4, stagger: .07, ease: 'back.out(3)' }, .4);
+    return tl;
+  }
+  function glitchNext() {
+    const k = PLAN.findIndex((_, j) => !found.has(j));
+    if (k >= 0) return focusNote(k);
+    if (focusK !== null) { release(); if (!gFinaled) return finale(); return true; }
+    if (!gFinaled) return finale();
+    return false;
   }
 
   /* ---------- Challenge: five real questions from the Elmy syllabus ---------- */
@@ -1995,13 +2062,13 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
-    ecosystem: { next() { if (state.ecosystem < 3) { renderEco(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > 0) { renderEco(--state.ecosystem); return true; } } },
+    ecosystem: { next() { if (state.ecosystem < cards.length - 1) { renderEco(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > 0) { renderEco(--state.ecosystem); return true; } } },
     method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
     sat: { next() { if (state.sat < 6) { const f = state.sat; return sat.go(++state.sat, f) || true; } }, prev() { if (state.sat > 0) { const f = state.sat; return sat.go(--state.sat, f) || true; } } },
     challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
     why: { next() { if (state.why < 3) { focusWhy(++state.why - 1); return true; } }, prev() { if (state.why > 0) { focusWhy(--state.why - 1); return true; } } },
-    glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
+    glitch: { next() { return glitchNext(); } },
   };
 
   const track = document.getElementById('track'), flyer = document.getElementById('flyer');
