@@ -46,8 +46,20 @@ header.bar {
   font-size: 13px; font-weight: 500; pointer-events: none; transition: color .4s;
 }
 header.bar > * { pointer-events: auto; }
-.brandmark { font-weight: 700; letter-spacing: -.01em; font-size: 16px; }
-.brandmark span { color: var(--orange); }
+.brandmark { display: block; height: 22px; }
+.brandmark img { height: 100%; width: auto; display: block; }
+.brandmark .on-dark-logo, body.on-dark .brandmark .on-light-logo { display: none; }
+body.on-dark .brandmark .on-dark-logo { display: block; }
+
+/* Soft glow behind the intro headline: a feathered blue/orange circle that drifts and breathes. */
+.intro-swap { position: relative; }
+.glow { position: absolute; left: 50%; top: 50%; width: min(760px, 120vw); aspect-ratio: 1; max-width: none; transform: translate(-50%, -50%); z-index: -1; pointer-events: none; }
+.glow i { position: absolute; inset: 0; border-radius: 50%; filter: blur(64px); }
+.glow i:nth-child(1) { background: radial-gradient(circle at 50% 50%, rgba(23,64,169,.38), rgba(110,147,255,.22) 38%, transparent 68%); animation: drift-a 14s ease-in-out infinite alternate; }
+.glow i:nth-child(2) { inset: 18%; background: radial-gradient(circle at 50% 50%, rgba(255,150,62,.34), rgba(255,196,142,.18) 40%, transparent 70%); animation: drift-b 11s ease-in-out infinite alternate; }
+.glow i:nth-child(3) { inset: 8%; background: conic-gradient(from 0deg, rgba(23,64,169,.16), rgba(255,150,62,.16), rgba(142,197,255,.16), rgba(23,64,169,.16)); animation: spin 22s linear infinite; filter: blur(80px); }
+@keyframes drift-a { 0% { transform: translate(-6%, -4%) scale(.94); } 100% { transform: translate(6%, 5%) scale(1.08); } }
+@keyframes drift-b { 0% { transform: translate(10%, 6%) scale(1.05); } 100% { transform: translate(-12%, -8%) scale(.9); } }
 .chapter { color: var(--muted); font-variant-numeric: tabular-nums; }
 .bar-actions { display: flex; gap: 8px; }
 .pill {
@@ -296,7 +308,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .qr-box { width: 100%; max-width: 260px; aspect-ratio: 1; border-radius: 16px; border: 1.5px dashed #C3C7D3; display: grid; place-items: center; font-size: 13px; color: var(--muted); padding: 16px; }
 .qr-card b { font-size: 18px; font-weight: 600; }
 .logos { display: flex; gap: 28px; align-items: center; margin-top: 48px; flex-wrap: wrap; }
-.logos img { height: 34px; width: auto; opacity: .9; }
+.logos img { height: 30px; width: auto; opacity: .9; }
 .logos .elmy-logo { height: 40px; }
 
 /* ---------- Responsive ---------- */
@@ -318,7 +330,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 </style>
 
 <header class="bar">
-  <div class="brandmark">Test<span>Prep</span></div>
+  <div class="brandmark"><img class="on-light-logo" src="assets/logo-testprep.svg" alt="TestPrep" width="2018" height="407"><img class="on-dark-logo" src="assets/logo-testprep-white.svg" alt="" width="2018" height="407"></div>
   <div class="chapter" id="chapter">Intro</div>
   <div class="bar-actions">
     <button class="pill hide-sm" id="btn-notes" aria-pressed="false">Notes</button>
@@ -344,6 +356,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <div class="orb tp-warm spin intro-orb"></div>
       </div>
       <div class="intro-swap">
+        <div class="glow" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="intro-a">
           <p class="label">TestPrep &#183; by House of Prep</p>
           <h1 class="display">Where do you<br>even start?</h1>
@@ -608,7 +621,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         <p class="label">Your next move</p>
         <h2 class="display">Same student.<br>Different <span class="accent">journey.</span></h2>
         <p class="lede">Scan the code and tell us where you're starting from. We'll take it from there.</p>
-        <div class="logos"><img src="assets/logo-testprep-white.png" alt="TestPrep" width="900" height="604"><img class="elmy-logo" src="assets/logo-elmy-white.svg" alt="Elmy" width="140" height="40"></div>
+        <div class="logos"><img src="assets/logo-testprep-white.svg" alt="TestPrep" width="2018" height="407"><img class="elmy-logo" src="assets/logo-elmy-white.svg" alt="Elmy" width="140" height="40"></div>
       </div>
       <div class="qr-card">
         <div class="qr-box" id="qr">QR code goes here once the sign-up form is live.</div>
