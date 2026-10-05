@@ -1,5 +1,6 @@
+<meta charset="utf-8">
 <title>TestPrep Student Presentation</title>
-<meta name="description" content="TestPrep by House of Prep: the live student presentation for grades 10–12.">
+<meta name="description" content="TestPrep by House of Prep: the live student presentation for grades 10&#8211;12.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
@@ -123,8 +124,22 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .intro-swap { display: grid; }
 .intro-swap > * { grid-area: 1 / 1; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 #intro[data-step="2"] .intro-a, #intro:not([data-step="2"]) .intro-b { opacity: 0; transform: translateY(12px); pointer-events: none; }
-.meta-row { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-top: 36px; font-size: 13px; color: var(--muted); }
-.meta-row b { color: var(--ink); font-weight: 600; }
+/* Prize pill: a light that sweeps around the border, a pulsing live dot. */
+.prize {
+  --sweep: 0deg; position: relative; margin-top: 40px; display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center;
+  padding: 10px 12px 10px 10px; border-radius: 999px; font-size: clamp(14px, 1.2vw, 16px); color: var(--ink);
+  background: linear-gradient(var(--bg), var(--bg)) padding-box,
+              conic-gradient(from var(--sweep), var(--line) 0deg, var(--line) 250deg, var(--orange) 300deg, var(--blue) 340deg, var(--line) 360deg) border-box;
+  border: 1.5px solid transparent; animation: sweep 3.2s linear infinite;
+  box-shadow: 0 16px 40px -24px rgba(255,150,62,.6);
+}
+@property --sweep { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+@keyframes sweep { to { --sweep: 360deg; } }
+.prize b { font-weight: 600; color: var(--blue); }
+.prize .live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; background: var(--ink); border-radius: 999px; padding: 7px 11px 7px 9px; }
+.prize .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 0 rgba(255,150,62,.7); animation: pulse 1.6s ease-out infinite; }
+@keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(255,150,62,0); } 100% { box-shadow: 0 0 0 0 rgba(255,150,62,0); } }
+.prize .who { font-weight: 600; color: var(--orange); padding-right: 6px; }
 
 /* ---------- 01 Agenda ---------- */
 .agenda { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: a; }
@@ -312,13 +327,13 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </div>
 </header>
 <div id="progress"></div>
-<aside id="notes" hidden><small>Presenter notes · press N to hide</small><span id="notes-text"></span></aside>
+<aside id="notes" hidden><small>Presenter notes &#183; press N to hide</small><span id="notes-text"></span></aside>
 
 <main id="deck">
 
-  <!-- 00 · Intro -->
+  <!-- 00 &#183; Intro -->
   <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="2"
-    data-notes="Before you say anything, press → once. The question explodes into everything Nizar sees online. Let it sit for three seconds. Press → again: it all collapses into one orb. Then: 'Today, we're going to make it clear.'">
+    data-notes="Before you say anything, press &#8594; once. The question explodes into everything Nizar sees online. Let it sit for three seconds. Press &#8594; again: it all collapses into one orb. Then: 'Today, we're going to make it clear.'">
     <div class="chaos" aria-hidden="true" id="chaos"></div>
     <div class="wrap">
       <div class="intro-top">
@@ -330,19 +345,23 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       </div>
       <div class="intro-swap">
         <div class="intro-a">
-          <p class="label">TestPrep · by House of Prep</p>
+          <p class="label">TestPrep &#183; by House of Prep</p>
           <h1 class="display">Where do you<br>even start?</h1>
         </div>
         <div class="intro-b">
-          <p class="label">TestPrep · by House of Prep</p>
+          <p class="label">TestPrep &#183; by House of Prep</p>
           <h1 class="display">Today, we make it <span class="accent">clear.</span></h1>
         </div>
       </div>
-      <div class="meta-row"><span><b>40 min</b> session</span><span><b>Grades</b> 10–12</span><span><b>2</b> live games</span><span><b>1</b> free SAT course</span></div>
+      <div class="prize" role="note">
+        <span class="live"><i></i>Live</span>
+        <span>Someone in this room leaves today with a <b>free SAT course</b>.</span>
+        <span class="who">Could be you &#8594;</span>
+      </div>
     </div>
   </section>
 
-  <!-- 01 · Agenda -->
+  <!-- 01 &#183; Agenda -->
   <section class="slide" id="agenda" data-chapter="Today"
     data-notes="Don't read the list. Point at the two games and the free course: that's the hook. 'Pay attention, because everything I show you is going to help you win.'">
     <div class="wrap">
@@ -361,7 +380,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 02 · Film -->
+  <!-- 02 &#183; Film -->
   <section class="slide" id="film" data-chapter="Meet Nizar"
     data-notes="Play the opening film (2 minutes). When it freezes on Nizar buried in books, step forward: 'Be honest. Hands up if you know exactly where you'd start studying for the SAT tomorrow morning.'">
     <div class="wrap">
@@ -369,18 +388,18 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <h2 class="h2">Meet Nizar.</h2>
       <figure class="film" style="margin-inline:0;margin-bottom:0">
         <div class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#F4F5F8"><path d="M8 5v14l11-7z"/></svg></div>
-        <figcaption><span>Same student. Different journey.</span><span>2:00 · in production</span></figcaption>
+        <figcaption><span>Same student. Different journey.</span><span>2:00 &#183; in production</span></figcaption>
       </figure>
     </div>
   </section>
 
-  <!-- 03 · Who we are -->
+  <!-- 03 &#183; Who we are -->
   <section class="slide" id="who" data-chapter="Who we are"
     data-notes="Read the quote slowly, like a promise. 'This is the one sentence our whole company is built on.' Then introduce the founders in one line.">
     <div class="orb tp spin" style="width:38vw;height:38vw;right:-12vw;bottom:-14vw;opacity:.12"></div>
     <div class="wrap">
       <p class="label">Who we are</p>
-      <p class="quote">“Instruction should follow <em>the student</em>, not the other way around.”</p>
+      <p class="quote">&#8220;Instruction should follow <em>the student</em>, not the other way around.&#8221;</p>
       <div class="people">
         <div><b>Nizar Al Awar</b><small>Founder &amp; CEO</small></div>
         <div><b>Karim Fattah</b><small>COO</small></div>
@@ -388,21 +407,21 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 04 · Legacy -->
+  <!-- 04 &#183; Legacy -->
   <section class="slide" id="legacy" data-chapter="Our legacy"
     data-notes="Three stops, one breath each. Land on the last one: TestPrep is now part of a bigger House, and that's what the next slides show.">
     <div class="wrap">
       <p class="label">Our legacy</p>
       <h2 class="h2">From one classroom<br>to a whole House.</h2>
       <div class="timeline">
-        <article><span class="dot"></span><p class="when">Beirut · 12+ years ago</p><h3 class="h3">One classroom</h3><p class="body">Founded on one belief: with the right preparation, any student can outperform what they think is possible.</p></article>
+        <article><span class="dot"></span><p class="when">Beirut &#183; 12+ years ago</p><h3 class="h3">One classroom</h3><p class="body">Founded on one belief: with the right preparation, any student can outperform what they think is possible.</p></article>
         <article><span class="dot"></span><p class="when">TestPrep 2.0</p><h3 class="h3">A system</h3><p class="body">A data-driven method that finds gaps, targets them and adapts until the student reaches the target score.</p></article>
         <article><span class="dot"></span><p class="when">Today</p><h3 class="h3">A House</h3><p class="body">TestPrep is part of House of Prep: a second home for learning, from school to university.</p></article>
       </div>
     </div>
   </section>
 
-  <!-- 05 · Numbers -->
+  <!-- 05 &#183; Numbers -->
   <section class="slide" id="numbers" data-chapter="Our numbers"
     data-notes="Let each number land. 'Twenty thousand students. Every single one of them started exactly where you are sitting right now.'">
     <div class="wrap">
@@ -416,9 +435,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 06 · Ecosystem -->
+  <!-- 06 &#183; Ecosystem -->
   <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
-    data-notes="Press → to light up each brand in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). Close with: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
+    data-notes="Press &#8594; to light up each brand in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). Close with: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
     <div class="wrap">
       <div class="eco-head">
         <div>
@@ -431,7 +450,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         <button class="brand" data-i="1" aria-pressed="false">
           <span class="orb pm"></span><span class="stage">School</span><span class="name">PrepMe</span>
           <span class="what">School subjects, so the foundations are solid before the big tests.</span>
-          <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB · soon</span><span class="soon">French · soon</span></span>
+          <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB &#183; soon</span><span class="soon">French &#183; soon</span></span>
         </button>
         <button class="brand" data-i="0" aria-pressed="false">
           <span class="orb tp-warm"></span><span class="stage">Tests</span><span class="name">TestPrep</span>
@@ -450,29 +469,29 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         </button>
       </div>
       <div class="journey" aria-hidden="true">
-        <div><b>Grade 10–12</b> · keep your grades strong</div>
-        <div><b>Grade 11–12</b> · hit your target score</div>
-        <div><b>Grade 12</b> · choose and apply</div>
-        <div><b>University</b> · thrive there</div>
+        <div><b>Grade 10&#8211;12</b> &#183; keep your grades strong</div>
+        <div><b>Grade 11&#8211;12</b> &#183; hit your target score</div>
+        <div><b>Grade 12</b> &#183; choose and apply</div>
+        <div><b>University</b> &#183; thrive there</div>
       </div>
       <p class="powered"><i></i>The TestPrep platform is powered by Elmy.</p>
     </div>
   </section>
 
-  <!-- 07 · Chapter: The SAT -->
+  <!-- 07 &#183; Chapter: The SAT -->
   <section class="slide chapter-slide" id="ch-sat" data-chapter="The SAT"
     data-notes="Ask: 'Who here has heard of the SAT? Keep your hand up if you know how it's scored.' Most hands drop. 'Perfect. Two minutes, and you'll know more than most people in your grade.'">
     <div class="wrap">
       <div>
         <p class="chapter-no">Chapter 03</p>
-        <h2 class="display">So… what is<br>the SAT?</h2>
+        <h2 class="display">So&#8230; what is<br>the SAT?</h2>
         <p class="lede">The test Nizar had never heard of, explained in two minutes.</p>
       </div>
       <div class="big-orb"><div class="orb tp spin" style="inset:0"></div></div>
     </div>
   </section>
 
-  <!-- 08 · What is the SAT -->
+  <!-- 08 &#183; What is the SAT -->
   <section class="slide" id="sat" data-chapter="The SAT"
     data-notes="Walk it fast: two sections, all digital, and the second module adapts to how you did on the first. 'That last part is why guessing your way through practice doesn't work.'">
     <div class="wrap">
@@ -481,7 +500,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
           <p class="label">What is the SAT?</p>
           <h2 class="h2">One test. Two sections.<br>One score.</h2>
         </div>
-        <div style="text-align:right"><div class="scale-1600 num">1600</div><p class="body">Top score · range 400–1600</p></div>
+        <div style="text-align:right"><div class="scale-1600 num">1600</div><p class="body">Top score &#183; range 400&#8211;1600</p></div>
       </div>
       <div class="sat">
         <div class="card"><h3 class="h3">Reading &amp; Writing</h3><div class="row"><div><b>54</b><small>questions</small></div><div><b>64</b><small>minutes</small></div><div><b>800</b><small>max score</small></div></div><p class="body">Short passages. Vocabulary in context, grammar, and what a text is really saying.</p></div>
@@ -496,7 +515,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 09 · Why the SAT -->
+  <!-- 09 &#183; Why the SAT -->
   <section class="slide" id="why" data-chapter="The SAT"
     data-notes="Bring Nizar back: 'Nobody told Nizar why this test mattered.' Three reasons, one breath each. The note at the bottom is the bridge to WeGuide.">
     <div class="wrap">
@@ -511,12 +530,12 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 10 · Chapter: Methodology -->
+  <!-- 10 &#183; Chapter: Methodology -->
   <section class="slide chapter-slide" id="ch-method" data-chapter="How we work"
     data-notes="'Nizar studied hard. He just studied wrong. Here is what studying right looks like.' Pause. Next slide.">
     <div class="wrap">
       <div>
-        <p class="chapter-no">Chapter 04 · How we work</p>
+        <p class="chapter-no">Chapter 04 &#183; How we work</p>
         <h2 class="display">Not a course.<br>A <span class="accent">system.</span></h2>
         <p class="lede">The TestPrep Performance Engine: seven steps that turn effort into a score. Every student starts in a different place, so no two plans look the same.</p>
       </div>
@@ -524,9 +543,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 11 · Method stepper -->
+  <!-- 11 &#183; Method stepper -->
   <section class="slide" id="method" data-chapter="How we work" data-steps="6"
-    data-notes="Press → to move through the seven steps. For each one, read only the line under 'For you, this means'. On step 7, point at the loop: the cycle restarts until you hit your target. That's the opposite of Nizar's plan.">
+    data-notes="Press &#8594; to move through the seven steps. For each one, read only the line under 'For you, this means'. On step 7, point at the loop: the cycle restarts until you hit your target. That's the opposite of Nizar's plan.">
     <div class="wrap">
       <p class="label">The TestPrep Performance Engine</p>
       <h2 class="h2">Seven steps. One loop.</h2>
@@ -537,9 +556,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 12 · Elmy -->
+  <!-- 12 &#183; Elmy -->
   <section class="slide" id="elmy" data-chapter="Powered by Elmy" data-steps="3"
-    data-notes="'This is where Nizar's guessing ends.' Press → to move through the four screens. Keep each one to a sentence: this is what you see, this is the step it powers.">
+    data-notes="'This is where Nizar's guessing ends.' Press &#8594; to move through the four screens. Keep each one to a sentence: this is what you see, this is the step it powers.">
     <div class="wrap">
       <p class="label">Powered by Elmy</p>
       <h2 class="h2" style="font-size:clamp(32px,4.2vw,60px)">You never have to guess<br>what to study next.</h2>
@@ -551,11 +570,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 13 · Spot the Glitch -->
+  <!-- 13 &#183; Spot the Glitch -->
   <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="7"
-    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. Find what's wrong.' When someone shouts a glitch, click that line (or press → to reveal in order). Each glitch shows the step that fixes it. Seven glitches, seven steps.">
+    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. Find what's wrong.' When someone shouts a glitch, click that line (or press &#8594; to reveal in order). Each glitch shows the step that fixes it. Seven glitches, seven steps.">
     <div class="wrap">
-      <p class="label">Live game · whole room</p>
+      <p class="label">Live game &#183; whole room</p>
       <h2 class="h2">Spot the Glitch.</h2>
       <p class="lede" style="margin-top:14px">This is Nizar's study week. He works hard every day. What's wrong with it?</p>
       <div class="glitch">
@@ -568,11 +587,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 14 · Challenge -->
+  <!-- 14 &#183; Challenge -->
   <section class="slide dark" id="challenge" data-chapter="The challenge"
     data-notes="Bring one volunteer on stage. Five questions, alternating Math and English. Click a circle once for correct (green), twice for wrong (red), three times to reset. Five greens wins free enrollment in the SAT course within the school program.">
     <div class="wrap">
-      <p class="label">Live game · one volunteer</p>
+      <p class="label">Live game &#183; one volunteer</p>
       <h2 class="display">Do U Think U Have<br>What It <span class="accent">Takes?</span></h2>
       <div class="ladder" id="ladder"></div>
       <div class="rules"><span><b>5</b> questions</span><span><b>Math</b> and <b>English</b></span><span><b>5 / 5</b> = free SAT course enrollment within the school program</span></div>
@@ -580,7 +599,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 15 · Close -->
+  <!-- 15 &#183; Close -->
   <section class="slide dark" id="close" data-chapter="Your next move"
     data-notes="Lights down on the film's last frame if you can. 'Nizar and Nazarethe were the same student. The only difference was the journey.' Then: 'Phones out. Scan this. Two minutes, and we'll know exactly where you're starting from.' Leave this slide up until the room is done.">
     <div class="orb tp-warm spin" style="width:46vw;height:46vw;left:-16vw;bottom:-22vw;opacity:.18"></div>
@@ -594,7 +613,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <div class="qr-card">
         <div class="qr-box" id="qr">QR code goes here once the sign-up form is live.</div>
         <b>Scan to join</b>
-        <p class="body">2 minutes · for you and your school</p>
+        <p class="body">2 minutes &#183; for you and your school</p>
       </div>
     </div>
   </section>
@@ -695,10 +714,10 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   /* ---------- Elmy ---------- */
   const SHOTS = [
-    ['Dashboard', 'dashboard.jpg', 'Step 03 · Personalized plan', 'Your plan, every day', 'Sessions, tasks and exams in one place, so you always know what today is for.'],
-    ['Practice exams', 'exam.jpg', 'Step 05 · Micro-assessments', 'Practice in the real format', 'Timed, digital questions that feel like test day, with every answer saved and measured.'],
-    ['Performance', 'performance.jpg', 'Step 02 · Gap analysis', 'See your progress', 'Scores over time and skill coverage show exactly where you are strong and where you are not yet.'],
-    ['Common errors', 'common-errors.jpg', 'Step 06 · Adaptive optimization', 'Fix the pattern, not the question', 'Elmy groups your mistakes into patterns and tells you what to focus on next.'],
+    ['Dashboard', 'dashboard.jpg', 'Step 03 \u00b7 Personalized plan', 'Your plan, every day', 'Sessions, tasks and exams in one place, so you always know what today is for.'],
+    ['Practice exams', 'exam.jpg', 'Step 05 \u00b7 Micro-assessments', 'Practice in the real format', 'Timed, digital questions that feel like test day, with every answer saved and measured.'],
+    ['Performance', 'performance.jpg', 'Step 02 \u00b7 Gap analysis', 'See your progress', 'Scores over time and skill coverage show exactly where you are strong and where you are not yet.'],
+    ['Common errors', 'common-errors.jpg', 'Step 06 \u00b7 Adaptive optimization', 'Fix the pattern, not the question', 'Elmy groups your mistakes into patterns and tells you what to focus on next.'],
   ];
   const tabs = document.getElementById('elmy-tabs'), img = document.getElementById('elmy-img'), copy = document.getElementById('elmy-copy');
   SHOTS.forEach((s, i) => { const b = document.createElement('button'); b.setAttribute('role', 'tab'); b.textContent = s[0]; b.addEventListener('click', () => { state.elmy = i; renderElmy(); }); tabs.appendChild(b); });
@@ -712,13 +731,13 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   /* ---------- Glitch ---------- */
   const PLAN = [
-    ['Mon', 'Open the big SAT book at chapter 1 and start reading.', '01 · Diagnose', 'He never found out where he actually stands.'],
-    ['Tue', 'Watch whatever SAT videos come up on YouTube.', '02 · Gap analysis', 'He has no idea which skills are costing him points.'],
-    ['Wed', 'Do 100 random math questions.', '03 · Personalized plan', 'Random practice, no plan built around his target.'],
-    ['Thu', 'Re-read the reading tips he already knows.', '04 · Targeted instruction', 'Comfortable review instead of his real weak spots.'],
-    ['Fri', 'Finish a practice set. Don\'t check the answers.', '05 · Micro-assessments', 'He never measures whether anything improved.'],
-    ['Sat', 'Same plan as last week.', '06 · Adaptive optimization', 'Nothing changes, even when the results do.'],
-    ['Sun', 'First full-length test: on test day.', '07 · Full-length simulation', 'No rehearsal under real conditions.'],
+    ['Mon', 'Open the big SAT book at chapter 1 and start reading.', '01 \u00b7 Diagnose', 'He never found out where he actually stands.'],
+    ['Tue', 'Watch whatever SAT videos come up on YouTube.', '02 \u00b7 Gap analysis', 'He has no idea which skills are costing him points.'],
+    ['Wed', 'Do 100 random math questions.', '03 \u00b7 Personalized plan', 'Random practice, no plan built around his target.'],
+    ['Thu', 'Re-read the reading tips he already knows.', '04 \u00b7 Targeted instruction', 'Comfortable review instead of his real weak spots.'],
+    ['Fri', 'Finish a practice set. Don\'t check the answers.', '05 \u00b7 Micro-assessments', 'He never measures whether anything improved.'],
+    ['Sat', 'Same plan as last week.', '06 \u00b7 Adaptive optimization', 'Nothing changes, even when the results do.'],
+    ['Sun', 'First full-length test: on test day.', '07 \u00b7 Full-length simulation', 'No rehearsal under real conditions.'],
   ];
   const planEl = document.getElementById('plan'), foundEl = document.getElementById('found'), scoreEl = document.getElementById('glitch-score');
   PLAN.forEach((p, i) => { const li = document.createElement('li'); li.innerHTML = `<b>${p[0]}</b><span>${p[1]}</span>`; li.style.cursor = 'pointer'; li.addEventListener('click', () => reveal(i)); planEl.appendChild(li); });
@@ -730,7 +749,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     const d = document.createElement('div'); d.className = 'fix fade-in';
     d.innerHTML = `<small>Fixed by step ${PLAN[i][2]}</small><span>${PLAN[i][3]}</span>`;
     foundEl.appendChild(d);
-    scoreEl.textContent = `${found.size} of 7 found` + (found.size === 7 ? ' · that\'s the whole Performance Engine.' : '');
+    scoreEl.textContent = `${found.size} of 7 found` + (found.size === 7 ? ' \u00b7 that\'s the whole Performance Engine.' : '');
   }
 
   /* ---------- Challenge ---------- */
