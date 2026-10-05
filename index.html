@@ -140,14 +140,17 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 }
 .ball { position: absolute; left: 50%; top: 50%; width: clamp(160px, 17vw, 240px); aspect-ratio: 1; margin: calc(clamp(160px, 17vw, 240px) / -2) 0 0 calc(clamp(160px, 17vw, 240px) / -2);
   border-radius: 50%; z-index: 0; pointer-events: none; transform: scale(0); opacity: 0;
-  background: conic-gradient(from 210deg, var(--blue), #6E93FF, var(--orange), #FFC48E, var(--blue)); filter: saturate(1.05); }
+  background: radial-gradient(circle at 36% 30%, #FFD2A8 0%, var(--orange) 46%, #E8772A 100%); box-shadow: 0 30px 60px -20px rgba(255,150,62,.55); }
 .ball::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.6), transparent 46%); }
 .intro-top { display: grid; place-items: center; width: 100%; margin-bottom: 44px; }
 .intro-top > * { grid-area: 1 / 1; }
 .intro-top .search { margin-bottom: 0; }
 .intro-swap { display: grid; }
 .intro-swap > * { grid-area: 1 / 1; }
-.intro-b { opacity: 0; visibility: hidden; align-self: center; }
+.intro-b { opacity: 0; visibility: hidden; align-self: center; display: grid; justify-items: center; gap: clamp(20px, 4vh, 40px); }
+.big-logo { width: min(620px, 52vw); max-width: 100%; }
+.big-logo img { display: block; width: 100%; height: auto; }
+.clear-line { font-size: clamp(36px, 5.2vw, 80px); }
 
 /* ---------- 01 Agenda ---------- */
 .agenda { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: a; }
@@ -495,8 +498,8 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
           <h1 class="display">Where do I<br>even start?</h1>
         </div>
         <div class="intro-b">
-          <p class="label">TestPrep &#183; by House of Prep</p>
-          <h1 class="display" id="clear-line">Today we make it <span class="accent">clear!</span></h1>
+          <div class="big-logo" id="big-logo"><img src="assets/logo-testprep.svg" alt="TestPrep" width="2018" height="407"></div>
+          <h1 class="display clear-line" id="clear-line">Today we make it <span class="accent">clear!</span></h1>
         </div>
       </div>
     </div>
@@ -947,6 +950,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
      and "Today we make it clear!" lands. Back: everything returns and floats again. */
   const chips = [...chaos.children], ball = document.getElementById('ball');
   const introTop = intro.querySelector('.intro-top'), introA = intro.querySelector('.intro-a'), introB = intro.querySelector('.intro-b');
+  const bigLogo = document.getElementById('big-logo'), lineEl = document.getElementById('clear-line');
   gsap.set(chips, { xPercent: -50, yPercent: -50 });
   let floats = [], introTl = null, clearSplit = null;
   function floatChips() {
@@ -971,30 +975,46 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       tl.to(c, { x: W / 2 - lx + Math.cos(a) * r, y: H / 2 - ly + Math.sin(a) * r * .9, rotation: gsap.utils.random(-25, 25),
                  scale: .55, duration: .95, ease: 'power3.in' }, .1 + Math.hypot(W / 2 - lx, H / 2 - ly) / W * .25);
     });
-    // The packed ball of questions holds for a beat, spinning slowly, then becomes the orb.
+    // The packed ball of questions holds for a beat, spinning slowly, then becomes the orange ball.
     tl.to(chips, { rotation: '+=40', duration: .6, ease: 'none' }, 1.2)
-      .fromTo(ball, { scale: 0, opacity: 1, rotation: -90 }, { scale: 1, rotation: 0, duration: .55, ease: 'back.out(2.2)' }, 1.55)   // the ball forms
+      .fromTo(ball, { scale: 0, opacity: 1, rotation: -90, x: 0, y: 0 }, { scale: 1, rotation: 0, duration: .55, ease: 'back.out(2.2)' }, 1.55)
       .to(chips, { opacity: 0, scale: .15, duration: .35, ease: 'power2.in' }, 1.6)
-      .to(ball, { scale: 1.12, duration: .22, ease: 'power2.out' }, 2.1)                                             // a breath in
-      .to(ball, { scale: 9, opacity: 0, duration: 1.2, ease: 'expo.out' }, 2.32)                                     // and it bursts open
-      .set(introB, { visibility: 'visible', opacity: 1 }, 2.4)
+      .to(ball, { scale: 1.1, duration: .22, ease: 'power2.out' }, 2.1)                                              // a breath in
+      .to(ball, { scale: 1, duration: .2, ease: 'power2.in' }, 2.32);
+    // The ball glides to where the dot sits in the TestPrep logo and shrinks to exactly its size...
+    gsap.set(introB, { visibility: 'visible', opacity: 1 });
+    gsap.set(lineEl, { opacity: 0 });
+    const DOT = { x: 28.97, y: 70.12, d: 3.65 };                     // the dot's centre and width, in % of the logo
+    const ir = intro.getBoundingClientRect(), lr = bigLogo.getBoundingClientRect();
+    const tx = lr.left - ir.left + lr.width * DOT.x / 100, ty = lr.top - ir.top + lr.height * DOT.y / 100;
+    const at = `${DOT.x}% ${DOT.y}%`;
+    gsap.set(bigLogo, { clipPath: `circle(0% at ${at})`, scale: .96, transformOrigin: at });
+    tl.to(ball, { x: tx - ir.width / 2, y: ty - ir.height / 2, scale: (lr.width * DOT.d / 100) / ball.offsetWidth,
+                  rotation: 180, duration: 1, ease: 'power3.inOut' }, 2.55)
+    // ...then the whole wordmark grows out of the dot.
+      .to(bigLogo, { clipPath: `circle(115% at ${at})`, scale: 1, duration: 1.3, ease: 'expo.inOut' }, 3.5)
+      .to(ball, { opacity: 0, duration: .25 }, 3.62)
       .add(() => {
+        gsap.set(lineEl, { opacity: 1 });
         clearSplit?.revert();
-        clearSplit = SplitText.create(document.getElementById('clear-line'), { type: 'chars,words', mask: 'words' });
+        clearSplit = SplitText.create(lineEl, { type: 'chars,words', mask: 'words' });
         gsap.from(clearSplit.chars, { yPercent: 110, duration: .9, ease: 'power4.out', stagger: .022,
-          onComplete: () => { clearSplit?.revert(); clearSplit = null; } });   // drop the masks so descenders (y) are never clipped
-      }, 2.4);
+          onComplete: () => { clearSplit?.revert(); clearSplit = null; } });     // drop the masks so descenders are never clipped
+      }, 4.35);
     if (reduce) tl.progress(1);
+    return tl;
   }
   function scatter(instant) {
     introTl?.progress(1);
     const tl = introTl = gsap.timeline({ onComplete: floatChips });
     const d = instant || reduce ? 0 : 1;
     tl.to(introB, { opacity: 0, duration: .35 * d, onComplete: () => gsap.set(introB, { visibility: 'hidden' }) }, 0)
-      .set(ball, { scale: 0, opacity: 0 }, 0)
+      .set(ball, { scale: 0, opacity: 0, x: 0, y: 0, rotation: 0 }, 0)
+      .set(bigLogo, { clipPath: 'none', scale: 1 }, .35 * d)
       .to(chips, { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: .9 * d, ease: 'power3.out', stagger: { each: .02 * d, from: 'center' } }, .1 * d)
       .to([introTop, introA], { opacity: 1, y: 0, scale: 1, duration: .6 * d, ease: 'power3.out' }, .3 * d);
     if (instant) tl.progress(1);
+    return tl;
   }
 
   /* Search bar: types, pauses, deletes and types the next question, forever. '\b' = a backspace (typo fixes). */
@@ -1413,7 +1433,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   const state = { intro: 0, ecosystem: -1, method: 0, elmy: 0, glitch: 0, sat: 0 };
   renderElmy();
   const handlers = {
-    intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; gather(); return true; } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; scatter(); return true; } } },
+    intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
     ecosystem: { next() { if (state.ecosystem < 3) { lightBrand(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > -1) { lightBrand(--state.ecosystem); return true; } } },
     method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
@@ -1470,6 +1490,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     i = Math.max(0, Math.min(slides.length - 1, i));
     if (i === cur && !instant) return;
     if (instant || reduce) { settle(); queued = 0; cur = i; place(i); markLive(i); arrive(i); return; }
+    if (slides[cur]?.id === 'intro') introTl?.progress(1);
     const from = cur; cur = i; busy = true; markLive(from, i);
     const m = META[i], y = -m.row * deck.clientHeight, x = -m.col * deck.clientWidth;
     if (slides[from]?.id === 'legacy' && slides[i].id === 'numbers' && !slides[i].dataset.seen) {
@@ -1496,14 +1517,23 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     if (tw && !ownsEntrance) tl.fromTo(tw, { [axis]: dir * dist, opacity: 0 }, { [axis]: 0, opacity: 1, duration: .95, ease: 'power3.out', immediateRender: true }, .32);
   }
 
-  function step(dir) {
-    if (busy) { queued = dir; return; }
+  function step(dir, gesture) {
+    if (busy) { if (!gesture) queued = dir; return; }      // keys wait their turn; swipe/scroll momentum is dropped
     const now = performance.now();
     const h = handlers[slides[cur].id];
     const inner = dir > 0 ? h?.next : h?.prev;
     if (inner) {
       if (now - lastStep < 200) return;                  // ignore key-mash inside a slide
-      if (inner()) { lastStep = now; return; }
+      const r = inner();
+      if (r) {
+        lastStep = now;
+        // A long in-slide sequence (the intro's ball) holds the deck until it has finished.
+        if (r && typeof r.progress === "function" && r.progress() < 1) {
+          busy = true;
+          r.then(() => { busy = false; if (queued) { const d = queued; queued = 0; requestAnimationFrame(() => step(d)); } });
+        }
+        return;
+      }
     }
     goTo(cur + dir);
   }
@@ -1568,7 +1598,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         if (dir < 0 && sl.scrollTop > 2) return;
       }
       lockUntil = Date.now() + (wheel ? 1100 : 450);       // trackpad momentum counts as one gesture
-      step(dir);
+      step(dir, true);
     },
   });
   // Fit: if a slide's content is taller than the screen (e.g. a 1280x720 projector), scale it down evenly.
