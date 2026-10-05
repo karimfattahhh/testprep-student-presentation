@@ -284,6 +284,14 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .sat-copy { position: absolute; left: calc(2.5vw + min(70vw, 118vh) + 3vw); right: max(16px, 3vw); top: 50%; transform: translateY(-50%); display: grid; gap: 16px; z-index: 2; opacity: 0; visibility: hidden; }
 .sat-intro { position: absolute; left: 50%; bottom: clamp(28px, 8vh, 80px); transform: translateX(-50%); text-align: center; display: grid; gap: 10px; justify-items: center; z-index: 2; }
 @media (max-width: 900px) { .sat-copy { left: 16px; right: 16px; width: auto; top: auto; bottom: 24px; transform: none; gap: 10px; } .sat-copy .sat-title { min-height: 0; } .sat-copy .sat-text { min-height: 0; } }
+.cta-open { position: relative; margin-top: 10px; display: inline-flex; align-items: center; gap: 12px; border: 0; cursor: pointer;
+  font: 600 clamp(15px, 1.2vw, 18px)/1 var(--sans); color: #fff; background: var(--ink); border-radius: 999px; padding: 14px 24px 14px 14px;
+  box-shadow: 0 18px 40px -16px rgba(11,14,26,.55); transition: transform .25s var(--ease), background .25s; }
+.cta-open:hover { transform: translateY(-2px); background: var(--blue); }
+.cta-open:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+.cta-open kbd { font: 700 12px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); background: #fff; border-radius: 999px; padding: 7px 12px; box-shadow: 0 2px 0 rgba(255,255,255,.35); }
+.cta-ring { position: absolute; inset: -6px; border-radius: inherit; border: 2px solid var(--orange); opacity: 0; animation: ctaPulse 2s ease-out infinite; pointer-events: none; }
+@keyframes ctaPulse { 0% { opacity: .9; transform: scale(.96); } 70%, 100% { opacity: 0; transform: scale(1.12); } }
 .sat-intro h2 { font-weight: 300; font-size: clamp(30px, 3.4vw, 54px); letter-spacing: -.04em; margin: 0; }
 .sat-step { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); font-variant-numeric: tabular-nums; }
 .sat-title { font-weight: 300; font-size: clamp(26px, 2.5vw, 44px); line-height: 1.05; letter-spacing: -.04em; margin: 0; min-height: 2.1em; text-wrap: balance; }
@@ -309,7 +317,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 #screen { position: relative; width: 100%; height: 100%; background: #fff; border-radius: 6px; overflow: hidden; container-type: inline-size; font-family: var(--sans); color: #1B1E2B; }
 .lid-back { position: absolute; inset: 0; border-radius: 22px 22px 6px 6px; transform: rotateY(180deg); backface-visibility: hidden; -webkit-backface-visibility: hidden;
   background: linear-gradient(160deg, #E9EBEF 0%, #CDD0D6 55%, #B5B9C1 100%); box-shadow: 0 0 0 1.5px #A9ADB5 inset; display: grid; place-items: center; }
-.lid-logo { width: 9%; aspect-ratio: 1; border-radius: 50%; background: conic-gradient(from 210deg, #1740A9, #6E93FF, #FF963E, #FFC48E, #1740A9); box-shadow: 0 0 30px rgba(110,147,255,.5); }
+.lid-logo { width: 8%; height: auto; overflow: visible; filter: drop-shadow(0 0 14px rgba(110,147,255,.55)); transform: rotate(180deg); }   /* upright for the audience when the lid is closed */
 .deck { position: absolute; left: -1.5%; width: 103%; top: 100%; height: calc(var(--L) * .7); transform-origin: 50% 0; transform: rotateX(90deg) translateZ(-4px);
   border-radius: 6px 6px 22px 22px; background: linear-gradient(180deg, #C9CCD3, #E3E5EA 40%, #D2D5DB); box-shadow: 0 0 0 1.5px #ADB1B9 inset; }
 .deck::before { content: ""; position: absolute; left: 8%; right: 8%; top: 7%; height: 46%; border-radius: 10px; background: #2A2C31; opacity: .85; }
@@ -459,21 +467,38 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .shot-copy { display: grid; gap: 16px; align-content: start; padding-top: 8px; }
 .shot-copy .step-tag { font-size: 12px; font-weight: 600; color: var(--blue); background: var(--blue-soft); border-radius: 999px; padding: 6px 12px; justify-self: start; }
 
-/* ---------- 12 Glitch ---------- */
-.glitch { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; margin-top: 40px; align-items: start; }
-.plan { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 8px 24px; }
-.plan li { list-style: none; display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 16px; transition: color .3s; }
-.plan li:last-child { border-bottom: 0; }
-.plan li b { font-weight: 600; font-size: 13px; color: var(--muted); padding-top: 2px; }
-.plan li.found { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 1px; }
-.plan ul { margin: 0; padding: 0; }
-.found-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; align-content: start; }
-.found-list .found-empty { grid-column: 1 / -1; }
-.found-list .fix { background: var(--panel); border-radius: 14px; padding: 11px 14px; display: grid; gap: 3px; }
-.found-list .fix small { font-size: 11px; font-weight: 600; color: var(--blue); letter-spacing: .12em; text-transform: uppercase; }
-.found-list .fix span { font-size: 13.5px; line-height: 1.4; }
-.found-empty { font-size: 15px; color: var(--muted); border: 1px dashed var(--line); border-radius: 18px; padding: 22px; }
-.score { font-size: 13px; color: var(--muted); }
+/* ---------- 12 Spot the Glitch: a glitching week of planner cards ---------- */
+.g-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.g-title { position: relative; }
+.g-title.glitching { text-shadow: -3px 0 rgba(255,60,90,.75), 3px 0 rgba(0,190,255,.75); }
+.g-meter { display: grid; gap: 10px; justify-items: end; }
+.g-count { font-size: 14px; color: var(--muted); }
+.g-count b { font-size: clamp(32px, 3.4vw, 52px); font-weight: 300; color: var(--ink); letter-spacing: -.04em; margin-right: 4px; font-variant-numeric: tabular-nums; }
+.g-bar { display: grid; grid-template-columns: repeat(7, 26px); gap: 5px; }
+.g-bar i { height: 6px; border-radius: 6px; background: var(--line); }
+.g-bar i.on { background: var(--orange); }
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: clamp(8px, 1vw, 14px); margin-top: clamp(20px, 3.5vh, 36px); }
+.gcard { all: unset; box-sizing: border-box; display: block; cursor: pointer; height: clamp(230px, 34vh, 310px); perspective: 1100px; }
+.gcard:focus-visible .gc-front { outline: 2px solid var(--orange); outline-offset: 3px; }
+.gc-inner { position: relative; width: 100%; height: 100%; transform-style: preserve-3d; }
+.gc-front, .gc-back { position: absolute; inset: 0; border-radius: 20px; padding: 18px 16px; display: grid; align-content: start; gap: 12px;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+.gc-front { background: #fff; border: 1px solid var(--line); box-shadow: 0 24px 50px -40px rgba(11,14,26,.5); transition: border-color .3s; }
+.gc-day { font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); display: flex; justify-content: space-between; align-items: center; }
+.gc-day i { width: 8px; height: 8px; border-radius: 50%; background: var(--line); }
+.gc-task { margin: 0; font-size: clamp(14px, 1.1vw, 17px); line-height: 1.4; font-weight: 500; color: var(--ink); }
+.gc-note { align-self: end; font-size: 11px; color: var(--faint); }
+.gcard.glitching .gc-task { text-shadow: -2px 0 rgba(255,60,90,.7), 2px 0 rgba(0,190,255,.7); }
+.gcard.glitching .gc-day i { background: var(--bad); }
+.gcard.caught .gc-front { border-color: var(--bad); }
+.gcard.caught .gc-task { text-decoration: line-through; text-decoration-color: var(--bad); color: var(--muted); }
+.gc-back { transform: rotateY(180deg); background: linear-gradient(160deg, #1740A9, #0F2C7A); color: #fff; align-content: space-between; }
+.gc-back .gc-step { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); }
+.gc-back b { display: block; font-size: clamp(17px, 1.4vw, 22px); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; margin-top: 6px; }
+.gc-back p { margin: 0; font-size: 13px; line-height: 1.45; color: #C9D3F0; }
+.gc-back .gc-glitch { font-size: 11px; color: #9DB0FF; }
+.g-final { margin: clamp(16px, 3vh, 28px) 0 0; font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; letter-spacing: -.02em; opacity: 0; }
+.g-final b { color: var(--blue); }
 
 /* ---------- 13 Challenge ---------- */
 #challenge .wrap { text-align: center; display: grid; justify-items: center; }
@@ -500,8 +525,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
+  .week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .eco-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
-  .engine, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
+  .engine, .showcase, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
   .why, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
   .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .timeline { gap: 32px; } .timeline::before { display: none; }
@@ -713,7 +739,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <div class="sat-intro" id="sat-intro">
         <p class="label" style="margin:0">What is the SAT?</p>
         <h2>Let&#8217;s open it.</h2>
-        <p class="sat-hint"><kbd>Space</kbd> to open the laptop</p>
+        <button class="cta-open" id="cta-open" type="button"><span class="cta-ring" aria-hidden="true"></span><kbd>Space</kbd>Open the laptop</button>
       </div>
       <div class="sat-copy" id="sat-copy">
         <p class="label" style="margin:0">What is the SAT?</p>
@@ -730,7 +756,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
           <div class="deck" id="lap-deck"></div>
           <div class="base" id="base"><span class="notch"></span></div>
           <div class="lid" id="lid">
-            <div class="lid-back"><span class="lid-logo" id="lid-logo"></span></div>
+            <div class="lid-back"><svg class="lid-logo" id="lid-logo" viewBox="0 0 100 120" aria-hidden="true"><defs>
+<linearGradient id="apple-g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1740A9"/><stop offset=".5" stop-color="#6E93FF"/><stop offset="1" stop-color="#FF963E"/></linearGradient>
+<mask id="apple-bite"><rect width="100" height="120" fill="#fff"/><circle cx="95" cy="60" r="14" fill="#000"/></mask></defs>
+<path fill="url(#apple-g)" mask="url(#apple-bite)" d="M50 36 C 40 28, 16 28, 12 56 C 9 82, 28 114, 43 112 C 47 111, 53 111, 57 112 C 72 114, 91 84, 89 60 C 87 40, 73 29, 62 31 C 57 32, 54 34, 50 36 Z"/>
+<path fill="url(#apple-g)" d="M51 30 C 49 16, 59 5, 72 3 C 73 17, 63 28, 51 30 Z"/></svg></div>
             <div class="bezel"><span class="cam"></span>
             <div class="screen" id="screen">
               <!-- 0 home -->
@@ -941,18 +971,21 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   <!-- 13 &#183; Spot the Glitch -->
   <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="7"
-    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. Find what's wrong.' When someone shouts a glitch, click that line (or press &#8594; to reveal in order). Each glitch shows the step that fixes it. Seven glitches, seven steps.">
+    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. So why isn't it working?' The cards glitch on their own. When someone shouts a glitch, click that day (or press &#8594; to reveal in order): the card shakes, gets crossed out and flips to the step that fixes it. Seven glitches, seven steps: the whole Performance Engine.">
     <div class="wrap">
-      <p class="label">Live game &#183; whole room</p>
-      <h2 class="h2">Spot the Glitch.</h2>
-      <p class="lede" style="margin-top:14px">This is Nizar's study week. He works hard every day. What's wrong with it?</p>
-      <div class="glitch">
-        <ul class="plan" id="plan"></ul>
+      <div class="g-head">
         <div>
-          <div class="found-list" id="found"><p class="found-empty">Shout it out. Every glitch you find shows the step that fixes it.</p></div>
-          <p class="score" id="glitch-score" style="margin-top:14px">0 of 7 found</p>
+          <p class="label">Live game &#183; whole room</p>
+          <h2 class="h2 g-title" id="g-title">Spot the Glitch.</h2>
+        </div>
+        <div class="g-meter" aria-live="polite">
+          <span class="g-count"><b id="g-n">0</b>/ 7 glitches found</span>
+          <div class="g-bar" id="g-bar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
         </div>
       </div>
+      <p class="lede" style="margin-top:12px">This is Nizar&#8217;s study week. He works hard every single day. So why isn&#8217;t it working?</p>
+      <div class="week" id="week"></div>
+      <p class="g-final" id="g-final">Seven glitches, seven fixes. <b>That&#8217;s the whole Performance Engine.</b></p>
     </div>
   </section>
 
@@ -1306,27 +1339,63 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     copy.innerHTML = `<span class="step-tag fade-in">${s[2]}</span><h3 class="h2 fade-in" style="font-size:clamp(28px,2.8vw,40px)">${s[3]}</h3><p class="body fade-in" style="font-size:16px">${s[4]}</p>`;
   }
 
-  /* ---------- Glitch ---------- */
+  /* ---------- Spot the Glitch (GSAP: ScrambleText glitches, shake, 3D flip) ---------- */
   const PLAN = [
-    ['Mon', 'Open the big SAT book at chapter 1 and start reading.', '01 \u00b7 Diagnose', 'He never found out where he actually stands.'],
-    ['Tue', 'Watch whatever SAT videos come up on YouTube.', '02 \u00b7 Gap analysis', 'He has no idea which skills are costing him points.'],
-    ['Wed', 'Do 100 random math questions.', '03 \u00b7 Personalized plan', 'Random practice, no plan built around his target.'],
-    ['Thu', 'Re-read the reading tips he already knows.', '04 \u00b7 Targeted instruction', 'Comfortable review instead of his real weak spots.'],
-    ['Fri', 'Finish a practice set. Don\'t check the answers.', '05 \u00b7 Micro-assessments', 'He never measures whether anything improved.'],
-    ['Sat', 'Same plan as last week.', '06 \u00b7 Adaptive optimization', 'Nothing changes, even when the results do.'],
-    ['Sun', 'First full-length test: on test day.', '07 \u00b7 Full-length simulation', 'No rehearsal under real conditions.'],
+    ['Mon', 'Open the big SAT book at chapter 1 and start reading.', '01', 'Diagnose', 'He never found out where he actually stands.'],
+    ['Tue', 'Watch whatever SAT videos come up on YouTube.', '02', 'Gap analysis', 'He has no idea which skills are costing him points.'],
+    ['Wed', 'Do 100 random math questions.', '03', 'Personalized plan', 'Random practice, no plan built around his target.'],
+    ['Thu', 'Re-read the reading tips he already knows.', '04', 'Targeted instruction', 'Comfortable review instead of his real weak spots.'],
+    ['Fri', 'Finish a practice set. Don&#8217;t check the answers.', '05', 'Micro-assessments', 'He never measures whether anything improved.'],
+    ['Sat', 'Same plan as last week.', '06', 'Adaptive optimization', 'Nothing changes, even when the results do.'],
+    ['Sun', 'First full-length test: on test day.', '07', 'Full-length simulation', 'No rehearsal under real conditions.'],
   ];
-  const planEl = document.getElementById('plan'), foundEl = document.getElementById('found'), scoreEl = document.getElementById('glitch-score');
-  PLAN.forEach((p, i) => { const li = document.createElement('li'); li.innerHTML = `<b>${p[0]}</b><span>${p[1]}</span>`; li.style.cursor = 'pointer'; li.addEventListener('click', () => reveal(i)); planEl.appendChild(li); });
+  const weekEl = document.getElementById('week'), gN = document.getElementById('g-n'), gBar = [...document.querySelectorAll('#g-bar i')];
+  const gFinal = document.getElementById('g-final'), gTitle = document.getElementById('g-title');
+  const gCards = PLAN.map((p, i) => {
+    const b = document.createElement('button'); b.className = 'gcard'; b.type = 'button'; b.setAttribute('aria-label', p[0] + ': ' + p[1]);
+    b.innerHTML = `<div class="gc-inner"><div class="gc-front"><span class="gc-day">${p[0]}<i></i></span><p class="gc-task">${p[1]}</p><span class="gc-note">Nizar&#8217;s plan</span></div>`
+      + `<div class="gc-back"><div><span class="gc-step">Step ${p[2]}</span><b>${p[3]}</b></div><p>${p[4]}</p><span class="gc-glitch">${p[0]} &#183; glitch fixed</span></div></div>`;
+    b.addEventListener('click', () => reveal(i));
+    weekEl.appendChild(b); return b;
+  });
   const found = new Set();
+  // Idle glitches: a random un-caught day scrambles and jitters every so often (only while the slide is on screen).
+  const GLITCH_CHARS = '!<>-_\\/[]{}=+*^?#01';
+  function glitchTick() {
+    if (slides[cur]?.id === 'glitch' && !reduce) {
+      const open = gCards.filter((_, k) => !found.has(k));
+      if (open.length) {
+        const c = open[Math.floor(Math.random() * open.length)], task = c.querySelector('.gc-task'), txt = PLAN[gCards.indexOf(c)][1];
+        c.classList.add('glitching');
+        gsap.timeline({ onComplete: () => c.classList.remove('glitching') })
+          .to(c, { x: 3, duration: .04, repeat: 5, yoyo: true, ease: 'steps(1)' })
+          .to(task, { scrambleText: { text: txt, chars: GLITCH_CHARS, speed: 1.2, revealDelay: .15 }, duration: .55 }, 0)
+          .set(c, { x: 0 });
+      }
+      if (Math.random() < .25) { gTitle.classList.add('glitching'); gsap.delayedCall(.18, () => gTitle.classList.remove('glitching')); }
+    }
+    gsap.delayedCall(.9 + Math.random() * .9, glitchTick);
+  }
+  glitchTick();
   function reveal(i) {
     if (found.has(i)) return; found.add(i);
-    planEl.children[i].classList.add('found');
-    foundEl.querySelector('.found-empty')?.remove();
-    const d = document.createElement('div'); d.className = 'fix fade-in';
-    d.innerHTML = `<small>Fixed by step ${PLAN[i][2]}</small><span>${PLAN[i][3]}</span>`;
-    foundEl.appendChild(d);
-    scoreEl.textContent = `${found.size} of 7 found` + (found.size === 7 ? ' \u00b7 that\'s the whole Performance Engine.' : '');
+    const c = gCards[i], inner = c.querySelector('.gc-inner');
+    c.classList.remove('glitching'); c.classList.add('caught');
+    gBar[found.size - 1].classList.add('on');
+    gsap.fromTo(gBar[found.size - 1], { scaleY: 3 }, { scaleY: 1, duration: .5, ease: 'back.out(3)' });
+    const n = { v: found.size - 1 };
+    gsap.to(n, { v: found.size, duration: .4, onUpdate: () => { gN.textContent = Math.round(n.v); } });
+    const tl = gsap.timeline();
+    tl.to(c, { x: -9, duration: .05, repeat: 7, yoyo: true, ease: 'none' })                       // caught: it shakes
+      .set(c, { x: 0 })
+      .to(inner, { rotationY: 180, duration: .8, ease: 'back.out(1.4)' }, .45)                  // and flips to its fix
+      .fromTo(c, { y: 0 }, { y: -10, duration: .3, yoyo: true, repeat: 1, ease: 'power2.out' }, .45);
+    if (found.size === 7) {
+      tl.to(gFinal, { opacity: 1, y: 0, duration: .6, ease: 'power3.out' }, 1.1)
+        .fromTo(gCards.map(g => g.querySelector('.gc-back')), { filter: 'brightness(1)' }, { filter: 'brightness(1.35)', duration: .25, yoyo: true, repeat: 1, stagger: .08 }, 1.2)
+        .to(gTitle, { scrambleText: { text: 'Glitch-free.', chars: GLITCH_CHARS, speed: .6 }, duration: .8 }, 1.3);
+    }
+    return tl;
   }
 
   /* ---------- Challenge ---------- */
@@ -1840,6 +1909,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
 
   const next = () => step(1), prev = () => step(-1);
+  document.getElementById('cta-open').addEventListener('click', e => { e.currentTarget.blur(); if (slides[cur].id === 'sat') step(1); });
 
   // Wheel, trackpad and touch: one gesture = one slide, in either axis. A slide taller than the screen
   // scrolls inside itself first and only moves on once you reach its edge.
