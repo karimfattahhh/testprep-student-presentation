@@ -190,7 +190,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .mem-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
 #legacy .timeline .body { color: #4A4F60; }
 #legacy .timeline .dot { background: var(--bg); }
-#legacy .timeline::before { background: #D4D7E0; }
 @media (max-width: 900px) { .memories { grid-template-columns: repeat(7, minmax(0, 1fr)); grid-template-rows: repeat(16, minmax(0, 1fr)); } }
 
 /* ---------- 04 Legacy ---------- */
@@ -201,22 +200,35 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .timeline article:last-child .dot { background: var(--orange); border-color: var(--orange); }
 .timeline .when { font-size: 13px; color: var(--muted); margin-top: 14px; }
 
-/* ---------- 05 Numbers ---------- */
-.num-wrap { display: grid; gap: clamp(36px, 6vh, 72px); }
-.num-title { font-weight: 300; font-size: clamp(40px, 5.6vw, 88px); line-height: 1.02; letter-spacing: -.045em; margin: 0; max-width: 14em; text-wrap: balance; color: #B9BDC9; }
-.num-title em { font-style: normal; color: var(--ink); }
-.num-rule { position: relative; height: 2px; background: linear-gradient(90deg, var(--orange), #FFC48E 40%, var(--line) 100%); transform-origin: left center; }
-.num-rule i { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; background: var(--bg); border: 2px solid var(--orange); }
-.num-rule i:nth-child(1) { left: 0; } .num-rule i:nth-child(2) { left: 42.857%; } .num-rule i:nth-child(3) { left: 71.428%; }
-.num-body { display: grid; gap: 30px; }
-.stats { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 1fr); }
-.stat { padding-right: 32px; display: grid; gap: 12px; align-content: start; }
-.stat .k { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
-.stat .n { font-weight: 200; font-size: clamp(52px, 7vw, 124px); letter-spacing: -.065em; line-height: 1.02; padding-bottom: .04em; font-variant-numeric: tabular-nums;
-  background: linear-gradient(180deg, var(--ink) 40%, #3A4A7A); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.stat .n sup { font-size: .38em; color: var(--orange); -webkit-text-fill-color: var(--orange); vertical-align: top; position: relative; top: .22em; margin-left: .04em; font-weight: 300; }
-.stat .body { max-width: 20em; }
-#runner { position: fixed; z-index: 15; height: 2px; background: linear-gradient(90deg, #FFC48E, var(--orange)); border-radius: 2px; pointer-events: none; box-shadow: 0 0 18px rgba(255,150,62,.55); }
+/* ---------- 05 Numbers: an animated infographic ---------- */
+.num-wrap { display: grid; gap: clamp(28px, 5vh, 56px); }
+.num-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+.num-title { font-weight: 300; font-size: clamp(38px, 4.8vw, 76px); line-height: 1.04; letter-spacing: -.045em; margin: 0; color: var(--ink); text-wrap: balance; }
+.num-title .hl { position: relative; color: var(--blue); white-space: nowrap; }
+.num-title .hl svg { position: absolute; left: -2%; right: -2%; bottom: -.18em; width: 104%; height: .32em; overflow: visible; }
+.num-title .hl path { fill: none; stroke: var(--orange); stroke-width: 5; stroke-linecap: round; }
+.num-aside { font-size: 13px; color: var(--muted); max-width: 22em; line-height: 1.5; }
+.num-body { display: grid; gap: 26px; }
+.num-rule { position: relative; height: 2px; }                          /* the line itself is drawn by the connected path */
+.num-rule i { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; background: var(--bg); border: 2px solid var(--orange); z-index: 4; }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); }
+.stat { display: grid; gap: 10px; align-content: start; min-width: 0; }
+.stat .k { font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.stat .n { font-weight: 300; font-size: clamp(48px, 5.6vw, 96px); letter-spacing: -.06em; line-height: 1; font-variant-numeric: tabular-nums; color: var(--ink); }
+.stat .n sup { font-size: .42em; color: var(--orange); vertical-align: top; position: relative; top: .18em; margin-left: .05em; font-weight: 400; }
+.stat .body { font-size: 14px; max-width: 24em; }
+.viz { width: 100%; height: clamp(96px, 15vh, 140px); display: block; overflow: visible; }
+.viz-dots { display: grid; grid-template-columns: repeat(25, 1fr); gap: clamp(3px, .4vw, 6px); align-content: center; }
+.viz-dots i { aspect-ratio: 1; border-radius: 50%; background: var(--ink); opacity: .85; }
+.viz-dots i:nth-child(5n+3) { background: var(--blue); }
+.viz-dots i.you { background: transparent; box-shadow: 0 0 0 1.5px var(--orange) inset; opacity: 1; animation: youPulse 1.6s ease-in-out infinite; }
+@keyframes youPulse { 50% { box-shadow: 0 0 0 1.5px var(--orange) inset, 0 0 0 5px rgba(255,150,62,.18); } }
+.viz text { font-family: var(--sans); }
+#link-line { position: absolute; left: 0; top: 0; height: 100%; pointer-events: none; z-index: 3; overflow: visible; }
+#link-path { fill: none; stroke: url(#link-grad); stroke-width: 2; stroke-linecap: round; }
+#link-head { fill: var(--orange); filter: drop-shadow(0 0 6px rgba(255,150,62,.8)); }
+#strip-legacy .hrow { position: relative; }
+#legacy .timeline::before { background: transparent !important; }
 
 /* ---------- 06 Ecosystem ---------- */
 .eco-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
@@ -455,7 +467,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 @media (max-width: 900px) {
   .brands, .journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .engine, .sat-wrap, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
-  .why, .timeline, .stats { grid-template-columns: minmax(0, 1fr); }
+  .why, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
   .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .timeline { gap: 32px; } .timeline::before { display: none; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -473,7 +485,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 </header>
 <div id="progress"></div>
 <div id="flyer" class="orb tp-warm" hidden></div>
-<div id="runner" hidden></div>
 <aside id="notes" hidden><small>Presenter notes &#183; press N to hide</small><span id="notes-text"></span></aside>
 
 <main id="deck">
@@ -570,22 +581,41 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   <!-- 05 &#183; Numbers -->
   <section class="slide" id="numbers" data-chapter="Our numbers"
-    data-notes="The line from the timeline carries you here; let the numbers count before you speak. 'Twenty thousand students. Every single one of them started exactly where you are sitting right now.'">
+    data-notes="The line from the timeline carries you here. Let each picture build: the dots fill (one dot = 100 students, the empty orange one is them), the twelve years tick by, the partner network lights up. 'Twenty thousand students. Every single one of them started exactly where you are sitting right now.'">
     <div class="wrap num-wrap">
-      <div>
-        <p class="label">Our numbers</p>
-        <h2 class="num-title" id="num-title">Every one of them started <em>exactly where you are.</em></h2>
+      <div class="num-head">
+        <div>
+          <p class="label">Our numbers</p>
+          <h2 class="num-title" id="num-title">Every one of them started<br>exactly <span class="hl">where you are.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path id="hl-path" d="M3 13 C 70 5, 150 4, 297 9"/></svg></span></h2>
+        </div>
+        <p class="num-aside">Twelve years, one belief: with the right preparation, any student can outperform what they think is possible.</p>
       </div>
       <div class="num-body">
-      <div class="num-rule" id="num-rule"><i></i><i></i><i></i></div>
-      <div class="stats">
-        <div class="stat"><span class="k">Students trained</span><div class="n"><span class="v" data-count="20000">20,000</span><sup>+</sup></div><p class="body">Across Lebanon and the region.</p></div>
-        <div class="stat"><span class="k">Years of experience</span><div class="n"><span class="v" data-count="12">12</span><sup>+</sup></div><p class="body">From one classroom to a full system.</p></div>
-        <div class="stat"><span class="k">Academic partnerships</span><div class="n"><span class="v" data-count="40">40</span><sup>+</sup></div><p class="body">Schools and institutions that work with us.</p></div>
-      </div>
+        <div class="num-rule" id="num-rule"><i></i><i></i><i></i></div>
+        <div class="stats">
+          <article class="stat">
+            <span class="k">Students trained</span>
+            <div class="n"><span class="v" data-count="20000">20,000</span><sup>+</sup></div>
+            <div class="viz viz-dots" id="viz-dots" aria-hidden="true"></div>
+            <p class="body">One dot for every 100 students. The empty one is yours.</p>
+          </article>
+          <article class="stat">
+            <span class="k">Years of experience</span>
+            <div class="n"><span class="v" data-count="12">12</span><sup>+</sup></div>
+            <svg class="viz" id="viz-years" viewBox="0 0 320 120" preserveAspectRatio="xMinYMid meet" aria-hidden="true"></svg>
+            <p class="body">From one classroom to a full system.</p>
+          </article>
+          <article class="stat">
+            <span class="k">Academic partnerships</span>
+            <div class="n"><span class="v" data-count="40">40</span><sup>+</sup></div>
+            <svg class="viz" id="viz-net" viewBox="0 0 320 140" preserveAspectRatio="xMinYMid meet" aria-hidden="true"></svg>
+            <p class="body">Schools and institutions that work with us.</p>
+          </article>
+        </div>
       </div>
     </div>
   </section>
+  <svg id="link-line" aria-hidden="true"><defs><linearGradient id="link-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#C9CCD5"/><stop offset=".45" stop-color="#FFC48E"/><stop offset="1" stop-color="#FF963E"/></linearGradient></defs><path id="link-path"/><circle id="link-head" r="5" cx="0" cy="0" opacity="0"/></svg>
   </div></div>
 
   <!-- 06 &#183; Ecosystem -->
@@ -1379,7 +1409,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
   function playMemories() {
     if (memPlayed) return; memPlayed = true;
-    if (reduce) { startTwinkle(); return; }
+    if (reduce) { startTwinkle(); if (linkState < 1) { linkState = 1; applyLink(); } return; }
     primeMemories();
     { const W = legacy.clientWidth, H = legacy.clientHeight, hw = Math.min(W * .62, H * .62 * 4 / 3), hh = hw * 3 / 4;
       gsap.set(hero, { left: (W - hw) / 2, top: (H - hh) / 2, width: hw, height: hh }); }   // re-centre in case the window changed
@@ -1410,23 +1440,110 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     tl.to(tiles, { opacity: .42, duration: 1.1, ease: 'power2.inOut', stagger: { each: .004, from: 'center' } }, t)
       .to(memVeil, { opacity: 1, duration: 1.1, ease: 'power2.inOut' }, t)
       .fromTo(legacyCopy, { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: .9, ease: 'power3.out' }, t + .35)
-      .from(legacyCopy.querySelectorAll('.timeline article'), { opacity: 0, y: 14, duration: .6, stagger: .12, ease: 'power2.out' }, t + .7);
+      .from(legacyCopy.querySelectorAll('.timeline article'), { opacity: 0, y: 14, duration: .6, stagger: .12, ease: 'power2.out' }, t + .7)
+      .add(() => { if (linkState < 1) { linkState = 1; gsap.fromTo(linkPath, { drawSVG: '0% 0%' }, { drawSVG: `0% ${linkF1 * 100}%`, duration: 1.2, ease: 'power2.inOut' }); } }, t + .6);
   }
 
   /* ---------- Numbers ---------- */
+  // ---- The infographics ----
+  const NS2 = 'http://www.w3.org/2000/svg';
+  const mk = (tag, attrs, parent) => { const e = document.createElementNS(NS2, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); parent.appendChild(e); return e; };
+  // 200 dots = 20,000 students; the last one is an empty orange ring: "you".
+  const dotsEl = document.getElementById('viz-dots');
+  for (let i = 0; i < 200; i++) { const d = document.createElement('i'); if (i === 199) d.className = 'you'; dotsEl.appendChild(d); }
+  // 12 years: a ruler from "one classroom" to "today".
+  const yrs = document.getElementById('viz-years');
+  const yBase = mk('path', { d: 'M8 86 H312', stroke: '#C9CCD5', 'stroke-width': 1.5, fill: 'none' }, yrs);
+  const yTicks = [];
+  for (let i = 0; i < 12; i++) {
+    const x = 8 + i * (304 / 11), h = i === 11 ? 58 : (i % 4 === 0 ? 34 : 22);
+    yTicks.push(mk('path', { d: `M${x} 86 V${86 - h}`, stroke: i === 11 ? '#FF963E' : '#0B0E1A', 'stroke-width': i === 11 ? 3 : 1.6, 'stroke-linecap': 'round', fill: 'none' }, yrs));
+  }
+  const yHead = mk('circle', { cx: 312, cy: 28, r: 5, fill: '#FF963E' }, yrs);
+  const yL1 = mk('text', { x: 8, y: 108, 'font-size': 11, fill: '#6A6F80' }, yrs); yL1.textContent = 'One classroom';
+  const yL2 = mk('text', { x: 312, y: 108, 'font-size': 11, fill: '#0B0E1A', 'font-weight': 600, 'text-anchor': 'end' }, yrs); yL2.textContent = 'Today';
+  // 40 partners around TestPrep.
+  const net = document.getElementById('viz-net');
+  const NC = { x: 70, y: 70 }, netLines = [], netNodes = [];
+  for (let i = 0; i < 40; i++) {
+    const ring = i < 14 ? 0 : 1, k = ring ? i - 14 : i, n = ring ? 26 : 14;
+    const a = (k / n) * Math.PI * 2 + (ring ? .12 : 0), r = ring ? 62 : 36;
+    const x = NC.x + Math.cos(a) * r * 1.0 + (ring ? 0 : 0), y = NC.y + Math.sin(a) * r * .95;
+    netLines.push(mk('path', { d: `M${NC.x} ${NC.y} L${x.toFixed(1)} ${y.toFixed(1)}`, stroke: '#C9CCD5', 'stroke-width': 1, fill: 'none' }, net));
+    netNodes.push(mk('circle', { cx: x.toFixed(1), cy: y.toFixed(1), r: ring ? 3.2 : 4, fill: i % 3 === 0 ? '#1740A9' : '#0B0E1A' }, net));
+  }
+  const hub = mk('circle', { cx: NC.x, cy: NC.y, r: 13, fill: '#1740A9' }, net);
+  const hubT = mk('text', { x: NC.x, y: NC.y + 4, 'font-size': 10, 'font-weight': 700, fill: '#fff', 'text-anchor': 'middle' }, net); hubT.textContent = 'TP';
+  const netL1 = mk('text', { x: 150, y: 62, 'font-size': 11, fill: '#6A6F80' }, net); netL1.textContent = 'Schools, universities';
+  const netL2 = mk('text', { x: 150, y: 78, 'font-size': 11, fill: '#6A6F80' }, net); netL2.textContent = 'and institutions';
+
+  // Start state, set before the slide is ever seen (so it never shows the finished picture and then resets).
+  const numV = [...document.querySelectorAll('#numbers .v')];
+  const numParts = () => ({
+    k: document.querySelectorAll('#numbers .stat .k'), body: document.querySelectorAll('#numbers .stat .body'),
+    rule: document.querySelectorAll('#num-rule i'), aside: document.querySelector('.num-aside'),
+  });
+  let numPrimed = false;
+  function primeNumbers() {
+    if (reduce || numPrimed) return; numPrimed = true;
+    const P = numParts();
+    numV.forEach(v => { v.textContent = '0'; });
+    gsap.set(dotsEl.children, { scale: 0, opacity: 0 });
+    gsap.set([yBase, ...yTicks, ...netLines, '#hl-path'], { drawSVG: '0%' });
+    gsap.set([yHead, hub, hubT, ...netNodes, ...P.rule], { scale: 0, transformOrigin: '50% 50%' });
+    gsap.set([yL1, yL2, netL1, netL2, P.aside, ...P.k, ...P.body], { opacity: 0 });
+  }
   function countUp() {
-    const title = document.getElementById('num-title');
     if (reduce) return;
-    const sp = SplitText.create(title, { type: 'words', mask: 'words' });
-    const tl = gsap.timeline({ onComplete: () => sp.revert() });
-    tl.from(sp.words, { yPercent: 110, duration: .9, ease: 'power4.out', stagger: .045 })
-      .from('#num-rule i', { scale: 0, duration: .5, ease: 'back.out(3)', stagger: .12 }, .2)
-      .from('#numbers .stat .k', { opacity: 0, y: 10, duration: .5, stagger: .12 }, .3)
-      .from('#numbers .stat .body', { opacity: 0, y: 10, duration: .6, stagger: .12 }, .9);
-    document.querySelectorAll('#numbers .v').forEach((el, i) => {
+    primeNumbers();
+    const P = numParts(), tl = gsap.timeline();
+    tl.to('#hl-path', { drawSVG: '100%', duration: .8, ease: 'power2.inOut' }, .2)
+      .to(P.aside, { opacity: 1, duration: .6 }, .3)
+      .to(P.rule, { scale: 1, duration: .5, ease: 'back.out(3)', stagger: .12 }, 0)
+      .to(P.k, { opacity: 1, duration: .5, stagger: .12 }, .15);
+    numV.forEach((el, i) => {
       const o = { v: 0 }, target = +el.dataset.count;
-      tl.to(o, { v: target, duration: 1.8, ease: 'expo.out', onUpdate: () => { el.textContent = Math.round(o.v).toLocaleString('en-US'); } }, .35 + i * .15);
+      tl.to(o, { v: target, duration: 2, ease: 'expo.out', onUpdate: () => { el.textContent = Math.round(o.v).toLocaleString('en-US'); } }, .25 + i * .15);
     });
+    // Students: the dots fill in from the left, wave by wave; "you" pops last.
+    tl.to(dotsEl.children, { scale: 1, opacity: (i, el) => el.classList.contains('you') ? 1 : .85, duration: .4, ease: 'back.out(3)', stagger: { grid: [8, 25], from: 'start', axis: 'x', amount: 1.6 } }, .4);
+    // Years: the baseline draws, then each tick rises in turn; "today" glows orange.
+    tl.to(yBase, { drawSVG: '100%', duration: 1.2, ease: 'power2.inOut' }, .5)
+      .to(yTicks, { drawSVG: '100%', duration: .35, ease: 'power2.out', stagger: .09 }, .7)
+      .to(yHead, { scale: 1, duration: .5, ease: 'back.out(3)' }, 1.8)
+      .to([yL1, yL2], { opacity: 1, duration: .5, stagger: .2 }, 1.1);
+    // Partnerships: TestPrep appears, then the network draws out to all 40.
+    tl.to([hub, hubT], { scale: 1, duration: .5, ease: 'back.out(3)' }, .7)
+      .to(netLines, { drawSVG: '100%', duration: .5, ease: 'power2.out', stagger: { each: .03, from: 'random' } }, .9)
+      .to(netNodes, { scale: 1, duration: .35, ease: 'back.out(3)', stagger: { each: .03, from: 'random' } }, 1.05)
+      .to([netL1, netL2], { opacity: 1, duration: .5, stagger: .15 }, 1.5)
+      .to(P.body, { opacity: 1, duration: .6, stagger: .12 }, 1.7);
+  }
+
+  // ---- One connected line: legacy timeline -> curve -> the numbers' baseline ----
+  const linkSvg = document.getElementById('link-line'), linkPath = document.getElementById('link-path'), linkHead = document.getElementById('link-head');
+  const legacyRow = document.querySelector('#strip-legacy .hrow');
+  legacyRow.appendChild(linkSvg);
+  let linkState = 0, linkF1 = .4;                     // 0 hidden, 1 legacy part drawn, 2 whole line
+  function layoutLink() {
+    const hr = legacyRow.getBoundingClientRect();
+    const tl = document.querySelector('#legacy .timeline').getBoundingClientRect();
+    const rr = document.getElementById('num-rule').getBoundingClientRect();
+    const x0 = tl.left - hr.left, xL = tl.right - hr.left, y1 = tl.top - hr.top + 7;
+    const xR0 = rr.left - hr.left, xR1 = rr.right - hr.left, y2 = rr.top - hr.top + 1;
+    const mid = (xL + xR0) / 2;
+    linkSvg.setAttribute('width', hr.width); linkSvg.setAttribute('height', hr.height);
+    linkSvg.setAttribute('viewBox', `0 0 ${hr.width} ${hr.height}`);
+    linkPath.setAttribute('d', `M${x0} ${y1} L${xL} ${y1} C${mid} ${y1} ${mid} ${y2} ${xR0} ${y2} L${xR1} ${y2}`);
+    const total = linkPath.getTotalLength(); linkF1 = (xL - x0) / total;
+    // dots on the numbers baseline sit over each column
+    const cols = [...document.querySelectorAll('#numbers .stat')].map(c => c.getBoundingClientRect().left);
+    document.querySelectorAll('#num-rule i').forEach((d, k) => { d.style.left = (cols[k] - rr.left) + 'px'; });
+    applyLink();
+  }
+  function applyLink() {
+    gsap.set(linkPath, { drawSVG: linkState === 0 ? '0% 0%' : linkState === 1 ? `0% ${linkF1 * 100}%` : '0% 100%' });
+    gsap.set(linkHead, { opacity: 0 });
   }
 
   /* ---------- Steps within slides ---------- */
@@ -1451,7 +1568,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     notesText.textContent = el.dataset.notes || '';
     progress.style.width = ((i + 1) / slides.length * 100) + '%';
     document.body.classList.toggle('on-dark', el.classList.contains('dark'));
-    if (el.id === 'numbers' && first) countUp();
+    if (el.id === 'numbers') { if (linkState < 2) { linkState = 2; applyLink(); } if (first) countUp(); }
     if (el.id === 'legacy') playMemories();
     if (el.id === 'sat' && first) sat.enter();
     if (el.id === 'method' && first) engine.enter(fromOrb);
@@ -1477,7 +1594,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   function markLive(...idx) { const on = new Set(idx.map(k => slides[k])); slides.forEach(sl => sl.classList.toggle('is-live', on.has(sl))); }
   function settle() {
     if (moving) { const m = moving; moving = null; m.progress(1); }
-    busy = false;
+    busy = false; gsap.set(linkSvg, { opacity: 1 });
     slides.forEach(sl => { const w = wrapOf(sl); if (w && !(w.id === 'legacy-copy' && !memDone)) gsap.set(w, { clearProps: 'transform,opacity' }); });
   }
   function done(tl) {
@@ -1513,6 +1630,10 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     tl.to(track, { y, duration: 1.05, ease: 'power3.inOut', force3D: true }, 0);
     if (m.strip) tl.to(m.strip, { x, duration: 1.05, ease: 'power3.inOut', force3D: true }, 0);
     if (fw) tl.to(fw, { [axis]: -dir * dist * .55, opacity: .2, duration: .8, ease: 'power2.in' }, 0);
+    // the connected line belongs to the legacy/numbers pair: it fades with them when you leave or arrive vertically
+    const lineSlides = ['legacy', 'numbers'];
+    if (lineSlides.includes(slides[from]?.id)) tl.to(linkSvg, { opacity: 0, duration: .6, ease: 'power2.in' }, 0);
+    if (lineSlides.includes(slides[i].id)) tl.fromTo(linkSvg, { opacity: 0 }, { opacity: 1, duration: .8, ease: 'power2.out' }, .45);
     if (ownsEntrance) tl.add(playMemories, .45);
     if (tw && !ownsEntrance) tl.fromTo(tw, { [axis]: dir * dist, opacity: 0 }, { [axis]: 0, opacity: 1, duration: .95, ease: 'power3.out', immediateRender: true }, .32);
   }
@@ -1541,17 +1662,18 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   // Our legacy -> Our numbers: the timeline's line keeps its momentum, shoots off to the right,
   // rides across with the slide change and lands as the line the numbers stand on.
   function lineHandoff(strip, x) {
-    const W = deck.clientWidth, runner = document.getElementById('runner');
-    const tlr = document.querySelector('#legacy .timeline').getBoundingClientRect();
-    const rule = document.getElementById('num-rule'), rr = rule.getBoundingClientRect();   // still one screen to the right
-    gsap.set(runner, { left: tlr.left, top: tlr.top + 7, width: tlr.width, opacity: 1 }); runner.hidden = false;
-    gsap.set(rule, { scaleX: 0 });
-    const tl = gsap.timeline({ onComplete: () => { runner.hidden = true; } });
-    tl.to(runner, { left: tlr.right - 60, width: W - tlr.right + 60, duration: .5, ease: 'power2.in' })              // momentum: the line races right
-      .to(strip, { x, duration: 1.15, ease: 'power3.inOut' }, .3)                                                   // slides move sideways
-      .to(runner, { left: rr.left - W, top: rr.top, width: rr.width, duration: 1.15, ease: 'power3.inOut' }, .3)     // and the line lands on the numbers
-      .set(rule, { scaleX: 1 }, 1.45).to(runner, { opacity: 0, duration: .3 }, 1.45)
-      .add(() => arrive(cur), 1.45);
+    layoutLink();
+    if (linkState < 1) { linkState = 1; applyLink(); }
+    const from = linkF1, head = { p: from };
+    const place = () => { const L = linkPath.getTotalLength(), pt = linkPath.getPointAtLength(L * head.p); gsap.set(linkHead, { attr: { cx: pt.x, cy: pt.y } }); };
+    place();
+    const tl = gsap.timeline();
+    tl.set(linkHead, { opacity: 1 })
+      .to(strip, { x, duration: 1.3, ease: 'power3.inOut' }, 0)                                           // slides move sideways
+      .to(linkPath, { drawSVG: '0% 100%', duration: 1.5, ease: 'power2.inOut' }, 0)                        // the same line keeps drawing
+      .to(head, { p: 1, duration: 1.5, ease: 'power2.inOut', onUpdate: place }, 0)                       // its glowing head leads the way
+      .to(linkHead, { opacity: 0, duration: .4 }, 1.5)
+      .add(() => { linkState = 2; arrive(cur); }, 1.25);
     return tl;
   }
 
@@ -1615,13 +1737,13 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       sl.scrollTop = 0;
     });
   }
-  fitSlides();
-  document.fonts?.ready.then(fitSlides);
+  fitSlides(); layoutLink();
+  document.fonts?.ready.then(() => { fitSlides(); layoutLink(); });
   let rz = 0;
   let lastW = innerWidth, lastH = innerHeight;
   addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => {
     if (Math.abs(innerWidth - lastW) < 2 && Math.abs(innerHeight - lastH) < 2) return;   // ignore no-op resize events
-    lastW = innerWidth; lastH = innerHeight; settle(); fitSlides(); place(cur);
+    lastW = innerWidth; lastH = innerHeight; settle(); fitSlides(); place(cur); layoutLink();
   }); });
   cur = -1;
 
@@ -1642,6 +1764,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   const start = slides.findIndex(s => s.id === location.hash.slice(1));
   if (slides[start]?.id !== 'legacy') primeMemories();
+  if (slides[start]?.id !== 'numbers') primeNumbers();
   goTo(Math.max(0, start), true);
 })();
 </script>
