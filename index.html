@@ -26,6 +26,7 @@
   --ease: cubic-bezier(.2,.7,.1,1);
 }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 html, body { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 
@@ -500,19 +501,58 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .g-final { margin: clamp(16px, 3vh, 28px) 0 0; font-size: clamp(18px, 1.6vw, 24px); font-weight: 500; letter-spacing: -.02em; opacity: 0; }
 .g-final b { color: var(--blue); }
 
-/* ---------- 13 Challenge ---------- */
-#challenge .wrap { text-align: center; display: grid; justify-items: center; }
-.ladder { display: flex; gap: 14px; margin: 48px 0 32px; flex-wrap: wrap; justify-content: center; }
-.ladder button {
-  width: clamp(64px, 9vw, 112px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: var(--night-ink);
-  font: 300 clamp(24px, 3vw, 40px)/1 var(--sans); cursor: pointer; transition: background .3s, border-color .3s, transform .3s var(--ease);
-}
+/* ---------- 13 Challenge: Do U Think U Have What It Takes? ---------- */
+#challenge .wrap { display: grid; gap: clamp(16px, 3vh, 28px); }
+.ch-top { display: flex; justify-content: space-between; align-items: center; gap: 24px; flex-wrap: wrap; }
+.ch-title { font-weight: 300; font-size: clamp(26px, 2.6vw, 42px); letter-spacing: -.035em; margin: 0; }
+.ch-title .accent { color: var(--orange); }
+.ladder { display: flex; gap: 10px; }
+.ladder button { width: clamp(40px, 3.6vw, 56px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: var(--night-ink);
+  font: 400 clamp(16px, 1.4vw, 20px)/1 var(--sans); cursor: pointer; transition: background .3s, border-color .3s, transform .3s var(--ease); }
 .ladder button.ok { background: var(--good); border-color: var(--good); }
 .ladder button.no { background: var(--bad); border-color: var(--bad); }
-.ladder button.cur { border-color: var(--orange); transform: scale(1.06); }
-.rules { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; font-size: 14px; color: #A9AEC0; }
+.ladder button.cur { border-color: var(--orange); transform: scale(1.1); box-shadow: 0 0 0 4px rgba(255,150,62,.18); }
+/* intro card (step 0) */
+.ch-intro { display: grid; justify-items: center; text-align: center; gap: 22px; padding-block: 2vh; }
+.ch-intro h2 { margin: 0; }
+.rules { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; font-size: 15px; color: #A9AEC0; }
 .rules b { color: var(--night-ink); font-weight: 600; }
-.verdict { min-height: 1.6em; font-size: clamp(18px, 1.6vw, 22px); margin-top: 26px; color: var(--orange); }
+/* question card */
+.qcard { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 48px); align-items: start; }
+.q-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
+.q-tag { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; background: rgba(255,255,255,.1); color: #fff; }
+.q-tag.math { background: rgba(23,64,169,.55); }
+.q-tag.eng { background: rgba(255,150,62,.22); color: #FFC48E; }
+.q-src { font-size: 12px; color: #8B90A5; }
+.q-text { margin: 0; font-size: clamp(18px, 1.7vw, 27px); line-height: 1.45; font-weight: 400; letter-spacing: -.01em; color: #fff; }
+.q-text i { font-style: italic; }
+.q-text .blank { display: inline-block; min-width: 3.2em; border-bottom: 2px solid var(--orange); }
+.q-ask { margin: 16px 0 0; font-size: clamp(15px, 1.15vw, 18px); color: #A9AEC0; }
+.q-side { display: grid; gap: 10px; }
+.opt { font-family: inherit; text-align: left; width: 100%; cursor: pointer; display: grid; grid-template-columns: 38px 1fr; gap: 14px; align-items: center; padding: 13px 16px; border-radius: 16px; border: 1px solid rgba(255,255,255,.14);
+  background: rgba(255,255,255,.03); font-size: clamp(16px, 1.4vw, 22px); color: #fff; transition: background .4s, border-color .4s; }
+.opt i { font-style: normal; width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.35); font-weight: 600; font-size: 15px; }
+.opt:hover { border-color: rgba(255,255,255,.4); }
+.opt.locked { cursor: default; }
+.opt.correct { background: rgba(30,158,98,.25); border-color: var(--good); }
+.opt.correct i { background: var(--good); border-color: var(--good); }
+.opt.wrong { background: rgba(217,71,58,.25); border-color: var(--bad); }
+.opt.wrong i { background: var(--bad); border-color: var(--bad); }
+.q-result { font-size: clamp(22px, 2vw, 32px); font-weight: 600; letter-spacing: -.02em; min-height: 1.2em; }
+.q-result.ok { color: #4FD69A; } .q-result.no { color: #FF8A7A; }
+.opt.right { background: rgba(30,158,98,.22); border-color: var(--good); }
+.opt.right i { background: var(--good); border-color: var(--good); }
+
+.q-foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 6px; flex-wrap: wrap; }
+.timer { display: flex; align-items: center; gap: 12px; font-variant-numeric: tabular-nums; font-size: clamp(22px, 2vw, 32px); font-weight: 300; color: #fff; }
+.timer svg { width: 44px; height: 44px; transform: rotate(-90deg); }
+.timer circle { fill: none; stroke-width: 4; }
+.timer .tr-bg { stroke: rgba(255,255,255,.12); }
+.timer .tr-fg { stroke: var(--orange); stroke-linecap: round; }
+.timer.low { color: #FF8A7A; }
+.verdict { min-height: 1.4em; font-size: clamp(18px, 1.6vw, 24px); color: var(--orange); text-align: center; margin: 0; }
+.ch-win { position: absolute; inset: 0; pointer-events: none; z-index: 3; overflow: hidden; }
+.ch-win i { position: absolute; width: 10px; height: 14px; border-radius: 2px; }
 
 /* ---------- 14 Close ---------- */
 .close-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center; }
@@ -526,6 +566,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .week { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .qcard { grid-template-columns: minmax(0, 1fr); }
   .eco-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
   .engine, .showcase, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
   .why, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
@@ -990,13 +1031,33 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </section>
 
   <!-- 14 &#183; Challenge -->
-  <section class="slide dark" id="challenge" data-chapter="The challenge"
-    data-notes="Bring one volunteer on stage. Five questions, alternating Math and English. Click a circle once for correct (green), twice for wrong (red), three times to reset. Five greens wins free enrollment in the SAT course within the school program.">
+  <section class="slide dark" id="challenge" data-chapter="The challenge" data-steps="5"
+    data-notes="Bring one volunteer on stage. Five real questions from our Elmy syllabus, alternating Math and English, getting harder. &#8594; shows the next question and starts the clock. When the volunteer answers, click their option: it lights up Correct or Wrong. Five for five wins free enrollment in the SAT course within the school program.">
+    <div class="ch-win" id="ch-win" aria-hidden="true"></div>
     <div class="wrap">
-      <p class="label">Live game &#183; one volunteer</p>
-      <h2 class="display">Do U Think U Have<br>What It <span class="accent">Takes?</span></h2>
-      <div class="ladder" id="ladder"></div>
-      <div class="rules"><span><b>5</b> questions</span><span><b>Math</b> and <b>English</b></span><span><b>5 / 5</b> = free SAT course enrollment within the school program</span></div>
+      <div class="ch-top">
+        <h2 class="ch-title">Do U Think U Have What It <span class="accent">Takes?</span></h2>
+        <div class="ladder" id="ladder"></div>
+      </div>
+      <div class="ch-intro" id="ch-intro">
+        <p class="label" style="margin:0">Live game &#183; one volunteer</p>
+        <h2 class="display">Five questions.<br>Straight from our <span class="accent">system.</span></h2>
+        <div class="rules"><span><b>5</b> questions</span><span><b>Math</b> and <b>English</b>, getting harder</span><span><b>5 / 5</b> = free SAT course enrollment within the school program</span></div>
+      </div>
+      <div class="qcard" id="qcard" hidden>
+        <div>
+          <div class="q-meta"><span class="q-tag" id="q-tag">Math</span><span class="q-src" id="q-n"></span></div>
+          <p class="q-text" id="q-text"></p>
+          <p class="q-ask" id="q-ask"></p>
+        </div>
+        <div class="q-side">
+          <div id="q-opts" style="display:grid;gap:10px"></div>
+          <div class="q-foot">
+            <div class="timer" id="q-timer"><svg viewBox="0 0 44 44"><circle class="tr-bg" cx="22" cy="22" r="19"/><circle class="tr-fg" id="tr-fg" cx="22" cy="22" r="19"/></svg><span id="q-time">1:00</span></div>
+            <div class="q-result" id="q-result" aria-live="polite"></div>
+          </div>
+        </div>
+      </div>
       <p class="verdict" id="verdict" aria-live="polite"></p>
     </div>
   </section>
@@ -1398,21 +1459,103 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     return tl;
   }
 
-  /* ---------- Challenge ---------- */
+  /* ---------- Challenge: five real questions from the Elmy syllabus ---------- */
+  // Source: tpi.elmysolutions.org, AGC SAT Course 2026-2027 syllabus (Math "Challenge Questions"; English "Words in context" and "Transitions", difficulty: hard).
+  const QS = [
+    { s: 'Math', src: 'Challenge Questions \u00b7 Exercise 9', t: 60 * 1.5,
+      q: 'x \u2212 29 = (x \u2212 a)(x \u2212 29)<br>Which of the following are solutions to the given equation, where <i>a</i> is a constant and <i>a</i> &gt; 30?',
+      ask: 'I. a &nbsp;&nbsp; II. a + 1 &nbsp;&nbsp; III. 29',
+      o: ['I and II only', 'I and III only', 'II and III only', 'I, II, and III'], a: 2 },
+    { s: 'English', src: 'Words in Context \u00b7 Hard', t: 60,
+      q: 'Stephen Hannock\u2019s luminous landscape paintings are appealing to viewers but have elicited little commentary from contemporary critics, a phenomenon that may be due to the very fact that the paintings seem so <span class="blank"></span>. Many critics focus their attention on art that is cryptic or overtly challenging.',
+      ask: 'Which choice completes the text with the most logical and precise word or phrase?',
+      o: ['innovative', 'accessible', 'profound', 'subversive'], a: 1 },
+    { s: 'Math', src: 'Challenge Questions \u00b7 Exercise 14 \u00b7 Hard', t: 60 * 1.5,
+      q: 'Point A lies on a unit circle in the xy-plane at (0, 1). Point B is the centre, at (0, 0). Point C also lies on the circle, at (\u221a2\u20442, \u2212\u221a2\u20442).',
+      ask: 'Which of the following could be the positive measure of angle ABC, in radians?',
+      o: ['265\u03c0 / 4', '267\u03c0 / 4', '269\u03c0 / 4', '271\u03c0 / 4'], a: 2 },
+    { s: 'English', src: 'Transitions \u00b7 Hard', t: 60,
+      q: 'A 2017 study of sign language learners tested the role of iconicity, the similarity of a sign to the thing it represents, in language acquisition. The study found that the greater the iconicity of a sign, the more likely it was to have been learned. <span class="blank"></span> the correlation between acquisition and iconicity was lower than that between acquisition and another factor studied: sign frequency.',
+      ask: 'Which choice completes the text with the most logical transition?',
+      o: ['In fact,', 'In other words,', 'Granted,', 'As a result,'], a: 2 },
+    { s: 'Math', src: 'Challenge Questions \u00b7 Exercise 19 \u00b7 Hard', t: 60 * 2,
+      q: 'The equation ax\u00b2 + 54x + c = 0, where a and c are positive integers, has no integer solutions, and the expression ax\u00b2 + 54x + c has a factor of 3x + 2.',
+      ask: 'What is the least possible value of ac?',
+      o: ['288', '144', '504', '648'], a: 0 },
+  ];
   const ladder = document.getElementById('ladder'), verdict = document.getElementById('verdict');
+  const chIntro = document.getElementById('ch-intro'), qcard = document.getElementById('qcard');
+  const qTag = document.getElementById('q-tag'), qSrc = document.getElementById('q-src'), qText = document.getElementById('q-text'), qAsk = document.getElementById('q-ask');
+  const qOpts = document.getElementById('q-opts');
+  const qTime = document.getElementById('q-time'), qTimer = document.getElementById('q-timer'), trFg = document.getElementById('tr-fg'), chWin = document.getElementById('ch-win');
   const marks = [0, 0, 0, 0, 0];
+  let qClock = null;
   for (let i = 0; i < 5; i++) {
     const b = document.createElement('button'); b.textContent = i + 1; b.setAttribute('aria-label', 'Question ' + (i + 1));
     b.addEventListener('click', () => { marks[i] = (marks[i] + 1) % 3; paintLadder(); });
     ladder.appendChild(b);
   }
   function paintLadder() {
-    const next = marks.indexOf(0), wrong = marks.includes(2);
-    [...ladder.children].forEach((b, i) => { b.className = marks[i] === 1 ? 'ok' : marks[i] === 2 ? 'no' : (i === next && !wrong ? 'cur' : ''); });
+    const at = state.challenge - 1, wrong = marks.includes(2);
+    [...ladder.children].forEach((b, i) => { b.className = marks[i] === 1 ? 'ok' : marks[i] === 2 ? 'no' : (i === at ? 'cur' : ''); });
     const ok = marks.filter(m => m === 1).length;
-    verdict.textContent = wrong ? 'So close. Give it up for them anyway.' : ok === 5 ? 'Five for five. Free SAT course enrollment unlocked.' : ok ? `${ok} down, ${5 - ok} to go.` : '';
+    verdict.textContent = wrong ? 'So close. Give it up for them anyway!' : ok === 5 ? 'Five for five. Free SAT course enrollment unlocked!' : ok ? `${ok} down, ${5 - ok} to go.` : '';
+    if (ok === 5 && !chWin.dataset.done) celebrate();
   }
-  paintLadder();
+  function celebrate() {
+    chWin.dataset.done = 1; if (reduce) return;
+    const cols = ['#FF963E', '#FFC48E', '#1740A9', '#6E93FF', '#1E9E62', '#ffffff'];
+    for (let k = 0; k < 90; k++) {
+      const c = document.createElement('i'); c.style.background = cols[k % cols.length]; c.style.left = (50 + gsap.utils.random(-6, 6)) + '%'; c.style.top = '55%'; chWin.appendChild(c);
+      gsap.to(c, { x: gsap.utils.random(-700, 700), y: gsap.utils.random(-520, 260), rotation: gsap.utils.random(-540, 540), opacity: 0,
+        duration: gsap.utils.random(1.6, 2.6), ease: 'power3.out', onComplete: () => c.remove() });
+    }
+  }
+  function startClock(sec) {
+    qClock?.kill(); qTimer.classList.remove('low');
+    const C = 2 * Math.PI * 19; trFg.style.strokeDasharray = C;
+    const o = { t: sec };
+    qClock = gsap.to(o, { t: 0, duration: sec, ease: 'none', onUpdate: () => {
+      qTime.textContent = Math.floor(o.t / 60) + ':' + String(Math.ceil(o.t % 60) === 60 ? 0 : Math.ceil(o.t % 60)).padStart(2, '0');
+      trFg.style.strokeDashoffset = C * (1 - o.t / sec); qTimer.classList.toggle('low', o.t < 10);
+    } });
+  }
+  // step 0 = rules; steps 1..5 = question 1..5. Click the volunteer's option: it lights up correct or wrong.
+  const qResult = document.getElementById('q-result'), qN = document.getElementById('q-n');
+  let answered = false;
+  function answer(k) {
+    const qi = state.challenge - 1; if (qi < 0 || answered) return;
+    answered = true; qClock?.pause();
+    const Q = QS[qi], ok = k === Q.a, el = qOpts.children[k];
+    [...qOpts.children].forEach(o => o.classList.add('locked'));
+    gsap.killTweensOf(qOpts.children);
+    gsap.to([...qOpts.children].filter(o => o !== el), { opacity: .3, duration: .4 });
+    el.classList.add(ok ? 'correct' : 'wrong');
+    qResult.className = 'q-result ' + (ok ? 'ok' : 'no'); qResult.textContent = ok ? '✓ Correct!' : '✗ Wrong';
+    if (!reduce) {
+      if (ok) gsap.fromTo(el, { scale: .95 }, { scale: 1, duration: .7, ease: 'elastic.out(1, .45)' });
+      else gsap.fromTo(el, { x: -10 }, { x: 0, duration: .5, ease: 'elastic.out(1.2, .25)' });
+      gsap.fromTo(qResult, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: .4 });
+    }
+    marks[qi] = ok ? 1 : 2; paintLadder();
+  }
+  qOpts.addEventListener('click', e => { const o = e.target.closest('.opt'); if (o) answer([...qOpts.children].indexOf(o)); });
+  function renderChallenge(stepN) {
+    paintLadder();
+    if (stepN === 0) { qClock?.kill(); qcard.hidden = true; chIntro.hidden = false; gsap.fromTo(chIntro, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .5 }); return; }
+    chIntro.hidden = true; qcard.hidden = false;
+    const qi = stepN - 1, Q = QS[qi];
+    answered = marks[qi] !== 0;
+    qTag.textContent = Q.s; qTag.className = 'q-tag ' + (Q.s === 'Math' ? 'math' : 'eng');
+    qN.textContent = 'Question ' + stepN + ' of 5';
+    qText.innerHTML = Q.q; qAsk.innerHTML = Q.ask;
+    qOpts.innerHTML = Q.o.map((o, k) => `<button type="button" class="opt"><i>${'ABCD'[k]}</i><span>${o}</span></button>`).join('');
+    qResult.textContent = ''; qResult.className = 'q-result';
+    startClock(Q.t);
+    if (!reduce) gsap.timeline()
+      .from(qcard.querySelectorAll('.q-meta, .q-text, .q-ask'), { opacity: 0, y: 16, duration: .55, stagger: .08, ease: 'power3.out' })
+      .fromTo(qOpts.children, { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: .45, stagger: .08, ease: 'power3.out' }, .2);
+  }
 
   /* ---------- What is the SAT: the laptop (GSAP: SplitText, DrawSVG, timelines) ---------- */
   const SAT = [
@@ -1733,7 +1876,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
 
   /* ---------- Steps within slides ---------- */
-  const state = { intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0 };
+  const state = { intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0 };
   renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
@@ -1741,6 +1884,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
     sat: { next() { if (state.sat < 6) { const f = state.sat; return sat.go(++state.sat, f) || true; } }, prev() { if (state.sat > 0) { const f = state.sat; return sat.go(--state.sat, f) || true; } } },
+    challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
     glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
   };
 
