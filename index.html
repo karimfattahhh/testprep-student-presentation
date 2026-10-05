@@ -18,7 +18,7 @@
   --blue: #1740A9;
   --blue-soft: #E8EDFA;
   --orange: #FF963E;
-  --night: #0B0E1A;
+  --night: #0B1E5C;          /* TestPrep deep blue (dark slides) */
   --night-ink: #F4F5F8;
   --good: #1E9E62;
   --bad: #D9473A;
@@ -49,7 +49,7 @@ html, body { overscroll-behavior-x: none; }
   display: flex; flex-direction: column; justify-content: safe center;
   padding-inline: max(16px, 6vw); padding-block: clamp(64px, 11vh, 96px) clamp(36px, 7vh, 72px);
 }
-.slide.dark { background: var(--night); color: var(--night-ink); }
+.slide.dark { background: radial-gradient(120% 95% at 85% 0%, #1E4DC4 0%, #1740A9 30%, #0F2C7A 65%, #0B1E5C 100%), var(--night); color: var(--night-ink); }
 .wrap { width: 100%; max-width: 1280px; margin-inline: auto; position: relative; z-index: 1; }
 
 header.bar {
@@ -164,7 +164,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 /* ---------- 02 Video ---------- */
 .film {
   margin-top: 40px; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; border-radius: 28px; position: relative; overflow: hidden;
-  background: radial-gradient(80% 90% at 70% 30%, #1E3B9A, #0B0E1A 70%);
+  background: radial-gradient(80% 90% at 70% 30%, #1E4DC4, #0B1E5C 72%);
   display: grid; place-items: center; color: var(--night-ink);
 }
 .film .play { width: 88px; height: 88px; border-radius: 50%; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); display: grid; place-items: center; backdrop-filter: blur(6px); }
@@ -521,7 +521,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .qcard { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: clamp(20px, 3vw, 48px); align-items: start; }
 .q-meta { display: flex; gap: 10px; align-items: center; margin-bottom: 16px; flex-wrap: wrap; }
 .q-tag { font-size: 11px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; padding: 6px 11px; border-radius: 999px; background: rgba(255,255,255,.1); color: #fff; }
-.q-tag.math { background: rgba(23,64,169,.55); }
+.q-tag.math { background: #fff; color: var(--blue); }
 .q-tag.eng { background: rgba(255,150,62,.22); color: #FFC48E; }
 .q-src { font-size: 12px; color: #8B90A5; }
 .q-text { margin: 0; font-size: clamp(18px, 1.7vw, 27px); line-height: 1.45; font-weight: 400; letter-spacing: -.01em; color: #fff; }
