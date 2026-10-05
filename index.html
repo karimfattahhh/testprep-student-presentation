@@ -495,7 +495,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 #glitch .wrap { display: grid; gap: clamp(10px, 2vh, 18px); }
 .g-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
 .g-title { position: relative; }
-.g-title.glitching { text-shadow: -3px 0 rgba(255,60,90,.75), 3px 0 rgba(0,190,255,.75); }
 .g-meter { display: grid; gap: 10px; justify-items: end; }
 .g-count { font-size: 14px; color: var(--muted); }
 .g-count b { font-size: clamp(32px, 3.4vw, 52px); font-weight: 300; color: var(--ink); letter-spacing: -.04em; margin-right: 4px; font-variant-numeric: tabular-nums; }
@@ -512,15 +511,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .note::before { content: ""; position: absolute; left: 24px; top: 0; bottom: 0; width: 1.5px; background: rgba(217,71,58,.45); }
 .note::after { content: ""; position: absolute; left: 50%; top: -10px; width: 64px; height: 20px; margin-left: -32px; background: rgba(255,214,160,.65); transform: rotate(-3deg); box-shadow: 0 1px 2px rgba(0,0,0,.08); }
 .note:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
-.note.glitching { text-shadow: -2px 0 rgba(255,60,90,.65), 2px 0 rgba(0,190,255,.65); }
-.note .fixed { position: absolute; right: 10px; bottom: 8px; font: 700 11px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--good); border: 2px solid var(--good); border-radius: 6px; padding: 3px 7px; transform: rotate(-6deg); opacity: 0; }
+.note .strike { position: absolute; height: 3px; margin-top: -1.5px; background: var(--bad); border-radius: 3px; transform-origin: left center; pointer-events: none; }
 .note.found { color: #8A90A6; }
-.note.found .t { text-decoration: line-through; text-decoration-color: var(--bad); text-decoration-thickness: 2px; }
-.note.found .fixed { opacity: 1; }
 .note.away { visibility: hidden; }
 .g-focus { position: absolute; inset: 0; z-index: 5; pointer-events: none; }
 .g-clone { position: absolute; z-index: 6; pointer-events: none; transform-origin: 50% 50%; }
-.g-clone .strike { position: absolute; left: 30px; right: 14px; height: 3px; background: var(--bad); border-radius: 3px; transform-origin: left center; transform: scaleX(0); }
 .g-panel { --sweep2: 0deg; position: absolute; right: 2%; top: 50%; width: 47%; transform: translateY(-50%); border-radius: 26px; padding: clamp(20px, 2.4vw, 32px);
   color: #fff; display: grid; gap: 14px; opacity: 0;
   background: radial-gradient(120% 120% at 100% 0%, #1E4DC4, #0F2C7A 60%, #0B1E5C) padding-box,
@@ -1513,37 +1508,38 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   const gNotes = PLAN.map((p, i) => {
     const b = document.createElement('button'); b.className = 'note'; b.type = 'button';
     const [x, y, r] = SPOTS[i]; b.style.left = x + '%'; b.style.top = y + '%'; b.style.transform = `rotate(${r}deg)`;
-    b.innerHTML = `<span class="t">${p[0]}</span><span class="fixed">Glitch</span>`;
+    b.innerHTML = `<span class="t">${p[0]}</span>`;
     b.setAttribute('aria-label', 'Glitch ' + (i + 1) + ': ' + p[0]);
     b.addEventListener('click', () => { if (focusK === i) release(); else focusNote(i); });
     board.appendChild(b); return b;
   });
   const found = new Set();
   let focusK = null, clone = null, gTl = null, gFinaled = false;
-  // idle glitches on the gNotes still waiting to be caught
-  function glitchTick() {
-    if (slides[cur]?.id === 'glitch' && !reduce && focusK === null) {
-      const open = gNotes.filter((_, k) => !found.has(k));
-      if (open.length) {
-        const n = open[Math.floor(Math.random() * open.length)];
-        n.classList.add('glitching');
-        gsap.timeline({ onComplete: () => n.classList.remove('glitching') }).to(n, { x: 3, duration: .04, repeat: 5, yoyo: true, ease: 'steps(1)' }).set(n, { x: 0 });
-      }
-      if (Math.random() < .25) { gTitle.classList.add('glitching'); gsap.delayedCall(.18, () => gTitle.classList.remove('glitching')); }
-    }
-    gsap.delayedCall(.9 + Math.random() * .9, glitchTick);
+  // Where each line of handwriting sits (measured on an upright, unscaled copy), so a red line can be drawn through each one.
+  const noteLines = [];
+  function measureLines(el) {
+    const t = el.querySelector('.t'), r = document.createRange(); r.selectNodeContents(t);
+    const base = el.getBoundingClientRect(), rows = {};
+    [...r.getClientRects()].forEach(q => { if (q.width < 2) return; const k = Math.round(q.top / 6);
+      const row = rows[k] || (rows[k] = { l: q.left, r: q.right, t: q.top, b: q.bottom });
+      row.l = Math.min(row.l, q.left); row.r = Math.max(row.r, q.right); row.t = Math.min(row.t, q.top); row.b = Math.max(row.b, q.bottom); });
+    return Object.values(rows).map(o => ({ l: o.l - base.left - 2, t: (o.t + o.b) / 2 - base.top + 2, w: o.r - o.l + 4 }));
   }
-  glitchTick();
+  function addStrikes(el, lines, drawn) {
+    return lines.map(L => { const k = document.createElement('span'); k.className = 'strike';
+      Object.assign(k.style, { left: L.l + 'px', top: L.t + 'px', width: L.w + 'px' }); gsap.set(k, { scaleX: drawn ? 1 : 0 }); el.appendChild(k); return k; });
+  }
   function focusNote(i) {
     if (focusK !== null) release(true);
     gTl?.progress(1);
     focusK = i;
     const n = gNotes[i], P = PLAN[i], dr = gFocus.getBoundingClientRect(), nr = n.getBoundingClientRect();
     clone = n.cloneNode(true); clone.className = 'note g-clone'; clone.removeAttribute('style');
-    clone.insertAdjacentHTML('beforeend', '<span class="strike"></span>');
     Object.assign(clone.style, { left: (nr.left - dr.left) + 'px', top: (nr.top - dr.top) + 'px', width: n.offsetWidth + 'px', height: n.offsetHeight + 'px' });
     gFocus.appendChild(clone); n.classList.add('away');
-    const strike = clone.querySelector('.strike'), t = clone.querySelector('.t');
+    clone.querySelectorAll('.strike').forEach(k => k.remove());
+    noteLines[i] = noteLines[i] || measureLines(clone);            // clone is upright and unscaled right now
+    const strikes = addStrikes(clone, noteLines[i], false);
     const W = dr.width, H = dr.height, SC = 1.45, chh = n.offsetHeight * SC;
     gsap.set(clone, { rotation: SPOTS[i][2], transformOrigin: '0 0', scale: 1 });
     gpReal.textContent = P[1]; gpDo.textContent = P[2];
@@ -1558,9 +1554,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     const tl = gTl = gsap.timeline();
     tl.to(board.querySelectorAll('.note:not(.away)'), { filter: 'blur(3px)', opacity: .35, duration: .5 * d }, 0)
       .to(clone, { left: W * .04, top: (H - chh) / 2, scale: SC, rotation: 0, duration: .8 * d, ease: 'power3.inOut' }, 0)   // the note flies forward (scaled, so the handwriting grows too)
-      .fromTo(clone, { x: 0 }, { x: -8, duration: .05, repeat: 5, yoyo: true, ease: 'none' }, .8 * d)                                   // caught
-      .set(strike, { top: (t.offsetTop + t.offsetHeight / 2) * 1 + 'px' }, .8 * d)
-      .to(strike, { scaleX: 1, duration: .45 * d, ease: 'power2.inOut' }, 1 * d)                                                          // crossed out
+      .to(strikes, { scaleX: 1, duration: .4 * d, ease: 'power2.inOut', stagger: .3 * d }, .85 * d)                                    // crossed out, line by line, like a pen
       .fromTo(gPanel, { opacity: 0, x: 40, rotationY: -12 }, { opacity: 1, x: 0, rotationY: 0, duration: .7 * d, ease: 'power3.out' }, .85 * d)
       .from(gPanel.children, { opacity: 0, y: 12, duration: .45 * d, stagger: .09 }, 1.05 * d);
     return tl;
@@ -1569,21 +1563,20 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     if (focusK === null) return;
     const n = gNotes[focusK], c = clone, dr = gFocus.getBoundingClientRect();
     n.classList.remove('away'); n.style.visibility = 'hidden';
-    const nr = n.getBoundingClientRect(), rot = SPOTS[focusK][2];
+    const nr = n.getBoundingClientRect(), rot = SPOTS[focusK][2], idx = focusK;
     focusK = null; clone = null;
     const d = reduce || quick ? .5 : 1;
     gsap.to(gPanel, { opacity: 0, x: 30, duration: .35 * d });
     gsap.to(c, { left: nr.left - dr.left, top: nr.top - dr.top, scale: 1, rotation: rot, duration: .6 * d, ease: 'power3.inOut',
-      onComplete: () => { c.remove(); n.style.visibility = ''; } });
+      onComplete: () => { c.remove(); if (!n.querySelector('.strike')) addStrikes(n, noteLines[idx], true); n.style.visibility = ''; } });
     gsap.to(board.querySelectorAll('.note'), { filter: 'blur(0px)', opacity: 1, duration: .5 * d });
   }
   function finale() {
     gFinaled = true;
     const tl = gsap.timeline();
     tl.to(gFinal, { opacity: 1, duration: .6, ease: 'power3.out' }, .3)
-      .to(gTitle, { scrambleText: { text: 'Glitch-free.', chars: '!<>-_\\/[]{}=+*^?#01', speed: .6 }, duration: .8 }, .3)
+      .to(gTitle, { opacity: 0, duration: .25, onComplete: () => { gTitle.textContent = 'Glitch-free.'; } }, .3).to(gTitle, { opacity: 1, duration: .4 }, .6)
       .to('#board', { rotationX: 0, duration: 1, ease: 'power3.inOut' }, 0)
-      .fromTo(gNotes.map(n => n.querySelector('.fixed')), { scale: 1.6 }, { scale: 1, duration: .4, stagger: .07, ease: 'back.out(3)' }, .4);
     return tl;
   }
   function glitchNext() {
