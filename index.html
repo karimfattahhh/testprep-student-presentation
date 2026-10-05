@@ -1875,7 +1875,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     gsap.set(flyer, { left: r0.left, top: r0.top, width: r0.width, height: r0.height, rotation: 0, '--hole': '0%', opacity: 1 });
     flyer.hidden = false; src.style.visibility = 'hidden'; gsap.set(logo, { opacity: 0 });
     document.body.classList.remove('on-dark');
-    const tl = gsap.timeline({ onComplete: () => { flyer.hidden = true; src.style.visibility = ''; } });
+    const tl = gsap.timeline({ onComplete: () => { flyer.hidden = true; src.style.visibility = ''; gsap.set(flyer, { opacity: 1, rotation: 0 }); } });
     tl.to(track, { y, duration: 1.15, ease: 'power3.inOut' }, 0)
       .to(flyer, { left: tgt.left, top: tgt.top, width: tgt.width, height: tgt.height * .55, rotation: 200, duration: 1.15, ease: 'power3.inOut' }, 0)
       .to(logo, { opacity: 1, duration: .25 }, 1.05).to(flyer, { opacity: 0, duration: .25 }, 1.1)
@@ -1892,7 +1892,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     const ringD = rw.width * 440 / 600;                           // ring circle is r=220 in a 600 viewBox
     const target = { left: rw.left - W + rw.width / 2 - ringD / 2, top: rw.top + rw.height / 2 - ringD / 2 };
     const spin = gsap.getProperty(methodOrb.firstElementChild, 'rotation') || 0;
-    gsap.set(flyer, { left: r0.left, top: r0.top, width: r0.width, height: r0.height, rotation: spin, '--hole': '0%' });
+    gsap.set(flyer, { left: r0.left, top: r0.top, width: r0.width, height: r0.height, rotation: spin, '--hole': '0%', opacity: 1, scale: 1 });
     flyer.hidden = false; methodOrb.style.visibility = 'hidden'; engine.prime();
     gsap.set(ringWrap, { opacity: 0 });
     const tl = gsap.timeline({ onComplete: () => { flyer.hidden = true; methodOrb.style.visibility = ''; } });
