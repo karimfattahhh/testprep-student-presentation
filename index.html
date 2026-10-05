@@ -100,8 +100,10 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   font-size: clamp(15px, 1.4vw, 19px); text-align: left; margin-bottom: 44px;
 }
 .search svg { flex: none; }
-.search .q { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.caret { display: inline-block; width: 2px; height: 1.1em; background: var(--blue); vertical-align: -3px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+.search .q { flex: 1; min-width: 0; white-space: pre; overflow: hidden; display: flex; align-items: center; }
+/* Caret sits right after the last typed character. Solid while typing, blinks when idle (like a real text field). */
+.caret { flex: none; width: 2px; height: 1.15em; background: var(--blue); margin-left: 1px; border-radius: 1px; animation: blink 1.06s steps(1) infinite; }
+.caret.typing { animation: none; opacity: 1; }
 @keyframes blink { 50% { opacity: 0; } }
 .chaos { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
 .chaos span {
@@ -322,7 +324,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <div class="intro-top">
       <div class="search" role="img" aria-label="Search bar: how do I start studying for the SAT?">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A6F80" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
-        <span class="q" id="typed">how do I start studying for the SAT?</span><span class="caret"></span>
+        <span class="q"><span id="typed">how do I start studying for the SAT?</span><span class="caret" id="caret"></span></span>
       </div>
       <div class="orb tp-warm spin intro-orb"></div>
       </div>
@@ -621,6 +623,43 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     s.style.transitionDelay = (i * 35) + 'ms'; chaos.appendChild(s);
   });
   const intro = document.getElementById('intro');
+
+  /* Search bar: types, pauses, deletes and types the next question, forever. '\b' = a backspace (typo fixes). */
+  const QUERIES = [
+    'how do I start studying for the SAT?',
+    'is 1200 a good SAT scroe\b\b\bore?',
+    'which SAT book should I buy',
+    'how many hours a day should I study for the SAT?',
+    'math or english first??',
+    'is it too late to start the SAT',
+  ];
+  const typed = document.getElementById('typed'), caret = document.getElementById('caret');
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+  const jitter = (a, b) => a + Math.random() * (b - a);
+  async function typeLoop() {
+    let q = 0;
+    await sleep(2600);                                   // first frame shows the full question
+    while (true) {
+      caret.classList.add('typing');
+      while (typed.textContent.length) {                  // delete, accelerating like a held backspace
+        typed.textContent = typed.textContent.slice(0, -1);
+        await sleep(typed.textContent.length > 8 ? jitter(18, 32) : jitter(40, 70));
+      }
+      caret.classList.remove('typing');
+      await sleep(jitter(450, 750));
+      q = (q + 1) % QUERIES.length;
+      caret.classList.add('typing');
+      for (const ch of QUERIES[q]) {
+        if (ch === '\b') { await sleep(jitter(160, 260)); typed.textContent = typed.textContent.slice(0, -1); await sleep(jitter(60, 110)); continue; }
+        typed.textContent += ch;
+        await sleep(ch === ' ' ? jitter(70, 160) : /[?,.]/.test(ch) ? jitter(180, 320) : jitter(45, 120));
+        if (Math.random() < 0.06) await sleep(jitter(200, 420));   // the occasional thinking pause
+      }
+      caret.classList.remove('typing');
+      await sleep(jitter(2400, 3200));                    // read it, caret blinking
+    }
+  }
+  if (!reduce) typeLoop();
 
   /* ---------- Ecosystem ---------- */
   const brandEls = [...document.querySelectorAll('#brands .brand')];
