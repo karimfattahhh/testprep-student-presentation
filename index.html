@@ -279,11 +279,14 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .chapter-no { font-size: 13px; font-weight: 600; color: var(--orange); letter-spacing: .16em; text-transform: uppercase; margin-bottom: 22px; }
 
 /* ---------- 08 SAT: the laptop ---------- */
-#sat { padding-block: 72px 40px; }
-.sat-wrap { display: grid; grid-template-columns: minmax(0, .78fr) minmax(0, 1.5fr); gap: clamp(28px, 4vw, 64px); align-items: center; }
-.sat-copy { display: grid; gap: 18px; align-content: center; min-width: 0; }
+#sat { padding: 0 !important; }
+#sat > .wrap { position: absolute; inset: 0; max-width: none; margin: 0; }
+.sat-copy { position: absolute; left: calc(2.5vw + min(70vw, 118vh) + 3vw); right: max(16px, 3vw); top: 50%; transform: translateY(-50%); display: grid; gap: 16px; z-index: 2; opacity: 0; visibility: hidden; }
+.sat-intro { position: absolute; left: 50%; bottom: clamp(28px, 8vh, 80px); transform: translateX(-50%); text-align: center; display: grid; gap: 10px; justify-items: center; z-index: 2; }
+@media (max-width: 900px) { .sat-copy { left: 16px; right: 16px; width: auto; top: auto; bottom: 24px; transform: none; gap: 10px; } .sat-copy .sat-title { min-height: 0; } .sat-copy .sat-text { min-height: 0; } }
+.sat-intro h2 { font-weight: 300; font-size: clamp(30px, 3.4vw, 54px); letter-spacing: -.04em; margin: 0; }
 .sat-step { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--orange); font-variant-numeric: tabular-nums; }
-.sat-title { font-weight: 300; font-size: clamp(34px, 3.6vw, 58px); line-height: 1.02; letter-spacing: -.045em; margin: 0; min-height: 2.04em; text-wrap: balance; }
+.sat-title { font-weight: 300; font-size: clamp(26px, 2.5vw, 44px); line-height: 1.05; letter-spacing: -.04em; margin: 0; min-height: 2.1em; text-wrap: balance; }
 .sat-text { margin: 0; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.55; color: var(--muted); min-height: 4.65em; }
 .sat-chips { display: flex; flex-wrap: wrap; gap: 8px; min-height: 36px; }
 .sat-chips span { font-size: 13px; font-weight: 500; padding: 8px 13px; border-radius: 999px; background: #fff; border: 1px solid var(--line); }
@@ -294,14 +297,27 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .sat-hint { font-size: 12px; color: var(--faint); display: inline-flex; gap: 8px; align-items: center; margin: 0; }
 .sat-hint kbd { font: 600 11px var(--sans); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 3px 8px; color: var(--muted); background: #fff; }
 
-.laptop { position: relative; width: 100%; perspective: 2200px; justify-self: center; }
-.lid { position: relative; width: 88%; margin: 0 auto; transform-origin: 50% 100%; transform-style: preserve-3d; }
-.bezel { background: #0E0F12; border-radius: 22px 22px 6px 6px; padding: 2.2% 2.2% 3.4%; box-shadow: 0 0 0 1.5px #3A3C42 inset, 0 40px 80px -40px rgba(11,14,26,.55); position: relative; }
+/* The MacBook is built at its final size (screen = 70% of the slide) and scaled DOWN when closed, so it stays sharp. */
+.sat-stage { position: absolute; inset: 0; perspective: 2600px; perspective-origin: 50% 35%; }
+.rig { --L: min(70vw, 118vh); position: absolute; left: 50%; top: 50%; width: var(--L); height: calc(var(--L) * .66);
+  margin-left: calc(var(--L) / -2); margin-top: calc(var(--L) * -.33); transform-style: preserve-3d; transform-origin: 50% 50%; }
+.rig-s { position: absolute; inset: 0; transform-style: preserve-3d; transform-origin: 50% 50%; }
+.lid { position: absolute; inset: 0; transform-origin: 50% 100%; transform-style: preserve-3d; }
+.bezel { position: absolute; inset: 0; background: #0E0F12; border-radius: 22px 22px 6px 6px; padding: 2.2% 2.2% 3.4%; box-shadow: 0 0 0 1.5px #3A3C42 inset;
+  backface-visibility: hidden; -webkit-backface-visibility: hidden; display: grid; }
 .bezel .cam { position: absolute; top: .9%; left: 50%; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; background: #23252B; }
-.screen { position: relative; aspect-ratio: 16 / 10; width: 100%; background: #fff; border-radius: 6px; overflow: hidden; container-type: inline-size; font-family: var(--sans); color: #1B1E2B; }
-.base { position: relative; width: 100%; height: clamp(10px, 1.4vw, 18px); margin-top: -1px; border-radius: 2px 2px 18px 18px / 2px 2px 90% 90%;
-  background: linear-gradient(180deg, #E6E8EC 0%, #C9CCD3 55%, #9EA2AB 100%); box-shadow: 0 30px 50px -24px rgba(11,14,26,.45); }
+#screen { position: relative; width: 100%; height: 100%; background: #fff; border-radius: 6px; overflow: hidden; container-type: inline-size; font-family: var(--sans); color: #1B1E2B; }
+.lid-back { position: absolute; inset: 0; border-radius: 22px 22px 6px 6px; transform: rotateY(180deg); backface-visibility: hidden; -webkit-backface-visibility: hidden;
+  background: linear-gradient(160deg, #E9EBEF 0%, #CDD0D6 55%, #B5B9C1 100%); box-shadow: 0 0 0 1.5px #A9ADB5 inset; display: grid; place-items: center; }
+.lid-logo { width: 9%; aspect-ratio: 1; border-radius: 50%; background: conic-gradient(from 210deg, #1740A9, #6E93FF, #FF963E, #FFC48E, #1740A9); box-shadow: 0 0 30px rgba(110,147,255,.5); }
+.deck { position: absolute; left: -1.5%; width: 103%; top: 100%; height: calc(var(--L) * .7); transform-origin: 50% 0; transform: rotateX(90deg) translateZ(-4px);
+  border-radius: 6px 6px 22px 22px; background: linear-gradient(180deg, #C9CCD3, #E3E5EA 40%, #D2D5DB); box-shadow: 0 0 0 1.5px #ADB1B9 inset; }
+.deck::before { content: ""; position: absolute; left: 8%; right: 8%; top: 7%; height: 46%; border-radius: 10px; background: #2A2C31; opacity: .85; }
+.deck::after { content: ""; position: absolute; left: 34%; right: 34%; top: 60%; height: 30%; border-radius: 10px; background: rgba(0,0,0,.07); box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset; }
+.base { position: absolute; left: -6%; width: 112%; top: 100%; height: clamp(10px, 1.3vw, 20px); border-radius: 2px 2px 18px 18px / 2px 2px 90% 90%;
+  background: linear-gradient(180deg, #E6E8EC 0%, #C9CCD3 55%, #9EA2AB 100%); box-shadow: 0 30px 50px -24px rgba(11,14,26,.45); opacity: 0; }
 .base .notch { position: absolute; left: 50%; top: 0; width: 14%; height: 45%; transform: translateX(-50%); border-radius: 0 0 10px 10px; background: linear-gradient(180deg, #B9BCC4, #D8DADF); }
+.rig-shadow { position: absolute; left: 50%; top: 66%; width: 40vw; height: 6vw; margin: -3vw 0 0 -20vw; border-radius: 50%; background: radial-gradient(closest-side, rgba(11,14,26,.28), transparent); filter: blur(6px); }
 .glare { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(115deg, rgba(255,255,255,.0) 40%, rgba(255,255,255,.22) 50%, rgba(255,255,255,0) 60%); transform: translateX(-120%); }
 
 /* Inside the screen: a Bluebook-style testing app (all sizes in cqw so it scales with the laptop). */
@@ -438,8 +454,8 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .tabs button { font: 500 14px/1 var(--sans); padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: pointer; }
 .tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
 .showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: 32px; margin-top: 22px; align-items: start; }
-.screen { border-radius: 24px; background: var(--panel); padding: 14px; }
-.screen img { display: block; width: 100%; height: auto; max-height: 52vh; object-fit: cover; object-position: top left; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.showcase .screen { border-radius: 24px; background: var(--panel); padding: 14px; }
+.showcase .screen img { display: block; width: 100%; height: auto; max-height: 52vh; object-fit: cover; object-position: top left; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
 .shot-copy { display: grid; gap: 16px; align-content: start; padding-top: 8px; }
 .shot-copy .step-tag { font-size: 12px; font-weight: 600; color: var(--blue); background: var(--blue-soft); border-radius: 999px; padding: 6px 12px; justify-self: start; }
 
@@ -485,7 +501,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .eco-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
-  .engine, .sat-wrap, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
+  .engine, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
   .why, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
   .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .timeline { gap: 32px; } .timeline::before { display: none; }
@@ -691,10 +707,15 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </section>
 
   <!-- 08 &#183; What is the SAT: the laptop -->
-  <section class="slide" id="sat" data-chapter="The SAT" data-steps="5"
-    data-notes="Press SPACE to move through the test on the laptop: the app, Reading &amp; Writing, the adaptive Module 2, the break, Math with the built-in calculator, and the score. One sentence per screen. On the adaptive screen: 'This is why guessing your way through practice doesn't work.'">
-    <div class="wrap sat-wrap">
-      <div class="sat-copy">
+  <section class="slide" id="sat" data-chapter="The SAT" data-steps="6"
+    data-notes="The laptop arrives closed. Press SPACE: it comes close, opens, and the screen fills the room. Then SPACE again to move through the test: the app, Reading &amp; Writing, the adaptive Module 2, the break, Math with the built-in calculator, and the score. One sentence per screen. On the adaptive screen: 'This is why guessing your way through practice doesn't work.'">
+    <div class="wrap">
+      <div class="sat-intro" id="sat-intro">
+        <p class="label" style="margin:0">What is the SAT?</p>
+        <h2>Let&#8217;s open it.</h2>
+        <p class="sat-hint"><kbd>Space</kbd> to open the laptop</p>
+      </div>
+      <div class="sat-copy" id="sat-copy">
         <p class="label" style="margin:0">What is the SAT?</p>
         <span class="sat-step" id="sat-step">01 / 06</span>
         <h2 class="sat-title" id="sat-title">It all happens on a laptop.</h2>
@@ -703,9 +724,14 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         <div class="sat-dots" id="sat-dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div>
         <p class="sat-hint"><kbd>Space</kbd> to continue</p>
       </div>
-      <div class="laptop" id="laptop" aria-label="A laptop showing a Bluebook-style SAT screen" role="img">
-        <div class="lid" id="lid">
-          <div class="bezel"><span class="cam"></span>
+      <div class="sat-stage" id="sat-stage" aria-label="A laptop showing a Bluebook-style SAT screen" role="img">
+        <div class="rig-shadow" id="rig-shadow"></div>
+        <div class="rig" id="rig"><div class="rig-s" id="rig-s">
+          <div class="deck" id="lap-deck"></div>
+          <div class="base" id="base"><span class="notch"></span></div>
+          <div class="lid" id="lid">
+            <div class="lid-back"><span class="lid-logo" id="lid-logo"></span></div>
+            <div class="bezel"><span class="cam"></span>
             <div class="screen" id="screen">
               <!-- 0 home -->
               <div class="scr on" data-s="0">
@@ -817,9 +843,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
               </div>
               <div class="glare" id="glare"></div>
             </div>
+            </div>
           </div>
-        </div>
-        <div class="base"><span class="notch"></span></div>
+        </div></div>
       </div>
     </div>
   </section>
@@ -1392,20 +1418,61 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     satAt = i;
     return tl;
   }
+  // Closed -> open: the MacBook comes close, the lid swings up while the view swings round to face it,
+  // and it settles with the screen filling ~70% of the slide, leaving the right side for the words.
+  const rig = document.getElementById('rig'), lid = document.getElementById('lid'), lapDeck = document.getElementById('lap-deck');
+  const base = document.getElementById('base'), satCopyEl = document.getElementById('sat-copy'), satIntro = document.getElementById('sat-intro');
+  const rigShadow = document.getElementById('rig-shadow'), satSlide = document.getElementById('sat');
+  const CLOSED = { rotationX: -58, x: 0, y: () => -satSlide.clientHeight * .16 };
+  // Uniform 3D scale (x, y AND depth) on an inner layer: GSAP's own scale doesn't touch depth,
+  // and the closed lid lies along the depth axis.
+  const rigS = document.getElementById('rig-s'), rs = { s: .42 };
+  const applyS = () => { rigS.style.transform = `scale3d(${rs.s}, ${rs.s}, ${rs.s})`; };
+  let openTl = null;
+  function closedPose() {
+    gsap.set(rig, { ...CLOSED, y: CLOSED.y() }); rs.s = .42; applyS();
+    gsap.set(lid, { rotationX: -90 });
+    gsap.set(lapDeck, { opacity: 1 }); gsap.set(base, { opacity: 0 });
+    gsap.set('#screen', { filter: 'brightness(0)' });
+    gsap.set(satCopyEl, { autoAlpha: 0 }); gsap.set(satIntro, { autoAlpha: 1, y: 0 });
+    gsap.set(rigShadow, { opacity: 1, scale: 1 });
+  }
+  function buildOpen() {
+    const W = satSlide.clientWidth, H = satSlide.clientHeight, L = rig.offsetWidth, narrow = W < 900;
+    const xFinal = narrow ? 0 : W * .025 + L / 2 - W / 2;                  // screen hugs the left, words take the right
+    const sFinal = narrow ? Math.min(1.25, (W * .94) / (L * .956)) : 1;       // phones: full-width screen on top, words below
+    const yFinal = narrow ? -H * .5 + (L * .66 * sFinal) / 2 + 70 : 0;
+    const tl = gsap.timeline({ paused: true });
+    tl.to(satIntro, { autoAlpha: 0, y: 20, duration: .4, ease: 'power2.in' }, 0)
+      .to(rig, { y: -satSlide.clientHeight * .06, duration: .7, ease: 'power3.out' }, 0)
+      .to(rs, { s: .6, duration: .7, ease: 'power3.out', onUpdate: applyS }, 0)                            // it comes close
+      .to(rigShadow, { scale: 1.3, opacity: .7, duration: .7 }, 0)
+      .to(lid, { rotationX: 0, duration: 1.3, ease: 'power3.inOut' }, .5)                                 // the lid opens
+      .to(rig, { rotationX: 0, duration: 1.3, ease: 'power3.inOut' }, .5)                                 // the view swings to face it
+      .to(lapDeck, { opacity: 0, duration: .4 }, 1.4).to(base, { opacity: 1, duration: .4 }, 1.4)
+      .to(rigShadow, { opacity: 0, duration: .6 }, 1.2)
+      .to(rig, { x: xFinal, y: yFinal, duration: 1.1, ease: 'power3.inOut' }, 1.35)
+      .to(rs, { s: sFinal, duration: 1.1, ease: 'power3.inOut', onUpdate: applyS }, 1.35)                 // the screen fills the room
+      .to('#screen', { filter: 'brightness(1)', duration: .7, ease: 'power1.out' }, 1.5)
+      .fromTo('#glare', { xPercent: -120 }, { xPercent: 120, duration: 1, ease: 'power2.inOut' }, 1.9)
+      .to(satCopyEl, { autoAlpha: 1, duration: .5 }, 2.1)
+      .add(() => satCopy(0, true), 2.1);
+    return tl;
+  }
   const sat = {
-    go(i) { satScreen(i); satCopy(i, true); },
-    enter() {
-      // The laptop rises and its lid opens, then the screen wakes up.
-      satCopy(0, false);
-      if (reduce) return;
-      gsap.timeline()
-        .from('#laptop', { y: 80, opacity: 0, duration: 1, ease: 'power3.out' })
-        .from('#lid', { rotateX: -96, duration: 1.4, ease: 'power3.inOut' }, .1)
-        .from('#screen', { filter: 'brightness(0)', duration: .6, ease: 'power1.out' }, 1.2)
-        .fromTo('#glare', { xPercent: -120 }, { xPercent: 120, duration: 1, ease: 'power2.inOut' }, 1.4)
-        .from('.sat-copy > *', { opacity: 0, y: 14, duration: .6, stagger: .07, ease: 'power2.out' }, .4);
+    // step 0 = closed; steps 1..6 = the six screens
+    go(i, from) {
+      if (i === 0) { openTl?.reverse(); return true; }          // reversing never 'completes', so don't hold the deck on it
+      if (from === 0) { openTl = buildOpen(); openTl.play(0); if (scrs[satAt] !== scrs[0]) satScreen(0, true); return openTl; }
+      satScreen(i - 1); satCopy(i - 1, true);
     },
+    enter() {
+      if (reduce || innerWidth < 900) { sat.instantOpen(); return; }
+    },
+    instantOpen() { state.sat = Math.max(state.sat, 1); openTl = buildOpen(); openTl.progress(1); },
+    reset() { openTl?.kill(); openTl = null; closedPose(); },
   };
+  closedPose();
   satCopy(0, false);
 
   /* ---------- Legacy: one memory opens, then they multiply across the screen ---------- */
@@ -1604,7 +1671,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     ecosystem: { next() { if (state.ecosystem < 3) { renderEco(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > 0) { renderEco(--state.ecosystem); return true; } } },
     method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
-    sat: { next() { if (state.sat < 5) { sat.go(++state.sat); return true; } }, prev() { if (state.sat > 0) { sat.go(--state.sat); return true; } } },
+    sat: { next() { if (state.sat < 6) { const f = state.sat; return sat.go(++state.sat, f) || true; } }, prev() { if (state.sat > 0) { const f = state.sat; return sat.go(--state.sat, f) || true; } } },
     glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
   };
 
@@ -1662,6 +1729,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     const m = META[i], y = -m.row * deck.clientHeight, x = -m.col * deck.clientWidth;
     if (slides[from]?.id === 'legacy' && slides[i].id === 'numbers' && !slides[i].dataset.seen) {
       const tl = moving = lineHandoff(m.strip, x); tl.then(() => done(tl)); return;
+    }
+    if (slides[from]?.id === 'ch-sat' && slides[i].id === 'sat' && state.sat === 0 && innerWidth >= 900) {
+      const tl = moving = satHandoff(y); tl.then(() => done(tl)); return;
     }
     if (slides[from]?.id === 'ch-method' && slides[i].id === 'method' && !slides[i].dataset.seen) {
       const tl = moving = orbHandoff(m.strip, x); tl.then(() => done(tl)); return;
@@ -1727,6 +1797,23 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     return tl;
   }
 
+  // Chapter 03 -> the SAT: the chapter's orb drops with the slide change and lands on the closed lid as its logo.
+  function satHandoff(y) {
+    const src = document.querySelector('#ch-sat .big-orb'), logo = document.getElementById('lid-logo');
+    const r0 = src.getBoundingClientRect(), H = satSlide.clientHeight;
+    const lr = logo.getBoundingClientRect();                                  // the sat slide is still one screen below
+    const tgt = { left: lr.left, top: lr.top - H, width: lr.width, height: lr.height };
+    gsap.set(flyer, { left: r0.left, top: r0.top, width: r0.width, height: r0.height, rotation: 0, '--hole': '0%', opacity: 1 });
+    flyer.hidden = false; src.style.visibility = 'hidden'; gsap.set(logo, { opacity: 0 });
+    document.body.classList.remove('on-dark');
+    const tl = gsap.timeline({ onComplete: () => { flyer.hidden = true; src.style.visibility = ''; } });
+    tl.to(track, { y, duration: 1.15, ease: 'power3.inOut' }, 0)
+      .to(flyer, { left: tgt.left, top: tgt.top, width: tgt.width, height: tgt.height * .55, rotation: 200, duration: 1.15, ease: 'power3.inOut' }, 0)
+      .to(logo, { opacity: 1, duration: .25 }, 1.05).to(flyer, { opacity: 0, duration: .25 }, 1.1)
+      .add(() => arrive(cur), 1.15);
+    return tl;
+  }
+
   // Chapter 04 -> Engine: the orb lifts off, rides across with the slide change, lands on the ring,
   // its middle dissolves until only the ring is left, then the engine takes over.
   function orbHandoff(strip, x) {
@@ -1777,6 +1864,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   function fitSlides() {
     if (innerWidth < 900) { slides.forEach(sl => { sl.style.overflowY = ''; sl.querySelectorAll(':scope > .wrap').forEach(w => { w.style.zoom = ''; }); }); return; }
     slides.forEach(sl => {
+      if (sl.id === 'sat') { sl.style.overflowY = 'hidden'; return; }   // the 3D laptop sizes itself
       const cs = getComputedStyle(sl), avail = sl.clientHeight - parseFloat(cs.paddingTop) - parseFloat(cs.paddingBottom);
       sl.querySelectorAll(':scope > .wrap').forEach(w => {
         w.style.zoom = '';
@@ -1794,6 +1882,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => {
     if (Math.abs(innerWidth - lastW) < 2 && Math.abs(innerHeight - lastH) < 2) return;   // ignore no-op resize events
     lastW = innerWidth; lastH = innerHeight; settle(); fitSlides(); place(cur); layoutLink(); renderEco(ecoAt, true);
+    if (state.sat >= 1) { openTl?.kill(); closedPose(); openTl = buildOpen(); openTl.progress(1); } else closedPose();
   }); });
   cur = -1;
 
