@@ -30,9 +30,15 @@ html, body { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 
 /* ---------- Frame ---------- */
-/* Horizontal deck: slides sit side by side on a track that GSAP slides left/right. Each slide scrolls vertically on its own if it is taller than the screen. */
+/* The deck moves down, slide by slide. Chapter 04 is a sideways strip: Chapter slide -> Performance Engine.
+   GSAP moves the track (vertical) and the strip (horizontal). A slide taller than the screen scrolls inside itself. */
 #deck { height: 100%; overflow: hidden; position: relative; touch-action: pan-y; }
-#track { display: flex; height: 100%; will-change: transform; }
+#track { display: flex; flex-direction: column; height: 100%; will-change: transform; }
+.hstrip { flex: 0 0 100%; height: 100%; width: 100%; overflow: hidden; position: relative; }
+.hrow { display: flex; height: 100%; will-change: transform; }
+.side-cue { position: absolute; right: max(16px, 4vw); bottom: 40px; display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--muted); z-index: 2; }
+.side-cue svg { animation: nudge 1.6s ease-in-out infinite; }
+@keyframes nudge { 50% { transform: translateX(6px); } }
 html, body { overscroll-behavior-x: none; }
 .slide {
   flex: 0 0 100%; width: 100%; height: 100%; position: relative; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
@@ -560,7 +566,9 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 10 &#183; Chapter: Methodology -->
+  <!-- 10 &#183; Chapter 04: a sideways strip -->
+  <div class="hstrip" id="strip-method"><div class="hrow">
+  <!-- Chapter: Methodology -->
   <section class="slide chapter-slide" id="ch-method" data-chapter="How we work"
     data-notes="'Nizar studied hard. He just studied wrong. Here is what studying right looks like.' Pause. Next slide.">
     <div class="wrap">
@@ -571,6 +579,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       </div>
       <div class="big-orb" id="method-orb"><div class="orb tp-warm spin" style="inset:0"></div></div>
     </div>
+      <div class="side-cue" aria-hidden="true">Inside the engine<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF963E" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   </section>
 
   <!-- 11 &#183; Method stepper -->
@@ -614,6 +623,8 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       </div>
     </div>
   </section>
+
+  </div></div>
 
   <!-- 12 &#183; Elmy -->
   <section class="slide" id="elmy" data-chapter="Powered by Elmy" data-steps="3"
@@ -966,22 +977,36 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     if (el.id === 'method' && first) engine.enter(fromOrb);
   }
 
+  // Where each slide lives: its row in the vertical track, and (inside a strip) its column.
+  const META = [];
+  [...track.children].forEach((node, row) => {
+    if (node.classList.contains('hstrip')) [...node.querySelectorAll('.slide')].forEach((sl, col) => META[slides.indexOf(sl)] = { row, col, strip: node.querySelector('.hrow') });
+    else META[slides.indexOf(node)] = { row, col: 0, strip: null };
+  });
+  function place(i) {
+    const m = META[i];
+    gsap.set(track, { y: -m.row * deck.clientHeight });
+    if (m.strip) gsap.set(m.strip, { x: -m.col * deck.clientWidth });
+  }
+
   function goTo(i, instant) {
     i = Math.max(0, Math.min(slides.length - 1, i));
     if (i === cur && !instant) return;
     const from = cur; cur = i;
     moving?.progress(1);
-    const x = -i * deck.clientWidth;
-    const handoff = !instant && !reduce && slides[from].id === 'ch-method' && slides[i].id === 'method' && !slides[i].dataset.seen;
-    if (instant || reduce) { gsap.set(track, { x }); arrive(i); return; }
-    if (handoff) { moving = orbHandoff(x); return; }
+    const m = META[i], y = -m.row * deck.clientHeight, x = -m.col * deck.clientWidth;
+    if (instant || reduce) { place(i); arrive(i); return; }
+    const handoff = slides[from]?.id === 'ch-method' && slides[i].id === 'method' && !slides[i].dataset.seen;
+    if (handoff) { moving = orbHandoff(m.strip, x); return; }
     document.body.classList.toggle('on-dark', slides[i].classList.contains('dark'));
-    moving = gsap.to(track, { x, duration: .95, ease: 'power3.inOut', onComplete: () => arrive(i) });
+    const tl = moving = gsap.timeline({ defaults: { duration: .95, ease: 'power3.inOut' }, onComplete: () => arrive(i) });
+    tl.to(track, { y }, 0);
+    if (m.strip) tl.to(m.strip, { x }, 0);
   }
 
   // Chapter 04 -> Engine: the orb lifts off, rides across with the slide change, lands on the ring,
   // its middle dissolves until only the ring is left, then the engine takes over.
-  function orbHandoff(x) {
+  function orbHandoff(strip, x) {
     const r0 = methodOrb.getBoundingClientRect();
     const W = deck.clientWidth;
     const rw = ringWrap.getBoundingClientRect();                 // ring position while the method slide is still off-screen
@@ -993,7 +1018,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     gsap.set(ringWrap, { opacity: 0 });
     const tl = gsap.timeline({ onComplete: () => { flyer.hidden = true; methodOrb.style.visibility = ''; } });
     tl.to(flyer, { scale: 1.08, duration: .35, ease: 'power2.out' })                                   // lift
-      .to(track, { x, duration: 1.15, ease: 'power3.inOut' }, .2)                                    // slides move
+      .to(strip, { x, duration: 1.15, ease: 'power3.inOut' }, .2)                                    // slides move sideways
       .to(flyer, { left: target.left, top: target.top, width: ringD, height: ringD, scale: 1, rotation: '+=220',
                    duration: 1.15, ease: 'power3.inOut' }, .2)                                       // orb rides across and lands on the ring
       .to(flyer, { '--hole': '97%', duration: .8, ease: 'power2.in' }, 1.25)                         // the middle disappears
@@ -1007,18 +1032,26 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   function next() { const h = handlers[slides[cur].id]; if (h?.next?.()) return; goTo(cur + 1); }
   function prev() { const h = handlers[slides[cur].id]; if (h?.prev?.()) return; goTo(cur - 1); }
 
-  // Swipes (touch, pen, trackpad sideways) move between slides; vertical scrolling stays inside the slide.
+  // Wheel, trackpad and touch: one gesture = one slide, in either axis. A slide taller than the screen
+  // scrolls inside itself first and only moves on once you reach its edge.
   let lockUntil = 0;
-  const swipe = fn => self => {
-    const sideways = self.event.type.startsWith('wheel') || Math.abs(self.deltaX) > Math.abs(self.deltaY);
-    if (!sideways || Date.now() < lockUntil) return;
-    lockUntil = Date.now() + 900; fn();                       // one swipe = one slide, even with trackpad momentum
-  };
   Observer.create({
-    target: deck, type: 'touch,pointer,wheel', lockAxis: true, tolerance: 40, dragMinimum: 6, wheelSpeed: -1,
-    onLeft: swipe(next), onRight: swipe(prev),
+    target: deck, type: 'wheel,touch,pointer', tolerance: 30, dragMinimum: 8,
+    onChange: self => {
+      const wheel = self.event.type.startsWith('wheel');
+      const dx = wheel ? self.deltaX : -self.deltaX, dy = wheel ? self.deltaY : -self.deltaY;
+      const vertical = Math.abs(dy) >= Math.abs(dx), dir = Math.sign(vertical ? dy : dx);
+      if (!dir || Date.now() < lockUntil) return;
+      const sl = slides[cur];
+      if (vertical && sl.scrollHeight > sl.clientHeight + 2) {
+        if (dir > 0 && sl.scrollTop + sl.clientHeight < sl.scrollHeight - 2) return;
+        if (dir < 0 && sl.scrollTop > 2) return;
+      }
+      lockUntil = Date.now() + 900;
+      dir > 0 ? next() : prev();
+    },
   });
-  addEventListener('resize', () => gsap.set(track, { x: -cur * deck.clientWidth }));
+  addEventListener('resize', () => place(cur));
   cur = -1;
 
   document.addEventListener('keydown', e => {
