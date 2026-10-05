@@ -136,19 +136,18 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   position: absolute; white-space: nowrap; font-size: clamp(12px, 1.1vw, 15px); font-weight: 500;
   background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; color: var(--ink);
   box-shadow: 0 10px 30px -18px rgba(11,14,26,.35);
-  opacity: 0; transform: translate(-50%, -50%) scale(.6); transition: opacity .5s var(--ease), transform .6s var(--ease);
+  will-change: transform;                       /* positioned and floated by GSAP */
 }
-#intro[data-step="1"] .chaos span { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-#intro[data-step="2"] .chaos span { opacity: 0; transform: translate(calc(-50% + var(--cx)), calc(-50% + var(--cy))) scale(.2); }
+.ball { position: absolute; left: 50%; top: 50%; width: clamp(160px, 17vw, 240px); aspect-ratio: 1; margin: calc(clamp(160px, 17vw, 240px) / -2) 0 0 calc(clamp(160px, 17vw, 240px) / -2);
+  border-radius: 50%; z-index: 0; pointer-events: none; transform: scale(0); opacity: 0;
+  background: conic-gradient(from 210deg, var(--blue), #6E93FF, var(--orange), #FFC48E, var(--blue)); filter: saturate(1.05); }
+.ball::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 32% 28%, rgba(255,255,255,.6), transparent 46%); }
 .intro-top { display: grid; place-items: center; width: 100%; margin-bottom: 44px; }
 .intro-top > * { grid-area: 1 / 1; }
-.intro-top .search { margin-bottom: 0; transition: opacity .5s var(--ease), transform .7s var(--ease); }
-#intro[data-step="2"] .search { opacity: 0; transform: scale(.3); }
-.intro-orb { width: 120px; height: 120px; transition: transform .8s var(--ease) .15s, opacity .6s .15s; }
-#intro:not([data-step="2"]) .intro-orb { transform: scale(0); opacity: 0; }
+.intro-top .search { margin-bottom: 0; }
 .intro-swap { display: grid; }
-.intro-swap > * { grid-area: 1 / 1; transition: opacity .6s var(--ease), transform .6s var(--ease); }
-#intro[data-step="2"] .intro-a, #intro:not([data-step="2"]) .intro-b { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.intro-swap > * { grid-area: 1 / 1; }
+.intro-b { opacity: 0; visibility: hidden; align-self: center; }
 
 /* ---------- 01 Agenda ---------- */
 .agenda { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: a; }
@@ -478,16 +477,16 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 <div id="track">
 
   <!-- 00 &#183; Intro -->
-  <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="2"
-    data-notes="Before you say anything, press &#8594; once. The question explodes into everything Nizar sees online. Let it sit for three seconds. Press &#8594; again: it all collapses into one orb. Then: 'Today, we're going to make it clear.'">
+  <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="1"
+    data-notes="Let the room read the floating questions while the search bar types: this is everything Nizar sees online. Then press &#8594;: every question flies into one ball, it bursts, and the line lands. Say it with it: 'Today, we make it clear.'">
     <div class="chaos" aria-hidden="true" id="chaos"></div>
+    <div class="ball" id="ball" aria-hidden="true"></div>
     <div class="wrap">
       <div class="intro-top">
       <div class="search" role="img" aria-label="Search bar: how do I start studying for the SAT?">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A6F80" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <span class="q"><span id="typed">how do I start studying for the SAT?</span><span class="caret" id="caret"></span></span>
       </div>
-      <div class="orb tp-warm spin intro-orb"></div>
       </div>
       <div class="intro-swap">
         <div class="glow" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -497,7 +496,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         </div>
         <div class="intro-b">
           <p class="label">TestPrep &#183; by House of Prep</p>
-          <h1 class="display">Today, we make it <span class="accent">clear.</span></h1>
+          <h1 class="display" id="clear-line">Today we make it <span class="accent">clear!</span></h1>
         </div>
       </div>
     </div>
@@ -940,10 +939,63 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   chaosWords.forEach((w, i) => {
     const s = document.createElement('span'); s.textContent = w;
     const [x, y] = spots[i]; s.style.left = x + '%'; s.style.top = y + '%';
-    s.style.setProperty('--cx', (50 - x) + 'vw'); s.style.setProperty('--cy', (45 - y) + 'vh');
-    s.style.transitionDelay = (i * 35) + 'ms'; chaos.appendChild(s);
+    chaos.appendChild(s);
   });
   const intro = document.getElementById('intro');
+
+  /* The questions float, always. Next: they rush to the centre and pack into a ball, the ball bursts open
+     and "Today we make it clear!" lands. Back: everything returns and floats again. */
+  const chips = [...chaos.children], ball = document.getElementById('ball');
+  const introTop = intro.querySelector('.intro-top'), introA = intro.querySelector('.intro-a'), introB = intro.querySelector('.intro-b');
+  gsap.set(chips, { xPercent: -50, yPercent: -50 });
+  let floats = [], introTl = null, clearSplit = null;
+  function floatChips() {
+    floats.forEach(f => f.kill());
+    if (reduce) { floats = []; return; }
+    floats = chips.map(c => gsap.to(c, {
+      x: () => gsap.utils.random(-16, 16), y: () => gsap.utils.random(-14, 14), rotation: () => gsap.utils.random(-3, 3),
+      duration: () => gsap.utils.random(2.6, 4.6), ease: 'sine.inOut', repeat: -1, yoyo: true, repeatRefresh: true,
+    }).progress(Math.random()));
+  }
+  floatChips();
+  function gather() {
+    introTl?.progress(1);
+    floats.forEach(f => f.kill()); floats = [];
+    const W = chaos.clientWidth, H = chaos.clientHeight;
+    const tl = introTl = gsap.timeline();
+    tl.to([introTop, introA], { opacity: 0, y: -18, scale: .97, duration: .5, ease: 'power2.in' }, 0);
+    // Every chip flies to the centre and packs into a sphere (golden-angle spiral).
+    chips.forEach((c, i) => {
+      const lx = parseFloat(c.style.left) / 100 * W, ly = parseFloat(c.style.top) / 100 * H;
+      const a = i * 2.39996, r = 16 * Math.sqrt(i + .5);
+      tl.to(c, { x: W / 2 - lx + Math.cos(a) * r, y: H / 2 - ly + Math.sin(a) * r * .9, rotation: gsap.utils.random(-25, 25),
+                 scale: .55, duration: .95, ease: 'power3.in' }, .1 + Math.hypot(W / 2 - lx, H / 2 - ly) / W * .25);
+    });
+    // The packed ball of questions holds for a beat, spinning slowly, then becomes the orb.
+    tl.to(chips, { rotation: '+=40', duration: .6, ease: 'none' }, 1.2)
+      .fromTo(ball, { scale: 0, opacity: 1, rotation: -90 }, { scale: 1, rotation: 0, duration: .55, ease: 'back.out(2.2)' }, 1.55)   // the ball forms
+      .to(chips, { opacity: 0, scale: .15, duration: .35, ease: 'power2.in' }, 1.6)
+      .to(ball, { scale: 1.12, duration: .22, ease: 'power2.out' }, 2.1)                                             // a breath in
+      .to(ball, { scale: 9, opacity: 0, duration: 1.2, ease: 'expo.out' }, 2.32)                                     // and it bursts open
+      .set(introB, { visibility: 'visible', opacity: 1 }, 2.4)
+      .add(() => {
+        clearSplit?.revert();
+        clearSplit = SplitText.create(document.getElementById('clear-line'), { type: 'chars,words', mask: 'words' });
+        gsap.from(clearSplit.chars, { yPercent: 110, duration: .9, ease: 'power4.out', stagger: .022,
+          onComplete: () => { clearSplit?.revert(); clearSplit = null; } });   // drop the masks so descenders (y) are never clipped
+      }, 2.4);
+    if (reduce) tl.progress(1);
+  }
+  function scatter(instant) {
+    introTl?.progress(1);
+    const tl = introTl = gsap.timeline({ onComplete: floatChips });
+    const d = instant || reduce ? 0 : 1;
+    tl.to(introB, { opacity: 0, duration: .35 * d, onComplete: () => gsap.set(introB, { visibility: 'hidden' }) }, 0)
+      .set(ball, { scale: 0, opacity: 0 }, 0)
+      .to(chips, { x: 0, y: 0, rotation: 0, scale: 1, opacity: 1, duration: .9 * d, ease: 'power3.out', stagger: { each: .02 * d, from: 'center' } }, .1 * d)
+      .to([introTop, introA], { opacity: 1, y: 0, scale: 1, duration: .6 * d, ease: 'power3.out' }, .3 * d);
+    if (instant) tl.progress(1);
+  }
 
   /* Search bar: types, pauses, deletes and types the next question, forever. '\b' = a backspace (typo fixes). */
   const QUERIES = [
@@ -1361,7 +1413,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   const state = { intro: 0, ecosystem: -1, method: 0, elmy: 0, glitch: 0, sat: 0 };
   renderElmy();
   const handlers = {
-    intro: { next() { if (state.intro < 2) { state.intro++; intro.dataset.step = state.intro; return true; } }, prev() { if (state.intro > 0) { state.intro--; intro.dataset.step = state.intro; return true; } } },
+    intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; gather(); return true; } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; scatter(); return true; } } },
     ecosystem: { next() { if (state.ecosystem < 3) { lightBrand(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > -1) { lightBrand(--state.ecosystem); return true; } } },
     method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
@@ -1555,7 +1607,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   function present() { const el = document.documentElement; const p = document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); p?.catch?.(() => {}); }
   // Logo: back to the very first slide, with the intro reset so the opener plays again.
   document.getElementById('home').addEventListener('click', e => {
-    e.preventDefault(); state.intro = 0; intro.dataset.step = 0; goTo(0, true);
+    e.preventDefault(); e.currentTarget.blur(); state.intro = 0; intro.dataset.step = 0; scatter(true); goTo(0, true);
   });
 
   const start = slides.findIndex(s => s.id === location.hash.slice(1));
