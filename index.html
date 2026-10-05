@@ -230,29 +230,50 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 #strip-legacy .hrow { position: relative; }
 #legacy .timeline::before { background: transparent !important; }
 
-/* ---------- 06 Ecosystem ---------- */
+/* ---------- 06 Ecosystem: the brand carousel ---------- */
+#ecosystem { padding-block: clamp(56px, 9vh, 88px) clamp(28px, 5vh, 56px); }
 .eco-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
-.brands { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 48px; }
-.brand {
-  background: var(--panel); border-radius: 24px; padding: 24px; display: grid; gap: 14px; align-content: start;
-  border: 1px solid transparent; transition: background .3s, border-color .3s, transform .4s var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit;
+.carousel { position: relative; height: clamp(340px, 50vh, 470px); margin-top: clamp(18px, 3vh, 34px); perspective: 1600px; }
+.bcard {
+  --card-w: clamp(300px, 30vw, 430px);
+  position: absolute; left: 50%; top: 0; width: var(--card-w); height: 100%; margin-left: calc(var(--card-w) / -2);
+  border-radius: 28px; background: #fff; border: 1px solid var(--line); overflow: hidden; cursor: pointer;
+  display: grid; grid-template-rows: 44% 1fr; transform-style: preserve-3d; will-change: transform, opacity;
+  box-shadow: 0 40px 80px -50px rgba(11,14,26,.45); text-align: left; font: inherit; color: inherit; padding: 0;
 }
-.brand:hover, .brand[aria-pressed="true"] { background: #fff; border-color: var(--line); transform: translateY(-4px); }
-.brand .orb { position: relative; width: 56px; height: 56px; }
-.brand .stage { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
-.brand .name { font-size: 26px; font-weight: 500; letter-spacing: -.03em; }
-.brand .what { font-size: 14px; line-height: 1.5; color: var(--muted); min-height: 4.5em; }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chips span { font-size: 12px; font-weight: 500; padding: 6px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); white-space: nowrap; }
-.brand[aria-pressed="true"] .chips span, .brand:hover .chips span { background: var(--panel); }
-.chips span.soon { color: var(--faint); border-style: dashed; }
-.journey { margin-top: 26px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; position: relative; }
-.journey::before { content: ""; position: absolute; left: 12px; right: 12px; top: 5px; height: 1px; background: repeating-linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 12px); }
-.journey div { font-size: 13px; color: var(--muted); padding-top: 22px; position: relative; }
-.journey div::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--orange); }
-.journey b { color: var(--ink); font-weight: 600; }
-.powered { margin-top: 28px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
-.powered i { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+.bcard:focus-visible { outline: 2px solid var(--orange); outline-offset: 4px; }
+.bcard .logo-area { display: grid; place-items: center; padding: 8% 12%; background: var(--tint, var(--panel)); position: relative; min-height: 0; overflow: hidden; }
+.bcard .info { min-height: 0; }
+.bcard .logo-area img { max-width: 78%; max-height: 64%; width: auto; height: auto; display: block; }
+.bcard .logo-area .stage-pill { position: absolute; left: 18px; top: 16px; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,.75); color: var(--ink); }
+.bcard .info { padding: 20px 22px 22px; display: grid; gap: 12px; align-content: start; }
+.bcard .who { font-size: 12px; color: var(--muted); font-weight: 500; }
+.bcard .what { font-size: clamp(15px, 1.15vw, 18px); line-height: 1.4; font-weight: 500; letter-spacing: -.01em; }
+.bcard .chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.bcard .chips span { font-size: 11.5px; font-weight: 500; padding: 5px 9px; border-radius: 999px; background: var(--panel); white-space: nowrap; }
+.bcard .chips span.soon { color: var(--faint); background: transparent; border: 1px dashed var(--line); }
+.bcard[data-brand="prepme"] { --tint: #ECFBF6; }
+.bcard[data-brand="testprep"] { --tint: #EEF2FC; }
+.bcard[data-brand="weguide"] { --tint: #F1ECFE; }
+.bcard[data-brand="taleb"] { --tint: #26473F; background: #26473F; border-color: #26473F; color: #F6F1EA; }
+.bcard[data-brand="taleb"] .logo-area { padding: 0; }
+.bcard[data-brand="taleb"] .logo-area img { position: absolute; inset: 0; max-width: none; max-height: none; width: 100%; height: 100%; object-fit: cover; }
+.bcard[data-brand="taleb"] .stage-pill { z-index: 1; }
+.bcard[data-brand="taleb"] .who { color: #B9C8C1; }
+.bcard[data-brand="taleb"] .chips span { background: rgba(246,241,234,.12); color: #F6F1EA; }
+.bcard[data-brand="taleb"] .stage-pill { background: rgba(246,241,234,.16); color: #F6F1EA; }
+.eco-journey { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(16px, 3vh, 28px); }
+.eco-journey::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; background: var(--line); }
+.eco-journey .fill { position: absolute; left: 0; top: 5px; height: 2px; width: 0; background: linear-gradient(90deg, var(--blue), var(--orange)); }
+.eco-journey button { all: unset; cursor: pointer; position: relative; padding-top: 22px; font-size: 13px; color: var(--faint); transition: color .3s; }
+.eco-journey button::before { content: ""; position: absolute; left: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--line); transition: border-color .3s, background .3s; }
+.eco-journey button b { display: block; color: inherit; font-weight: 600; font-size: 14px; }
+.eco-journey button.on { color: var(--ink); }
+.eco-journey button.on::before, .eco-journey button.past::before { border-color: var(--orange); background: var(--orange); }
+.eco-journey button.past { color: var(--muted); }
+.powered { margin-top: 16px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.powered .elmy-mark { width: 18px; height: 18px; color: #2444E2; }
+.powered b { color: #2444E2; font-weight: 700; letter-spacing: -.01em; }
 
 /* ---------- Chapter dividers ---------- */
 .chapter-slide .wrap { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; align-items: center; }
@@ -465,7 +486,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
-  .brands, .journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .eco-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
   .engine, .sat-wrap, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
   .why, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
   .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
@@ -619,8 +640,8 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </div></div>
 
   <!-- 06 &#183; Ecosystem -->
-  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
-    data-notes="Press &#8594; to light up each brand in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). Close with: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
+  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="3"
+    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. Close on Taleb: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
     <div class="wrap">
       <div class="eco-head">
         <div>
@@ -629,35 +650,32 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         </div>
         <p class="body" style="max-width:26em">House of Prep is a second home for learning. Four brands, each built for a different moment in a student's life.</p>
       </div>
-      <div class="brands" id="brands">
-        <button class="brand" data-i="1" aria-pressed="false">
-          <span class="orb pm"></span><span class="stage">School</span><span class="name">PrepMe</span>
-          <span class="what">School subjects, so the foundations are solid before the big tests.</span>
-          <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB &#183; soon</span><span class="soon">French &#183; soon</span></span>
+      <div class="carousel" id="carousel">
+        <button class="bcard" data-brand="prepme" aria-label="PrepMe">
+          <div class="logo-area"><span class="stage-pill">School</span><img src="assets/brands/prepme.png" alt="PrepMe" width="1200" height="211"></div>
+          <div class="info"><span class="who">School students</span><p class="what">School subjects, so the foundations are solid before the big tests.</p>
+            <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB &#183; soon</span><span class="soon">French &#183; soon</span></span></div>
         </button>
-        <button class="brand" data-i="0" aria-pressed="false">
-          <span class="orb tp-warm"></span><span class="stage">Tests</span><span class="name">TestPrep</span>
-          <span class="what">Every standardised test and entrance exam that matters.</span>
-          <span class="chips"><span>SAT</span><span>PSAT</span><span>AP</span><span>IELTS</span><span>TOEFL</span><span>Duolingo</span><span>EEE</span><span>LNAT</span><span>USJ concours</span><span>BAU entrance</span><span>MCAT</span><span>GMAT</span><span>GRE</span><span>LSAT</span><span>CFA</span></span>
+        <button class="bcard" data-brand="testprep" aria-label="TestPrep">
+          <div class="logo-area"><span class="stage-pill">Tests</span><img src="assets/logo-testprep.svg" alt="TestPrep" width="2018" height="407"></div>
+          <div class="info"><span class="who">High school and beyond</span><p class="what">Every standardised test and entrance exam that matters.</p>
+            <span class="chips"><span>SAT</span><span>PSAT</span><span>AP</span><span>IELTS</span><span>TOEFL</span><span>Duolingo</span><span>EEE</span><span>LNAT</span><span>USJ concours</span><span>BAU entrance</span><span>MCAT</span><span>GMAT</span><span>GRE</span><span>LSAT</span><span>CFA</span></span></div>
         </button>
-        <button class="brand" data-i="2" aria-pressed="false">
-          <span class="orb wg"></span><span class="stage">Choosing</span><span class="name">WeGuide</span>
-          <span class="what">Choosing a major, a university and a career, and actually getting in.</span>
-          <span class="chips"><span>Career guidance</span><span>Mentoring</span><span>University exploration</span><span>Applications</span></span>
+        <button class="bcard" data-brand="weguide" aria-label="WeGuide">
+          <div class="logo-area"><span class="stage-pill">Choosing</span><img src="assets/brands/weguide.svg" alt="WeGuide" width="479" height="92"></div>
+          <div class="info"><span class="who">Students and graduates</span><p class="what">Choosing a major, a university and a career, and actually getting in.</p>
+            <span class="chips"><span>Career guidance</span><span>Mentoring</span><span>University exploration</span><span>Applications</span></span></div>
         </button>
-        <button class="brand" data-i="3" aria-pressed="false">
-          <span class="orb tl"></span><span class="stage">University</span><span class="name">Taleb</span>
-          <span class="what">The home of university learning, for when you get there.</span>
-          <span class="chips"><span>Subject courses</span><span>Academic writing</span><span>Research support</span><span>Digital skills</span></span>
+        <button class="bcard" data-brand="taleb" aria-label="Taleb">
+          <div class="logo-area"><span class="stage-pill">University</span><img src="assets/brands/taleb.png" alt="Taleb" width="900" height="900"></div>
+          <div class="info"><span class="who">University students</span><p class="what">The home of university learning, for when you get there.</p>
+            <span class="chips"><span>Subject courses</span><span>Academic writing</span><span>Research support</span><span>Digital skills</span></span></div>
         </button>
       </div>
-      <div class="journey" aria-hidden="true">
-        <div><b>Grade 10&#8211;12</b> &#183; keep your grades strong</div>
-        <div><b>Grade 11&#8211;12</b> &#183; hit your target score</div>
-        <div><b>Grade 12</b> &#183; choose and apply</div>
-        <div><b>University</b> &#183; thrive there</div>
+      <div class="eco-journey" id="eco-journey"><span class="fill" id="eco-fill"></span>
+        <button><b>School</b>PrepMe</button><button><b>Tests</b>TestPrep</button><button><b>Choosing</b>WeGuide</button><button><b>University</b>Taleb</button>
       </div>
-      <p class="powered"><i></i>The TestPrep platform is powered by Elmy.</p>
+      <p class="powered">The TestPrep platform is powered by <svg class="elmy-mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="300 300 1400 1400" fill="currentColor"><rect x="804.62" y="804.62" width="390.76" height="390.76" rx="195.38" ry="195.38"/><path d="M1579.46,900.7c-14.36,0-28.72-5.47-39.69-16.41l-317.4-316.62c-23.46-23.4-51.88-39.05-82.19-45.27-34.66-7.11-69.7-2.29-104.14,14.31-15.59,7.52-30.27,18.06-43.66,31.36l-317.45,315.29c-22.02,21.87-57.61,21.75-79.48-.27-21.87-22.02-21.75-57.61.27-79.48l317.45-315.29c22.27-22.11,47.18-39.9,74.04-52.85,57.13-27.56,116.2-35.36,175.54-23.18,51.88,10.63,99.95,36.84,138.99,75.79l317.41,316.62c21.97,21.92,22.02,57.5.1,79.48-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M1154.87,1636.29c-14.36,0-28.72-5.47-39.69-16.41-21.97-21.92-22.02-57.5-.1-79.48l316.62-317.4c23.4-23.46,39.05-51.89,45.27-82.2,7.11-34.66,2.29-69.7-14.32-104.13-7.52-15.6-18.07-30.28-31.36-43.66l-315.29-317.45c-21.87-22.02-21.75-57.61.27-79.48,22.02-21.88,57.61-21.75,79.48.27l315.29,317.45c22.11,22.26,39.89,47.17,52.85,74.04,27.56,57.13,35.36,116.19,23.18,175.54-10.64,51.89-36.85,99.95-75.8,139l-316.62,317.4c-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M891.47,1593.28c-18.02,0-36.1-1.85-54.22-5.57-51.88-10.64-99.94-36.85-138.99-75.8l-317.41-316.62c-21.97-21.92-22.02-57.5-.1-79.48,21.92-21.98,57.5-22.02,79.48-.1l317.4,316.62c23.46,23.4,51.88,39.06,82.2,45.27,34.65,7.09,69.69,2.29,104.13-14.32,15.59-7.52,30.28-18.07,43.66-31.36l317.45-315.29c22.02-21.87,57.61-21.75,79.48.27,21.87,22.02,21.75,57.61-.27,79.48l-317.45,315.29c-22.26,22.11-47.17,39.89-74.03,52.85-39.69,19.15-80.33,28.75-121.33,28.75Z"/><path d="M844.12,1420.24c-14.45,0-28.89-5.53-39.88-16.6l-315.29-317.45c-22.11-22.26-39.89-47.17-52.85-74.03-27.56-57.14-35.36-116.2-23.18-175.55,10.64-51.88,36.85-99.95,75.8-138.99l316.62-317.4c21.92-21.98,57.5-22.02,79.48-.1,21.97,21.92,22.02,57.5.1,79.48l-316.62,317.4c-23.4,23.46-39.05,51.88-45.27,82.2-7.11,34.66-2.29,69.7,14.32,104.14,7.52,15.58,18.07,30.27,31.36,43.65l315.29,317.45c21.87,22.02,21.75,57.61-.27,79.48-10.96,10.89-25.28,16.33-39.6,16.33Z"/></svg><b>elmy</b></p>
     </div>
   </section>
 
@@ -1084,11 +1102,45 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
   if (!reduce) typeLoop();
 
-  /* ---------- Ecosystem ---------- */
-  const brandEls = [...document.querySelectorAll('#brands .brand')];
-  const order = ['PrepMe', 'TestPrep', 'WeGuide', 'Taleb'];
-  function lightBrand(k) { brandEls.forEach(b => b.setAttribute('aria-pressed', b.querySelector('.name').textContent === order[k])); }
-  brandEls.forEach(b => b.addEventListener('click', () => { const k = order.indexOf(b.querySelector('.name').textContent); state.ecosystem = k; lightBrand(k); }));
+  /* ---------- Ecosystem: a 3D card carousel (GSAP) ---------- */
+  const cards = [...document.querySelectorAll('#carousel .bcard')];
+  const jBtns = [...document.querySelectorAll('#eco-journey button')], jFill = document.getElementById('eco-fill');
+  let ecoAt = 0, ecoTl = null, ecoFloat = null;
+  function cardPose(off) {
+    const a = Math.abs(off), sgn = Math.sign(off);
+    const w = cards[0].offsetWidth;
+    return {
+      x: sgn * (a === 0 ? 0 : a === 1 ? w * .82 : w * 1.42),
+      z: a === 0 ? 0 : a === 1 ? -220 : -420,
+      rotationY: -sgn * (a === 0 ? 0 : a === 1 ? 32 : 46),
+      scale: a === 0 ? 1 : a === 1 ? .86 : .74,
+      opacity: a === 0 ? 1 : a === 1 ? .6 : a === 2 ? .22 : 0,
+      zIndex: 10 - a,
+    };
+  }
+  function renderEco(i, instant) {
+    ecoAt = Math.max(0, Math.min(cards.length - 1, i));
+    ecoTl?.progress(1); ecoFloat?.kill();
+    const d = instant || reduce ? 0 : 1;
+    const tl = ecoTl = gsap.timeline();
+    cards.forEach((c, k) => {
+      const pose = cardPose(k - ecoAt);
+      c.setAttribute('aria-current', k === ecoAt);
+      tl.to(c, { ...pose, y: 0, duration: .95 * d, ease: 'power3.inOut', transformPerspective: 1600 }, 0);
+    });
+    // the front card's content arrives a beat after the swing
+    const front = cards[ecoAt];
+    if (d) tl.fromTo(front.querySelectorAll('.info > *'), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .5, stagger: .07, ease: 'power2.out' }, .45)
+             .fromTo(front.querySelector('.logo-area img'), { scale: .9 }, { scale: 1, duration: .8, ease: 'back.out(1.6)' }, .35);
+    jBtns.forEach((b, k) => { b.classList.toggle('on', k === ecoAt); b.classList.toggle('past', k < ecoAt); });
+    tl.to(jFill, { width: (ecoAt / (cards.length - 1) * 100) + '%', duration: .9 * d, ease: 'power3.inOut' }, 0);
+    // at rest the front card floats gently, so the carousel never looks frozen
+    if (!reduce) tl.add(() => { ecoFloat = gsap.to(front, { y: -8, rotationY: 3, duration: 2.6, ease: 'sine.inOut', yoyo: true, repeat: -1 }); });
+    return tl;
+  }
+  cards.forEach((c, k) => c.addEventListener('click', () => { state.ecosystem = k; renderEco(k); }));
+  jBtns.forEach((b, k) => b.addEventListener('click', () => { state.ecosystem = k; renderEco(k); }));
+  renderEco(0, true);
 
   /* ---------- Performance Engine (GSAP: DrawSVG, MotionPath, ScrambleText, SplitText, Flip) ---------- */
   gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin, ScrambleTextPlugin, SplitText, Flip, Observer);
@@ -1547,11 +1599,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
 
   /* ---------- Steps within slides ---------- */
-  const state = { intro: 0, ecosystem: -1, method: 0, elmy: 0, glitch: 0, sat: 0 };
+  const state = { intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0 };
   renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
-    ecosystem: { next() { if (state.ecosystem < 3) { lightBrand(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > -1) { lightBrand(--state.ecosystem); return true; } } },
+    ecosystem: { next() { if (state.ecosystem < 3) { renderEco(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > 0) { renderEco(--state.ecosystem); return true; } } },
     method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
     sat: { next() { if (state.sat < 5) { sat.go(++state.sat); return true; } }, prev() { if (state.sat > 0) { sat.go(--state.sat); return true; } } },
@@ -1743,7 +1795,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   let lastW = innerWidth, lastH = innerHeight;
   addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => {
     if (Math.abs(innerWidth - lastW) < 2 && Math.abs(innerHeight - lastH) < 2) return;   // ignore no-op resize events
-    lastW = innerWidth; lastH = innerHeight; settle(); fitSlides(); place(cur); layoutLink();
+    lastW = innerWidth; lastH = innerHeight; settle(); fitSlides(); place(cur); layoutLink(); renderEco(ecoAt, true);
   }); });
   cur = -1;
 
