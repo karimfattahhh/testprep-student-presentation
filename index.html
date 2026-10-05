@@ -31,7 +31,7 @@ html, body { height: 100%; }
 body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
 
 /* ---------- Frame ---------- */
-/* The deck moves down, slide by slide. Chapter 04 is a sideways strip: Chapter slide -> Performance Engine.
+/* The deck moves down, slide by slide. "How we work" is a sideways strip: chapter slide -> Performance Engine.
    GSAP moves the track (vertical) and the strip (horizontal). A slide taller than the screen scrolls inside itself. */
 #deck { height: 100%; overflow: hidden; position: relative; touch-action: pan-y; }
 #track { display: flex; flex-direction: column; height: 100%; will-change: transform; }
@@ -613,7 +613,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 <main id="deck">
 <div id="track">
 
-  <!-- 00 &#183; Intro -->
+  <!-- Intro -->
   <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="1"
     data-notes="Let the room read the floating questions while the search bar types: this is everything Nizar sees online. Then press &#8594;: every question flies into one ball, it bursts, and the line lands. Say it with it: 'Today, we make it clear.'">
     <div class="chaos" aria-hidden="true" id="chaos"></div>
@@ -639,7 +639,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 01 &#183; Agenda -->
+  <!-- Agenda -->
   <section class="slide" id="agenda" data-chapter="Today"
     data-notes="Don't read the list. Point at the two games and the free course: that's the hook. 'Pay attention, because everything I show you is going to help you win.'">
     <div class="wrap">
@@ -647,18 +647,18 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <h2 class="h2">The next forty minutes.</h2>
       <ol class="agenda">
         <li><span>Meet Nizar</span><em>Opening film</em></li>
-        <li><span>Who we are</span><em>TestPrep and House of Prep</em></li>
         <li><span>What is the SAT?</span><em>And why it matters</em></li>
+        <li class="game"><span>Spot the Glitch</span><em>Whole room</em></li>
         <li><span>How we work</span><em>The 7-step Performance Engine</em></li>
         <li><span>Powered by Elmy</span><em>The platform behind it</em></li>
-        <li class="game"><span>Spot the Glitch</span><em>Whole room</em></li>
+        <li><span>Who we are</span><em>TestPrep and House of Prep</em></li>
         <li class="game"><span>Do U Think U Have What It Takes?</span><em>One volunteer</em></li>
         <li><span>Your next move</span><em>Scan and join</em></li>
       </ol>
     </div>
   </section>
 
-  <!-- 02 &#183; Film -->
+  <!-- Film -->
   <section class="slide" id="film" data-chapter="Meet Nizar"
     data-notes="Play the opening film (2 minutes). When it freezes on Nizar buried in books, step forward: 'Be honest. Hands up if you know exactly where you'd start studying for the SAT tomorrow morning.'">
     <div class="wrap">
@@ -671,122 +671,12 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 03 &#183; Who we are -->
-  <section class="slide" id="who" data-chapter="Who we are"
-    data-notes="Read the quote slowly, like a promise. 'This is the one sentence our whole company is built on.' Then introduce the founders in one line.">
-    <div class="orb tp spin" style="width:38vw;height:38vw;right:-12vw;bottom:-14vw;opacity:.12"></div>
-    <div class="wrap">
-      <p class="label">Who we are</p>
-      <p class="quote">&#8220;Instruction should follow <em>the student</em>, not the other way around.&#8221;</p>
-      <div class="people">
-        <div><b>Nizar Al Awar</b><small>Founder &amp; CEO</small></div>
-        <div><b>Karim Fattah</b><small>COO</small></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- 04 &#183; Legacy -> Numbers: a sideways strip -->
-  <div class="hstrip" id="strip-legacy"><div class="hrow">
-  <section class="slide" id="legacy" data-chapter="Our legacy"
-    data-notes="Let the first photo land, then let the wall of memories fill the screen before you speak. 'Every one of these is a real student, in our House.' Then the three stops, one breath each. Land on the last one: TestPrep is now part of a bigger House.">
-    <div class="memories" id="memories" aria-hidden="true"></div>
-    <div class="mem-veil" id="mem-veil" aria-hidden="true"></div>
-    <div class="wrap" id="legacy-copy">
-      <p class="label">Our legacy</p>
-      <h2 class="h2">From one classroom<br>to a whole House.</h2>
-      <div class="timeline">
-        <article><span class="dot"></span><p class="when">Beirut &#183; 12+ years ago</p><h3 class="h3">One classroom</h3><p class="body">Founded on one belief: with the right preparation, any student can outperform what they think is possible.</p></article>
-        <article><span class="dot"></span><p class="when">TestPrep 2.0</p><h3 class="h3">A system</h3><p class="body">A data-driven method that finds gaps, targets them and adapts until the student reaches the target score.</p></article>
-        <article><span class="dot"></span><p class="when">Today</p><h3 class="h3">A House</h3><p class="body">TestPrep is part of House of Prep: a second home for learning, from school to university.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <!-- 05 &#183; Numbers -->
-  <section class="slide" id="numbers" data-chapter="Our numbers"
-    data-notes="The line from the timeline carries you here. Let each picture build: the dots fill (one dot = 100 students, the empty orange one is them), the twelve years tick by, the partner network lights up. 'Twenty thousand students. Every single one of them started exactly where you are sitting right now.'">
-    <div class="wrap num-wrap">
-      <div class="num-head">
-        <div>
-          <p class="label">Our numbers</p>
-          <h2 class="num-title" id="num-title">Every one of them started<br>exactly <span class="hl">where you are.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path id="hl-path" d="M3 13 C 70 5, 150 4, 297 9"/></svg></span></h2>
-        </div>
-        <p class="num-aside">Twelve years, one belief: with the right preparation, any student can outperform what they think is possible.</p>
-      </div>
-      <div class="num-body">
-        <div class="num-rule" id="num-rule"><i></i><i></i><i></i></div>
-        <div class="stats">
-          <article class="stat">
-            <span class="k">Students trained</span>
-            <div class="n"><span class="v" data-count="20000">20,000</span><sup>+</sup></div>
-            <div class="viz viz-dots" id="viz-dots" aria-hidden="true"></div>
-            <p class="body">One dot for every 100 students. The empty one is yours.</p>
-          </article>
-          <article class="stat">
-            <span class="k">Years of experience</span>
-            <div class="n"><span class="v" data-count="12">12</span><sup>+</sup></div>
-            <svg class="viz" id="viz-years" viewBox="0 0 320 120" preserveAspectRatio="xMinYMid meet" aria-hidden="true"></svg>
-            <p class="body">From one classroom to a full system.</p>
-          </article>
-          <article class="stat">
-            <span class="k">Academic partnerships</span>
-            <div class="n"><span class="v" data-count="40">40</span><sup>+</sup></div>
-            <svg class="viz" id="viz-net" viewBox="0 0 320 140" preserveAspectRatio="xMinYMid meet" aria-hidden="true"></svg>
-            <p class="body">Schools and institutions that work with us.</p>
-          </article>
-        </div>
-      </div>
-    </div>
-  </section>
-  <svg id="link-line" aria-hidden="true"><defs><linearGradient id="link-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#C9CCD5"/><stop offset=".45" stop-color="#FFC48E"/><stop offset="1" stop-color="#FF963E"/></linearGradient></defs><path id="link-path"/><circle id="link-head" r="5" cx="0" cy="0" opacity="0"/></svg>
-  </div></div>
-
-  <!-- 06 &#183; Ecosystem -->
-  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="3"
-    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. Close on Taleb: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
-    <div class="wrap">
-      <div class="eco-head">
-        <div>
-          <p class="label">House of Prep</p>
-          <h2 class="h2">One roof. Every stage.</h2>
-        </div>
-        <p class="body" style="max-width:26em">House of Prep is a second home for learning. Four brands, each built for a different moment in a student's life.</p>
-      </div>
-      <div class="carousel" id="carousel">
-        <button class="bcard" data-brand="prepme" aria-label="PrepMe">
-          <div class="logo-area"><span class="stage-pill">School</span><img src="assets/brands/prepme-white.png" alt="PrepMe" width="1200" height="217"></div>
-          <div class="info"><span class="who">School students</span><p class="what">School subjects, so the foundations are solid before the big tests.</p>
-            <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB &#183; soon</span><span class="soon">French &#183; soon</span></span></div>
-        </button>
-        <button class="bcard" data-brand="testprep" aria-label="TestPrep">
-          <div class="logo-area"><span class="stage-pill">Tests</span><img src="assets/logo-testprep-white.svg" alt="TestPrep" width="2018" height="407"></div>
-          <div class="info"><span class="who">High school and beyond</span><p class="what">Every standardised test and entrance exam that matters.</p>
-            <span class="chips"><span>SAT</span><span>PSAT</span><span>AP</span><span>IELTS</span><span>TOEFL</span><span>Duolingo</span><span>EEE</span><span>LNAT</span><span>USJ concours</span><span>BAU entrance</span><span>MCAT</span><span>GMAT</span><span>GRE</span><span>LSAT</span><span>CFA</span></span></div>
-        </button>
-        <button class="bcard" data-brand="weguide" aria-label="WeGuide">
-          <div class="logo-area"><span class="stage-pill">Choosing</span><img src="assets/brands/weguide-white.svg" alt="WeGuide" width="479" height="92"></div>
-          <div class="info"><span class="who">Students and graduates</span><p class="what">Choosing a major, a university and a career, and actually getting in.</p>
-            <span class="chips"><span>Career guidance</span><span>Mentoring</span><span>University exploration</span><span>Applications</span></span></div>
-        </button>
-        <button class="bcard" data-brand="taleb" aria-label="Taleb">
-          <div class="logo-area"><span class="stage-pill">University</span><img src="assets/brands/taleb.png" alt="Taleb" width="900" height="900"></div>
-          <div class="info"><span class="who">University students</span><p class="what">The home of university learning, for when you get there.</p>
-            <span class="chips"><span>Subject courses</span><span>Academic writing</span><span>Research support</span><span>Digital skills</span></span></div>
-        </button>
-      </div>
-      <div class="eco-journey" id="eco-journey"><span class="fill" id="eco-fill"></span>
-        <button><b>School</b>PrepMe</button><button><b>Tests</b>TestPrep</button><button><b>Choosing</b>WeGuide</button><button><b>University</b>Taleb</button>
-      </div>
-      <p class="powered">The TestPrep platform is powered by <svg class="elmy-mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="300 300 1400 1400" fill="currentColor"><rect x="804.62" y="804.62" width="390.76" height="390.76" rx="195.38" ry="195.38"/><path d="M1579.46,900.7c-14.36,0-28.72-5.47-39.69-16.41l-317.4-316.62c-23.46-23.4-51.88-39.05-82.19-45.27-34.66-7.11-69.7-2.29-104.14,14.31-15.59,7.52-30.27,18.06-43.66,31.36l-317.45,315.29c-22.02,21.87-57.61,21.75-79.48-.27-21.87-22.02-21.75-57.61.27-79.48l317.45-315.29c22.27-22.11,47.18-39.9,74.04-52.85,57.13-27.56,116.2-35.36,175.54-23.18,51.88,10.63,99.95,36.84,138.99,75.79l317.41,316.62c21.97,21.92,22.02,57.5.1,79.48-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M1154.87,1636.29c-14.36,0-28.72-5.47-39.69-16.41-21.97-21.92-22.02-57.5-.1-79.48l316.62-317.4c23.4-23.46,39.05-51.89,45.27-82.2,7.11-34.66,2.29-69.7-14.32-104.13-7.52-15.6-18.07-30.28-31.36-43.66l-315.29-317.45c-21.87-22.02-21.75-57.61.27-79.48,22.02-21.88,57.61-21.75,79.48.27l315.29,317.45c22.11,22.26,39.89,47.17,52.85,74.04,27.56,57.13,35.36,116.19,23.18,175.54-10.64,51.89-36.85,99.95-75.8,139l-316.62,317.4c-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M891.47,1593.28c-18.02,0-36.1-1.85-54.22-5.57-51.88-10.64-99.94-36.85-138.99-75.8l-317.41-316.62c-21.97-21.92-22.02-57.5-.1-79.48,21.92-21.98,57.5-22.02,79.48-.1l317.4,316.62c23.46,23.4,51.88,39.06,82.2,45.27,34.65,7.09,69.69,2.29,104.13-14.32,15.59-7.52,30.28-18.07,43.66-31.36l317.45-315.29c22.02-21.87,57.61-21.75,79.48.27,21.87,22.02,21.75,57.61-.27,79.48l-317.45,315.29c-22.26,22.11-47.17,39.89-74.03,52.85-39.69,19.15-80.33,28.75-121.33,28.75Z"/><path d="M844.12,1420.24c-14.45,0-28.89-5.53-39.88-16.6l-315.29-317.45c-22.11-22.26-39.89-47.17-52.85-74.03-27.56-57.14-35.36-116.2-23.18-175.55,10.64-51.88,36.85-99.95,75.8-138.99l316.62-317.4c21.92-21.98,57.5-22.02,79.48-.1,21.97,21.92,22.02,57.5.1,79.48l-316.62,317.4c-23.4,23.46-39.05,51.88-45.27,82.2-7.11,34.66-2.29,69.7,14.32,104.14,7.52,15.58,18.07,30.27,31.36,43.65l315.29,317.45c21.87,22.02,21.75,57.61-.27,79.48-10.96,10.89-25.28,16.33-39.6,16.33Z"/></svg><b>elmy</b></p>
-    </div>
-  </section>
-
-  <!-- 07 &#183; Chapter: The SAT -->
+  <!-- Chapter: The SAT -->
   <section class="slide chapter-slide" id="ch-sat" data-chapter="The SAT"
     data-notes="Ask: 'Who here has heard of the SAT? Keep your hand up if you know how it's scored.' Most hands drop. 'Perfect. Two minutes, and you'll know more than most people in your grade.'">
     <div class="wrap">
       <div>
-        <p class="chapter-no">Chapter 03</p>
+        <p class="chapter-no">The SAT</p>
         <h2 class="display">So&#8230; what is<br>the SAT?</h2>
         <p class="lede">The test Nizar had never heard of, explained in two minutes.</p>
       </div>
@@ -794,7 +684,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 08 &#183; What is the SAT: the laptop -->
+  <!-- What is the SAT: the laptop -->
   <section class="slide" id="sat" data-chapter="The SAT" data-steps="6"
     data-notes="The laptop arrives closed. Press SPACE: it comes close, opens, and the screen fills the room. Then SPACE again to move through the test: the app, Reading &amp; Writing, the adaptive Module 2, the break, Math with the built-in calculator, and the score. One sentence per screen. On the adaptive screen: 'This is why guessing your way through practice doesn't work.'">
     <div class="wrap">
@@ -942,7 +832,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 09 &#183; Why the SAT -->
+  <!-- Why the SAT -->
   <section class="slide" id="why" data-chapter="The SAT" data-steps="3"
     data-notes="Bring Nizar back: 'Nobody told Nizar why this test mattered.' Press &#8594; to focus each reason; let its little animation play, then one sentence. 1: admission letter. 2: scholarships cover part of the cost. 3: every school grades differently, the SAT puts everyone on one scale. End on the WeGuide line.">
     <div class="wrap">
@@ -1004,14 +894,34 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 10 &#183; Chapter 04: a sideways strip -->
+  <!-- Spot the Glitch -->
+  <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="7"
+    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. So why isn't it working?' The cards glitch on their own. When someone shouts a glitch, click that day (or press &#8594; to reveal in order): the card shakes, gets crossed out and flips to the step that fixes it. Seven glitches, seven steps. End on: 'Now let me show you the seven fixes.' and move into How we work.">
+    <div class="wrap">
+      <div class="g-head">
+        <div>
+          <p class="label">Live game &#183; whole room</p>
+          <h2 class="h2 g-title" id="g-title">Spot the Glitch.</h2>
+        </div>
+        <div class="g-meter" aria-live="polite">
+          <span class="g-count"><b id="g-n">0</b>/ 7 glitches found</span>
+          <div class="g-bar" id="g-bar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+      </div>
+      <p class="lede" style="margin-top:12px">This is Nizar&#8217;s study week. He works hard every single day. So why isn&#8217;t it working?</p>
+      <div class="week" id="week"></div>
+      <p class="g-final" id="g-final">Seven glitches. <b>Now, the seven fixes.</b></p>
+    </div>
+  </section>
+
+  <!-- How we work: a sideways strip -->
   <div class="hstrip" id="strip-method"><div class="hrow">
   <!-- Chapter: Methodology -->
   <section class="slide chapter-slide" id="ch-method" data-chapter="How we work"
     data-notes="'Nizar studied hard. He just studied wrong. Here is what studying right looks like.' Pause. Next slide.">
     <div class="wrap">
       <div>
-        <p class="chapter-no">Chapter 04 &#183; How we work</p>
+        <p class="chapter-no">How we work</p>
         <h2 class="display">Not a course.<br>A <span class="accent">system.</span></h2>
         <p class="lede">The TestPrep Performance Engine: seven steps that turn effort into a score. Every student starts in a different place, so no two plans look the same.</p>
       </div>
@@ -1020,7 +930,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       <div class="side-cue" aria-hidden="true">Inside the engine<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#FF963E" stroke-width="2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
   </section>
 
-  <!-- 11 &#183; Method stepper -->
+  <!-- Method stepper -->
   <section class="slide" id="method" data-chapter="How we work" data-steps="6"
     data-notes="Press &#8594; to run the engine one step at a time. Read the title and the one line under it; let the dashboard do the rest. Step 2: the bars re-sort, weakest first. Step 6: watch Reading jump the queue because it slipped. Step 7: the score crosses the target and the loop closes. Close with: 'That is studying smart. Nizar never had this.'">
     <div class="wrap">
@@ -1064,7 +974,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   </div></div>
 
-  <!-- 12 &#183; Elmy -->
+  <!-- Elmy -->
   <section class="slide" id="elmy" data-chapter="Powered by Elmy" data-steps="3"
     data-notes="'This is where Nizar's guessing ends.' Press &#8594; to move through the four screens. Keep each one to a sentence: this is what you see, this is the step it powers.">
     <div class="wrap">
@@ -1078,27 +988,117 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 13 &#183; Spot the Glitch -->
-  <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="7"
-    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. So why isn't it working?' The cards glitch on their own. When someone shouts a glitch, click that day (or press &#8594; to reveal in order): the card shakes, gets crossed out and flips to the step that fixes it. Seven glitches, seven steps: the whole Performance Engine.">
+  <!-- Who we are -->
+  <section class="slide" id="who" data-chapter="Who we are"
+    data-notes="Bridge from Elmy: 'All of that comes from one belief.' Then read the quote slowly, like a promise. 'This is the one sentence our whole company is built on.' Then introduce the founders in one line.">
+    <div class="orb tp spin" style="width:38vw;height:38vw;right:-12vw;bottom:-14vw;opacity:.12"></div>
     <div class="wrap">
-      <div class="g-head">
-        <div>
-          <p class="label">Live game &#183; whole room</p>
-          <h2 class="h2 g-title" id="g-title">Spot the Glitch.</h2>
-        </div>
-        <div class="g-meter" aria-live="polite">
-          <span class="g-count"><b id="g-n">0</b>/ 7 glitches found</span>
-          <div class="g-bar" id="g-bar"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
-        </div>
+      <p class="label">Who we are</p>
+      <p class="quote">&#8220;Instruction should follow <em>the student</em>, not the other way around.&#8221;</p>
+      <div class="people">
+        <div><b>Nizar Al Awar</b><small>Founder &amp; CEO</small></div>
+        <div><b>Karim Fattah</b><small>COO</small></div>
       </div>
-      <p class="lede" style="margin-top:12px">This is Nizar&#8217;s study week. He works hard every single day. So why isn&#8217;t it working?</p>
-      <div class="week" id="week"></div>
-      <p class="g-final" id="g-final">Seven glitches, seven fixes. <b>That&#8217;s the whole Performance Engine.</b></p>
     </div>
   </section>
 
-  <!-- 14 &#183; Challenge -->
+  <!-- Legacy -> Numbers: a sideways strip -->
+  <div class="hstrip" id="strip-legacy"><div class="hrow">
+  <section class="slide" id="legacy" data-chapter="Our legacy"
+    data-notes="Let the first photo land, then let the wall of memories fill the screen before you speak. 'Every one of these is a real student, in our House.' Then the three stops, one breath each. Land on the last one: TestPrep is now part of a bigger House.">
+    <div class="memories" id="memories" aria-hidden="true"></div>
+    <div class="mem-veil" id="mem-veil" aria-hidden="true"></div>
+    <div class="wrap" id="legacy-copy">
+      <p class="label">Our legacy</p>
+      <h2 class="h2">From one classroom<br>to a whole House.</h2>
+      <div class="timeline">
+        <article><span class="dot"></span><p class="when">Beirut &#183; 12+ years ago</p><h3 class="h3">One classroom</h3><p class="body">Founded on one belief: with the right preparation, any student can outperform what they think is possible.</p></article>
+        <article><span class="dot"></span><p class="when">TestPrep 2.0</p><h3 class="h3">A system</h3><p class="body">A data-driven method that finds gaps, targets them and adapts until the student reaches the target score.</p></article>
+        <article><span class="dot"></span><p class="when">Today</p><h3 class="h3">A House</h3><p class="body">TestPrep is part of House of Prep: a second home for learning, from school to university.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Numbers -->
+  <section class="slide" id="numbers" data-chapter="Our numbers"
+    data-notes="The line from the timeline carries you here. Let each picture build: the dots fill (one dot = 100 students, the empty orange one is them), the twelve years tick by, the partner network lights up. 'Twenty thousand students. Every single one of them started exactly where you are sitting right now.'">
+    <div class="wrap num-wrap">
+      <div class="num-head">
+        <div>
+          <p class="label">Our numbers</p>
+          <h2 class="num-title" id="num-title">Every one of them started<br>exactly <span class="hl">where you are.<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path id="hl-path" d="M3 13 C 70 5, 150 4, 297 9"/></svg></span></h2>
+        </div>
+        <p class="num-aside">Twelve years, one belief: with the right preparation, any student can outperform what they think is possible.</p>
+      </div>
+      <div class="num-body">
+        <div class="num-rule" id="num-rule"><i></i><i></i><i></i></div>
+        <div class="stats">
+          <article class="stat">
+            <span class="k">Students trained</span>
+            <div class="n"><span class="v" data-count="20000">20,000</span><sup>+</sup></div>
+            <div class="viz viz-dots" id="viz-dots" aria-hidden="true"></div>
+            <p class="body">One dot for every 100 students. The empty one is yours.</p>
+          </article>
+          <article class="stat">
+            <span class="k">Years of experience</span>
+            <div class="n"><span class="v" data-count="12">12</span><sup>+</sup></div>
+            <svg class="viz" id="viz-years" viewBox="0 0 320 120" preserveAspectRatio="xMinYMid meet" aria-hidden="true"></svg>
+            <p class="body">From one classroom to a full system.</p>
+          </article>
+          <article class="stat">
+            <span class="k">Academic partnerships</span>
+            <div class="n"><span class="v" data-count="40">40</span><sup>+</sup></div>
+            <svg class="viz" id="viz-net" viewBox="0 0 320 140" preserveAspectRatio="xMinYMid meet" aria-hidden="true"></svg>
+            <p class="body">Schools and institutions that work with us.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+  <svg id="link-line" aria-hidden="true"><defs><linearGradient id="link-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#C9CCD5"/><stop offset=".45" stop-color="#FFC48E"/><stop offset="1" stop-color="#FF963E"/></linearGradient></defs><path id="link-path"/><circle id="link-head" r="5" cx="0" cy="0" opacity="0"/></svg>
+  </div></div>
+
+  <!-- Ecosystem -->
+  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="3"
+    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. Close on Taleb: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
+    <div class="wrap">
+      <div class="eco-head">
+        <div>
+          <p class="label">House of Prep</p>
+          <h2 class="h2">One roof. Every stage.</h2>
+        </div>
+        <p class="body" style="max-width:26em">House of Prep is a second home for learning. Four brands, each built for a different moment in a student's life.</p>
+      </div>
+      <div class="carousel" id="carousel">
+        <button class="bcard" data-brand="prepme" aria-label="PrepMe">
+          <div class="logo-area"><span class="stage-pill">School</span><img src="assets/brands/prepme-white.png" alt="PrepMe" width="1200" height="217"></div>
+          <div class="info"><span class="who">School students</span><p class="what">School subjects, so the foundations are solid before the big tests.</p>
+            <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB &#183; soon</span><span class="soon">French &#183; soon</span></span></div>
+        </button>
+        <button class="bcard" data-brand="testprep" aria-label="TestPrep">
+          <div class="logo-area"><span class="stage-pill">Tests</span><img src="assets/logo-testprep-white.svg" alt="TestPrep" width="2018" height="407"></div>
+          <div class="info"><span class="who">High school and beyond</span><p class="what">Every standardised test and entrance exam that matters.</p>
+            <span class="chips"><span>SAT</span><span>PSAT</span><span>AP</span><span>IELTS</span><span>TOEFL</span><span>Duolingo</span><span>EEE</span><span>LNAT</span><span>USJ concours</span><span>BAU entrance</span><span>MCAT</span><span>GMAT</span><span>GRE</span><span>LSAT</span><span>CFA</span></span></div>
+        </button>
+        <button class="bcard" data-brand="weguide" aria-label="WeGuide">
+          <div class="logo-area"><span class="stage-pill">Choosing</span><img src="assets/brands/weguide-white.svg" alt="WeGuide" width="479" height="92"></div>
+          <div class="info"><span class="who">Students and graduates</span><p class="what">Choosing a major, a university and a career, and actually getting in.</p>
+            <span class="chips"><span>Career guidance</span><span>Mentoring</span><span>University exploration</span><span>Applications</span></span></div>
+        </button>
+        <button class="bcard" data-brand="taleb" aria-label="Taleb">
+          <div class="logo-area"><span class="stage-pill">University</span><img src="assets/brands/taleb.png" alt="Taleb" width="900" height="900"></div>
+          <div class="info"><span class="who">University students</span><p class="what">The home of university learning, for when you get there.</p>
+            <span class="chips"><span>Subject courses</span><span>Academic writing</span><span>Research support</span><span>Digital skills</span></span></div>
+        </button>
+      </div>
+      <div class="eco-journey" id="eco-journey"><span class="fill" id="eco-fill"></span>
+        <button><b>School</b>PrepMe</button><button><b>Tests</b>TestPrep</button><button><b>Choosing</b>WeGuide</button><button><b>University</b>Taleb</button>
+      </div>
+      <p class="powered">The TestPrep platform is powered by <svg class="elmy-mark" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="300 300 1400 1400" fill="currentColor"><rect x="804.62" y="804.62" width="390.76" height="390.76" rx="195.38" ry="195.38"/><path d="M1579.46,900.7c-14.36,0-28.72-5.47-39.69-16.41l-317.4-316.62c-23.46-23.4-51.88-39.05-82.19-45.27-34.66-7.11-69.7-2.29-104.14,14.31-15.59,7.52-30.27,18.06-43.66,31.36l-317.45,315.29c-22.02,21.87-57.61,21.75-79.48-.27-21.87-22.02-21.75-57.61.27-79.48l317.45-315.29c22.27-22.11,47.18-39.9,74.04-52.85,57.13-27.56,116.2-35.36,175.54-23.18,51.88,10.63,99.95,36.84,138.99,75.79l317.41,316.62c21.97,21.92,22.02,57.5.1,79.48-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M1154.87,1636.29c-14.36,0-28.72-5.47-39.69-16.41-21.97-21.92-22.02-57.5-.1-79.48l316.62-317.4c23.4-23.46,39.05-51.89,45.27-82.2,7.11-34.66,2.29-69.7-14.32-104.13-7.52-15.6-18.07-30.28-31.36-43.66l-315.29-317.45c-21.87-22.02-21.75-57.61.27-79.48,22.02-21.88,57.61-21.75,79.48.27l315.29,317.45c22.11,22.26,39.89,47.17,52.85,74.04,27.56,57.13,35.36,116.19,23.18,175.54-10.64,51.89-36.85,99.95-75.8,139l-316.62,317.4c-10.98,11.01-25.38,16.51-39.79,16.51Z"/><path d="M891.47,1593.28c-18.02,0-36.1-1.85-54.22-5.57-51.88-10.64-99.94-36.85-138.99-75.8l-317.41-316.62c-21.97-21.92-22.02-57.5-.1-79.48,21.92-21.98,57.5-22.02,79.48-.1l317.4,316.62c23.46,23.4,51.88,39.06,82.2,45.27,34.65,7.09,69.69,2.29,104.13-14.32,15.59-7.52,30.28-18.07,43.66-31.36l317.45-315.29c22.02-21.87,57.61-21.75,79.48.27,21.87,22.02,21.75,57.61-.27,79.48l-317.45,315.29c-22.26,22.11-47.17,39.89-74.03,52.85-39.69,19.15-80.33,28.75-121.33,28.75Z"/><path d="M844.12,1420.24c-14.45,0-28.89-5.53-39.88-16.6l-315.29-317.45c-22.11-22.26-39.89-47.17-52.85-74.03-27.56-57.14-35.36-116.2-23.18-175.55,10.64-51.88,36.85-99.95,75.8-138.99l316.62-317.4c21.92-21.98,57.5-22.02,79.48-.1,21.97,21.92,22.02,57.5.1,79.48l-316.62,317.4c-23.4,23.46-39.05,51.88-45.27,82.2-7.11,34.66-2.29,69.7,14.32,104.14,7.52,15.58,18.07,30.27,31.36,43.65l315.29,317.45c21.87,22.02,21.75,57.61-.27,79.48-10.96,10.89-25.28,16.33-39.6,16.33Z"/></svg><b>elmy</b></p>
+    </div>
+  </section>
+
+  <!-- Challenge -->
   <section class="slide dark" id="challenge" data-chapter="The challenge" data-steps="5"
     data-notes="Bring one volunteer on stage. Five real questions from our Elmy syllabus, alternating Math and English, getting harder. &#8594; shows the next question and starts the clock. When the volunteer answers, click their option: it lights up Correct or Wrong. Five for five wins free enrollment in the SAT course within the school program.">
     <div class="ch-win" id="ch-win" aria-hidden="true"></div>
@@ -1130,7 +1130,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     </div>
   </section>
 
-  <!-- 15 &#183; Close -->
+  <!-- Close -->
   <section class="slide dark" id="close" data-chapter="Your next move"
     data-notes="Lights down on the film's last frame if you can. 'Nizar and Nazarethe were the same student. The only difference was the journey.' Then: 'Phones out. Scan this. Two minutes, and we'll know exactly where you're starting from.' Leave this slide up until the room is done.">
     <div class="orb tp-warm spin" style="width:46vw;height:46vw;left:-16vw;bottom:-22vw;opacity:.18"></div>
@@ -2127,7 +2127,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     return tl;
   }
 
-  // Chapter 03 -> the SAT: the chapter's orb drops with the slide change and lands on the closed lid as its logo.
+  // "The SAT" chapter -> laptop: the chapter's orb drops with the slide change and lands on the closed lid as its logo.
   function satHandoff(y) {
     const src = document.querySelector('#ch-sat .big-orb'), logo = document.getElementById('lid-logo');
     const r0 = src.getBoundingClientRect(), H = satSlide.clientHeight;
@@ -2144,7 +2144,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     return tl;
   }
 
-  // Chapter 04 -> Engine: the orb lifts off, rides across with the slide change, lands on the ring,
+  // "How we work" chapter -> Engine: the orb lifts off, rides across with the slide change, lands on the ring,
   // its middle dissolves until only the ring is left, then the engine takes over.
   function orbHandoff(strip, x) {
     const r0 = methodOrb.getBoundingClientRect();
