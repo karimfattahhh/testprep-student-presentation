@@ -34,6 +34,9 @@ body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--s
    GSAP moves the track (vertical) and the strip (horizontal). A slide taller than the screen scrolls inside itself. */
 #deck { height: 100%; overflow: hidden; position: relative; touch-action: pan-y; }
 #track { display: flex; flex-direction: column; height: 100%; will-change: transform; }
+/* Only the slide(s) on screen run their CSS animations; everything else is paused (keeps transitions smooth). */
+.slide:not(.is-live) *, .slide:not(.is-live) *::before, .slide:not(.is-live) *::after { animation-play-state: paused !important; }
+.slide > .wrap { will-change: transform, opacity; }
 .hstrip { flex: 0 0 100%; height: 100%; width: 100%; overflow: hidden; position: relative; }
 .hrow { display: flex; height: 100%; will-change: transform; }
 .side-cue { position: absolute; right: max(16px, 4vw); bottom: 40px; display: inline-flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 500; color: var(--muted); z-index: 2; }
@@ -1048,7 +1051,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     go(i, instant) {
       const e = ENG[i], prev = at; at = i;
       const d = instant ? 0 : dur;
-      live?.kill(); const tl = live = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
+      live?.progress(1); const tl = live = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
 
       // Ring: draw the loop up to this step, move the student around it.
       tl.to([ringPath, ringGlow], { drawSVG: '0% ' + (frac(i) * 100) + '%', duration: 1.1 * d }, 0);
@@ -1192,7 +1195,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
   function satScreen(i, instant) {
     const prev = scrs[satAt], next = scrs[i], d = instant || reduce ? 0 : 1;
-    satLive?.kill();
+    satLive?.progress(1);
     const tl = satLive = gsap.timeline();
     if (prev !== next) {
       tl.to(prev, { opacity: 0, y: -14, duration: .35 * d, ease: 'power2.in', onComplete: () => { prev.classList.remove('on'); gsap.set(prev, { clearProps: 'all' }); } });
@@ -1276,6 +1279,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     if (reduce || twinkle) return;
     // Every so often a memory glows, and now and then a new one takes its place.
     twinkle = gsap.delayedCall(1.1, function tick() {
+      if (slides[cur]?.id !== 'legacy') { twinkle = gsap.delayedCall(1, tick); return; }
       const t = tiles[Math.floor(Math.random() * tiles.length)];
       const tl = gsap.timeline();
       tl.to(t, { opacity: .9, duration: 1.1, ease: 'sine.inOut' });
@@ -1378,20 +1382,62 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     if (m.strip) gsap.set(m.strip, { x: -m.col * deck.clientWidth });
   }
 
+  // ---- Transition engine ----
+  // One transition at a time. Input that arrives mid-transition is remembered (one step) and played
+  // right after, so fast clicking never skips, jumps or leaves a slide half-way.
+  let busy = false, queued = 0, lastStep = 0;
+  const wrapOf = sl => sl?.querySelector(':scope > .wrap');
+  function markLive(...idx) { const on = new Set(idx.map(k => slides[k])); slides.forEach(sl => sl.classList.toggle('is-live', on.has(sl))); }
+  function settle() {
+    if (moving) { const m = moving; moving = null; m.progress(1); }
+    busy = false;
+    slides.forEach(sl => { const w = wrapOf(sl); if (w) gsap.set(w, { clearProps: 'transform,opacity' }); });
+  }
+  function done(tl) {
+    if (moving === tl) moving = null;
+    busy = false; markLive(cur);
+    if (queued) { const d = queued; queued = 0; requestAnimationFrame(() => step(d)); }
+  }
+
   function goTo(i, instant) {
     i = Math.max(0, Math.min(slides.length - 1, i));
     if (i === cur && !instant) return;
-    const from = cur; cur = i;
-    moving?.progress(1);
+    if (instant || reduce) { settle(); queued = 0; cur = i; place(i); markLive(i); arrive(i); return; }
+    const from = cur; cur = i; busy = true; markLive(from, i);
     const m = META[i], y = -m.row * deck.clientHeight, x = -m.col * deck.clientWidth;
-    if (instant || reduce) { place(i); arrive(i); return; }
-    if (slides[from]?.id === 'legacy' && slides[i].id === 'numbers' && !slides[i].dataset.seen) { moving = lineHandoff(m.strip, x); return; }
-    const handoff = slides[from]?.id === 'ch-method' && slides[i].id === 'method' && !slides[i].dataset.seen;
-    if (handoff) { moving = orbHandoff(m.strip, x); return; }
+    if (slides[from]?.id === 'legacy' && slides[i].id === 'numbers' && !slides[i].dataset.seen) {
+      const tl = moving = lineHandoff(m.strip, x); tl.then(() => done(tl)); return;
+    }
+    if (slides[from]?.id === 'ch-method' && slides[i].id === 'method' && !slides[i].dataset.seen) {
+      const tl = moving = orbHandoff(m.strip, x); tl.then(() => done(tl)); return;
+    }
     document.body.classList.toggle('on-dark', slides[i].classList.contains('dark'));
-    const tl = moving = gsap.timeline({ defaults: { duration: .95, ease: 'power3.inOut' }, onComplete: () => arrive(i) });
-    tl.to(track, { y }, 0);
-    if (m.strip) tl.to(m.strip, { x }, 0);
+
+    // Depth: the outgoing slide's content drifts back and fades, the incoming content glides in after it.
+    const dir = Math.sign(i - from) || 1, sideways = !!m.strip && META[from]?.strip === m.strip;
+    const axis = sideways ? 'x' : 'y', dist = sideways ? 180 : 120;
+    const fw = wrapOf(slides[from]), tw = wrapOf(slides[i]);
+    const ownsEntrance = slides[i].id === 'legacy' && !slides[i].dataset.seen;      // the memories wall animates its own text
+    const tl = moving = gsap.timeline({ onComplete: () => {
+      gsap.set([fw, tw].filter(Boolean), { clearProps: 'transform,opacity' });
+      arrive(i); done(tl);
+    } });
+    tl.to(track, { y, duration: 1.05, ease: 'power3.inOut', force3D: true }, 0);
+    if (m.strip) tl.to(m.strip, { x, duration: 1.05, ease: 'power3.inOut', force3D: true }, 0);
+    if (fw) tl.to(fw, { [axis]: -dir * dist * .55, opacity: .2, duration: .8, ease: 'power2.in' }, 0);
+    if (tw && !ownsEntrance) tl.fromTo(tw, { [axis]: dir * dist, opacity: 0 }, { [axis]: 0, opacity: 1, duration: .95, ease: 'power3.out', immediateRender: true }, .32);
+  }
+
+  function step(dir) {
+    if (busy) { queued = dir; return; }
+    const now = performance.now();
+    const h = handlers[slides[cur].id];
+    const inner = dir > 0 ? h?.next : h?.prev;
+    if (inner) {
+      if (now - lastStep < 200) return;                  // ignore key-mash inside a slide
+      if (inner()) { lastStep = now; return; }
+    }
+    goTo(cur + dir);
   }
 
   // Our legacy -> Our numbers: the timeline's line keeps its momentum, shoots off to the right,
@@ -1436,8 +1482,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     return tl;
   }
 
-  function next() { const h = handlers[slides[cur].id]; if (h?.next?.()) return; goTo(cur + 1); }
-  function prev() { const h = handlers[slides[cur].id]; if (h?.prev?.()) return; goTo(cur - 1); }
+  const next = () => step(1), prev = () => step(-1);
 
   // Wheel, trackpad and touch: one gesture = one slide, in either axis. A slide taller than the screen
   // scrolls inside itself first and only moves on once you reach its edge.
@@ -1454,8 +1499,8 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         if (dir > 0 && sl.scrollTop + sl.clientHeight < sl.scrollHeight - 2) return;
         if (dir < 0 && sl.scrollTop > 2) return;
       }
-      lockUntil = Date.now() + 900;
-      dir > 0 ? next() : prev();
+      lockUntil = Date.now() + (wheel ? 1100 : 450);       // trackpad momentum counts as one gesture
+      step(dir);
     },
   });
   // Fit: if a slide's content is taller than the screen (e.g. a 1280x720 projector), scale it down evenly.
@@ -1474,13 +1519,14 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
   fitSlides();
   document.fonts?.ready.then(fitSlides);
-  addEventListener('resize', () => { fitSlides(); place(cur); });
+  let rz = 0;
+  addEventListener('resize', () => { cancelAnimationFrame(rz); rz = requestAnimationFrame(() => { settle(); fitSlides(); place(cur); }); });
   cur = -1;
 
   document.addEventListener('keydown', e => {
     if (e.target.closest?.('input, textarea')) return;
-    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); next(); }
-    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+    const fwd = ['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key), back = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key);
+    if (fwd || back) { e.preventDefault(); if (e.repeat) return; step(fwd ? 1 : -1); }
     else if (e.key === 'Home') goTo(0); else if (e.key === 'End') goTo(slides.length - 1);
     else if (e.key.toLowerCase() === 'n') toggleNotes();
     else if (e.key.toLowerCase() === 'f') present();
