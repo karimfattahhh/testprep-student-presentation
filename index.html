@@ -391,9 +391,30 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .facts b { font-weight: 500; font-size: 17px; }
 .scale-1600 { font-weight: 300; font-size: clamp(64px, 10vw, 160px); letter-spacing: -.06em; line-height: .85; color: var(--blue); }
 .sat-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
-.why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 48px; }
-.why .card { min-height: 260px; align-content: space-between; }
-.why .card .h3 { font-size: clamp(22px, 2.2vw, 32px); font-weight: 400; }
+/* Why: three reason cards on a 3D stage. A focus pull brings one forward (glowing sweep border), the rest blur back. */
+#why .wrap { display: grid; gap: clamp(18px, 3vh, 30px); }
+.why-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
+.why-head .h2 { font-weight: 300; }
+.why-head .h2 b { font-weight: 600; color: var(--blue); }
+.why-stage { position: relative; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 28px); perspective: 1800px; padding-block: 10px; }
+.why-glow { position: absolute; top: -10%; left: 0; width: 34%; height: 120%; border-radius: 50%; pointer-events: none; z-index: 0;
+  background: radial-gradient(closest-side, rgba(23,64,169,.22), rgba(110,147,255,.10) 55%, transparent); filter: blur(20px); opacity: 0; }
+@property --sweep2 { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
+.rcard { --sweep2: 0deg; position: relative; z-index: 1; border-radius: 26px; padding: 22px; display: grid; gap: 14px; align-content: start; min-height: clamp(320px, 50vh, 440px);
+  background: linear-gradient(#fff, #fff) padding-box, linear-gradient(var(--line), var(--line)) border-box; border: 1.5px solid transparent;
+  box-shadow: 0 40px 70px -50px rgba(11,14,26,.45); transform-style: preserve-3d; will-change: transform, filter, opacity; }
+.rcard.on { background: linear-gradient(#fff, #fff) padding-box, conic-gradient(from var(--sweep2), #E3E7F2 0deg, #E3E7F2 200deg, var(--blue) 260deg, #6E93FF 300deg, var(--orange) 335deg, #E3E7F2 360deg) border-box;
+  animation: sweep2 3.4s linear infinite; box-shadow: 0 50px 90px -40px rgba(23,64,169,.45); }
+@keyframes sweep2 { to { --sweep2: 360deg; } }
+.rcard .num { font-size: 12px; font-weight: 700; letter-spacing: .16em; color: var(--orange); }
+.rcard h3 { margin: 0; font-weight: 500; font-size: clamp(22px, 2vw, 32px); letter-spacing: -.03em; line-height: 1.1; }
+.rcard p { margin: 0; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.5; color: var(--muted); }
+.rviz { position: relative; height: clamp(130px, 21vh, 190px); border-radius: 18px; background: var(--panel); overflow: hidden; display: grid; place-items: center; }
+.rviz svg { width: 100%; height: 100%; display: block; overflow: visible; }
+.rviz text { font-family: var(--sans); }
+.why-note { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 18px; border: 1px solid var(--line); background: #fff; font-size: 15px; color: var(--muted); }
+.why-note img { height: 20px; width: auto; flex: none; }
+.why-note b { color: var(--ink); font-weight: 600; }
 .note { margin-top: 18px; padding: 18px 22px; border-radius: 18px; border: 1px solid var(--line); background: #fff; font-size: 15px; color: var(--muted); display: flex; gap: 12px; align-items: baseline; }
 .note b { color: var(--ink); font-weight: 600; white-space: nowrap; }
 
@@ -569,7 +590,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   .qcard { grid-template-columns: minmax(0, 1fr); }
   .eco-journey { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 14px; }
   .engine, .showcase, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
-  .why, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
+  .why-stage, .timeline, .stats, .num-head { grid-template-columns: minmax(0, 1fr); }
   .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .timeline { gap: 32px; } .timeline::before { display: none; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -922,17 +943,64 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   </section>
 
   <!-- 09 &#183; Why the SAT -->
-  <section class="slide" id="why" data-chapter="The SAT"
-    data-notes="Bring Nizar back: 'Nobody told Nizar why this test mattered.' Three reasons, one breath each. The note at the bottom is the bridge to WeGuide.">
+  <section class="slide" id="why" data-chapter="The SAT" data-steps="3"
+    data-notes="Bring Nizar back: 'Nobody told Nizar why this test mattered.' Press &#8594; to focus each reason; let its little animation play, then one sentence. 1: admission letter. 2: scholarships cover part of the cost. 3: every school grades differently, the SAT puts everyone on one scale. End on the WeGuide line.">
     <div class="wrap">
-      <p class="label">Why do students take it?</p>
-      <h2 class="h2">Because it opens doors.</h2>
-      <div class="why">
-        <div class="card"><span class="label" style="margin:0">01</span><div style="display:grid;gap:12px"><h3 class="h3">University admission</h3><p class="body">Many universities in the US and around the world use it to compare applicants from different schools and countries.</p></div></div>
-        <div class="card"><span class="label" style="margin:0">02</span><div style="display:grid;gap:12px"><h3 class="h3">Scholarships</h3><p class="body">A strong score can strengthen merit scholarship and financial aid applications.</p></div></div>
-        <div class="card"><span class="label" style="margin:0">03</span><div style="display:grid;gap:12px"><h3 class="h3">A common measure</h3><p class="body">Your grades come from your school. The SAT puts every applicant on the same scale.</p></div></div>
+      <div class="why-head">
+        <div>
+          <p class="label">Why do students take it?</p>
+          <h2 class="h2">Because it <b>opens doors.</b></h2>
+        </div>
       </div>
-      <p class="note"><b>Good to know</b>Requirements differ by university and by country. Check each one you apply to. That's exactly what WeGuide helps with.</p>
+      <div class="why-stage" id="why-stage">
+        <div class="why-glow" id="why-glow"></div>
+        <article class="rcard">
+          <span class="num">01</span>
+          <div class="rviz"><svg viewBox="0 0 320 180" id="viz-admit" aria-hidden="true">
+            <g id="letter"><rect x="100" y="62" width="120" height="96" rx="6" fill="#fff" stroke="#D6DBE8"/><circle cx="160" cy="84" r="9" fill="#1740A9"/>
+              <text x="160" y="110" text-anchor="middle" font-size="12" font-weight="700" fill="#0B0E1A">Congratulations!</text>
+              <rect x="118" y="120" width="84" height="5" rx="2.5" fill="#E3E7F2"/><rect x="118" y="131" width="66" height="5" rx="2.5" fill="#E3E7F2"/></g>
+            <rect x="86" y="100" width="148" height="70" rx="8" fill="#1740A9"/>
+            <path d="M86 108 L160 146 L234 108" fill="none" stroke="#0F2C7A" stroke-width="2"/>
+            <path id="flap" d="M86 102 L160 62 L234 102 Z" fill="#2852C6"/>
+            <rect id="stamp" x="196" y="118" width="40" height="22" rx="4" fill="none" stroke="#FF963E" stroke-width="2.5" transform="rotate(-12 216 129)"/>
+            <text id="stamp-t" x="216" y="133" text-anchor="middle" font-size="9" font-weight="800" fill="#FF963E" transform="rotate(-12 216 129)">ADMIT</text>
+          </svg></div>
+          <h3>University admission</h3>
+          <p>Many universities in the US and around the world use it to compare applicants from different schools and countries.</p>
+        </article>
+        <article class="rcard">
+          <span class="num">02</span>
+          <div class="rviz"><svg viewBox="0 0 320 180" id="viz-schol" aria-hidden="true">
+            <text x="40" y="66" font-size="11" font-weight="600" fill="#6A6F80">University cost</text>
+            <rect x="40" y="76" width="240" height="26" rx="13" fill="#E3E7F2"/>
+            <rect id="schol-bar" x="40" y="76" width="0" height="26" rx="13" fill="#1740A9"/>
+            <text id="schol-t" x="52" y="93" font-size="11" font-weight="700" fill="#fff" opacity="0">Scholarship</text>
+            <text x="280" y="124" text-anchor="end" font-size="10" fill="#A4A8B6">Illustration</text>
+            <g id="medal"><path d="M150 112 L142 150 L160 142 L178 150 L170 112 Z" fill="#FF963E" opacity=".85"/><circle cx="160" cy="112" r="17" fill="#FFC48E" stroke="#FF963E" stroke-width="3"/><text x="160" y="117" text-anchor="middle" font-size="13" font-weight="800" fill="#B85E12">&#9733;</text></g>
+          </svg></div>
+          <h3>Scholarships</h3>
+          <p>A strong score can strengthen merit scholarship and financial aid applications.</p>
+        </article>
+        <article class="rcard">
+          <span class="num">03</span>
+          <div class="rviz"><svg viewBox="0 0 320 180" id="viz-scale" aria-hidden="true">
+            <g class="gchip"><rect x="20" y="22" width="56" height="28" rx="14" fill="#fff" stroke="#D6DBE8"/><text x="48" y="41" text-anchor="middle" font-size="13" font-weight="700" fill="#0B0E1A">A&#8722;</text></g>
+            <g class="gchip"><rect x="92" y="14" width="64" height="28" rx="14" fill="#fff" stroke="#D6DBE8"/><text x="124" y="33" text-anchor="middle" font-size="13" font-weight="700" fill="#0B0E1A">18/20</text></g>
+            <g class="gchip"><rect x="170" y="24" width="58" height="28" rx="14" fill="#fff" stroke="#D6DBE8"/><text x="199" y="43" text-anchor="middle" font-size="13" font-weight="700" fill="#0B0E1A">92%</text></g>
+            <g class="gchip"><rect x="240" y="12" width="64" height="28" rx="14" fill="#fff" stroke="#D6DBE8"/><text x="272" y="31" text-anchor="middle" font-size="13" font-weight="700" fill="#0B0E1A">4.0 GPA</text></g>
+            <rect x="30" y="120" width="260" height="8" rx="4" fill="#E3E7F2"/>
+            <rect id="scale-fill" x="30" y="120" width="0" height="8" rx="4" fill="url(#sg)"/>
+            <defs><linearGradient id="sg" x1="0" x2="1"><stop offset="0" stop-color="#1740A9"/><stop offset="1" stop-color="#FF963E"/></linearGradient></defs>
+            <text x="30" y="148" font-size="11" fill="#6A6F80">400</text><text x="290" y="148" text-anchor="end" font-size="11" fill="#6A6F80">1600</text>
+            <text x="160" y="148" text-anchor="middle" font-size="11" font-weight="700" fill="#0B0E1A">SAT</text>
+            <circle id="scale-dot" cx="30" cy="124" r="8" fill="#FF963E" stroke="#fff" stroke-width="3" opacity="0"/>
+          </svg></div>
+          <h3>A common measure</h3>
+          <p>Every school grades differently. The SAT puts every applicant on the same scale.</p>
+        </article>
+      </div>
+      <p class="why-note"><img src="assets/brands/weguide.svg" alt="WeGuide" width="479" height="92"><span><b>Good to know:</b> requirements differ by university and by country. Check each one you apply to. That&#8217;s exactly what WeGuide helps with.</span></p>
     </div>
   </section>
 
@@ -1531,7 +1599,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     gsap.killTweensOf(qOpts.children);
     gsap.to([...qOpts.children].filter(o => o !== el), { opacity: .3, duration: .4 });
     el.classList.add(ok ? 'correct' : 'wrong');
-    qResult.className = 'q-result ' + (ok ? 'ok' : 'no'); qResult.textContent = ok ? '✓ Correct!' : '✗ Wrong';
+    qResult.className = 'q-result ' + (ok ? 'ok' : 'no'); qResult.textContent = ok ? '\u2713 Correct!' : '\u2717 Wrong';
     if (!reduce) {
       if (ok) gsap.fromTo(el, { scale: .95 }, { scale: 1, duration: .7, ease: 'elastic.out(1, .45)' });
       else gsap.fromTo(el, { x: -10 }, { x: 0, duration: .5, ease: 'elastic.out(1.2, .25)' });
@@ -1686,6 +1754,53 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   };
   closedPose();
   satCopy(0, false);
+
+  /* ---------- Why do students take it? (focus pull + micro-stories) ---------- */
+  const rcards = [...document.querySelectorAll('#why-stage .rcard')], whyGlow = document.getElementById('why-glow');
+  let whyTl = null;
+  const microStory = [
+    // 1. the envelope opens, the letter rises, ADMIT stamps
+    () => gsap.timeline()
+      .set('#letter', { y: 40 }).set('#flap', { scaleY: 1, svgOrigin: '160 102' }).set(['#stamp', '#stamp-t'], { opacity: 0, scale: 1.6, transformOrigin: '216px 129px' })
+      .to('#flap', { scaleY: -1, svgOrigin: '160 102', duration: .6, ease: 'power2.inOut' })   // SVG has no 3D: flip the flap over its hinge
+      .to('#letter', { y: -38, duration: .8, ease: 'back.out(1.6)' }, .4)
+      .to(['#stamp', '#stamp-t'], { opacity: 1, scale: 1, duration: .35, ease: 'back.out(3)' }, 1.1),
+    // 2. the scholarship share fills part of the cost, the medal pops
+    () => gsap.timeline()
+      .set('#schol-bar', { attr: { width: 0 } }).set('#schol-t', { opacity: 0 }).set('#medal', { scale: 0, transformOrigin: '160px 125px' })
+      .to('#schol-bar', { attr: { width: 120 }, duration: 1.1, ease: 'power3.out' })
+      .to('#schol-t', { opacity: 1, duration: .3 }, .6)
+      .to('#medal', { scale: 1, duration: .6, ease: 'back.out(2.5)' }, .7),
+    // 3. four different grading systems fly onto one SAT scale
+    () => {
+      const chips = document.querySelectorAll('#viz-scale .gchip');
+      return gsap.timeline()
+        .set(chips, { x: 0, y: 0, opacity: 1, scale: 1, transformOrigin: '50% 50%' }).set('#scale-fill', { attr: { width: 0 } }).set('#scale-dot', { opacity: 0, attr: { cx: 30 } })
+        .to(chips, { y: (i) => 92 - [36, 28, 38, 26][i], x: (i) => 200 - [48, 124, 199, 272][i], scale: .4, opacity: 0, duration: .8, ease: 'power3.in', stagger: .12 })
+        .to('#scale-fill', { attr: { width: 182 }, duration: .9, ease: 'power3.out' }, 1)
+        .to('#scale-dot', { opacity: 1, attr: { cx: 212 }, duration: .9, ease: 'power3.out' }, 1);
+    },
+  ];
+  function focusWhy(i, instant) {
+    whyTl?.progress(1);
+    const d = instant || reduce ? 0 : 1;
+    const tl = whyTl = gsap.timeline();
+    rcards.forEach((c, k) => {
+      const on = k === i, any = i >= 0;
+      c.classList.toggle('on', on);
+      tl.to(c, { z: on ? 60 : (any ? -80 : 0), rotationY: any && !on ? (k < i ? 10 : -10) : 0, scale: on ? 1.03 : 1,
+                 opacity: any && !on ? .45 : 1, filter: any && !on ? 'blur(2.5px)' : 'blur(0px)', duration: .8 * d, ease: 'power3.inOut' }, 0);
+    });
+    if (i >= 0) {
+      const sr = document.getElementById('why-stage').getBoundingClientRect(), cr = rcards[i].getBoundingClientRect();
+      tl.to(whyGlow, { x: cr.left - sr.left - cr.width * .0, opacity: 1, duration: .8 * d, ease: 'power3.inOut' }, 0);
+      if (d) tl.add(microStory[i](), .45);
+      else microStory[i]().progress(1);
+    } else tl.to(whyGlow, { opacity: 0, duration: .4 * d }, 0);
+    return tl;
+  }
+  // resting state: the three cards, each showing its finished picture
+  microStory.forEach((m, k) => { if (k !== 2) m().progress(1); });   // card 3 rests on its 'before' (four different grades, as drawn), the others on their payoff
 
   /* ---------- Legacy: one memory opens, then they multiply across the screen ---------- */
   // 185 community photos. The first is the opening memory; the rest are shuffled (fixed seed) so similar shots don't cluster.
@@ -1876,7 +1991,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   }
 
   /* ---------- Steps within slides ---------- */
-  const state = { intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0 };
+  const state = { intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0, why: 0 };
   renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
@@ -1885,6 +2000,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
     sat: { next() { if (state.sat < 6) { const f = state.sat; return sat.go(++state.sat, f) || true; } }, prev() { if (state.sat > 0) { const f = state.sat; return sat.go(--state.sat, f) || true; } } },
     challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
+    why: { next() { if (state.why < 3) { focusWhy(++state.why - 1); return true; } }, prev() { if (state.why > 0) { focusWhy(--state.why - 1); return true; } } },
     glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
   };
 
@@ -1901,6 +2017,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     if (el.id === 'numbers') { if (linkState < 2) { linkState = 2; applyLink(); } if (first) countUp(); }
     if (el.id === 'legacy') playMemories();
     if (el.id === 'sat' && first) sat.enter();
+    if (el.id === 'why' && first && !reduce) gsap.from(rcards, { y: 60, rotationX: 14, opacity: 0, duration: .9, stagger: .12, ease: 'power3.out', transformPerspective: 1200 });
     if (el.id === 'method' && first) engine.enter(fromOrb);
   }
 
