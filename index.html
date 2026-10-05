@@ -1,0 +1,771 @@
+<title>TestPrep Student Presentation</title>
+<meta name="description" content="TestPrep by House of Prep: the live student presentation for grades 10–12.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap">
+<style>
+/* Layout: a scroll-snapped stack of full-screen sections (one per slide); fixed top bar; arrow keys present, touch scrolls.
+   Look: quiet near-white ground, light large display type, hairlines, soft brand-colour orbs. Colour used sparingly. */
+:root {
+  color-scheme: light;
+  --bg: #FBFBFC;
+  --panel: #F2F3F6;
+  --ink: #0B0E1A;
+  --muted: #6A6F80;
+  --faint: #A4A8B6;
+  --line: #E5E7ED;
+  --blue: #1740A9;
+  --blue-soft: #E8EDFA;
+  --orange: #FF963E;
+  --night: #0B0E1A;
+  --night-ink: #F4F5F8;
+  --good: #1E9E62;
+  --bad: #D9473A;
+  --sans: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --ease: cubic-bezier(.2,.7,.1,1);
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+
+/* ---------- Frame ---------- */
+#deck { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; scroll-behavior: smooth; }
+.slide {
+  min-height: 100%; scroll-snap-align: start; position: relative; overflow: hidden;
+  display: flex; flex-direction: column; justify-content: center;
+  padding-inline: max(16px, 6vw); padding-block: 96px 72px;
+}
+.slide.dark { background: var(--night); color: var(--night-ink); }
+.wrap { width: 100%; max-width: 1280px; margin-inline: auto; position: relative; z-index: 1; }
+
+header.bar {
+  position: fixed; inset: 0 0 auto 0; z-index: 20;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: calc(env(safe-area-inset-top, 0px) + 18px) max(16px, 3vw) 14px;
+  font-size: 13px; font-weight: 500; pointer-events: none; transition: color .4s;
+}
+header.bar > * { pointer-events: auto; }
+.brandmark { font-weight: 700; letter-spacing: -.01em; font-size: 16px; }
+.brandmark span { color: var(--orange); }
+.chapter { color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar-actions { display: flex; gap: 8px; }
+.pill {
+  font: 500 13px/1 var(--sans); border-radius: 999px; padding: 10px 16px; cursor: pointer;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+.pill.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.pill:focus-visible, button:focus-visible { outline: 2px solid var(--orange); outline-offset: 2px; }
+body.on-dark header.bar { color: var(--night-ink); }
+body.on-dark .pill { background: transparent; color: var(--night-ink); border-color: rgba(255,255,255,.2); }
+body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
+#progress { position: fixed; left: 0; top: 0; height: 2px; background: var(--orange); z-index: 21; width: 0; transition: width .5s var(--ease); }
+
+#notes {
+  position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 22;
+  width: min(820px, calc(100% - 32px)); background: var(--ink); color: var(--night-ink);
+  border-radius: 18px; padding: 16px 20px; font-size: 15px; line-height: 1.55; box-shadow: 0 20px 50px -20px rgba(0,0,0,.5);
+}
+#notes small { display: block; color: var(--orange); font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 6px; }
+
+/* ---------- Type ---------- */
+.label { font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); margin: 0 0 22px; }
+.dark .label { color: var(--faint); }
+.display { font-weight: 300; font-size: clamp(44px, 7.4vw, 112px); line-height: .98; letter-spacing: -.045em; margin: 0; text-wrap: balance; }
+.h2 { font-weight: 300; font-size: clamp(36px, 5.2vw, 76px); line-height: 1.02; letter-spacing: -.04em; margin: 0; text-wrap: balance; }
+.h3 { font-weight: 500; font-size: clamp(20px, 1.8vw, 26px); letter-spacing: -.02em; margin: 0; }
+.lede { font-size: clamp(16px, 1.35vw, 20px); line-height: 1.55; color: var(--muted); max-width: 40em; margin: 24px 0 0; }
+.dark .lede { color: #A9AEC0; }
+.body { font-size: 15px; line-height: 1.6; color: var(--muted); margin: 0; }
+.accent { color: var(--blue); }
+.dark .accent { color: var(--orange); }
+.num { font-variant-numeric: tabular-nums; }
+
+/* ---------- Orbs ---------- */
+.orb { position: absolute; border-radius: 50%; filter: blur(0.5px); pointer-events: none; }
+.orb::after { content: ""; position: absolute; inset: 0; border-radius: inherit; background: radial-gradient(circle at 30% 25%, rgba(255,255,255,.55), transparent 45%); }
+.orb.tp { background: radial-gradient(circle at 35% 30%, #6E93FF, var(--blue) 45%, #0B1F5E 75%), var(--blue); }
+.orb.tp-warm { background: conic-gradient(from 210deg, var(--blue), #6E93FF, var(--orange), #FFC48E, var(--blue)); }
+.orb.pm { background: conic-gradient(from 120deg, #FFD15C, var(--orange), #FFE7A6, #FFD15C); }
+.orb.wg { background: conic-gradient(from 40deg, #8EC5FF, var(--blue), #C9E2FF, #8EC5FF); }
+.orb.tl { background: conic-gradient(from 300deg, #B49BFF, #5B3FD6, #DCD0FF, #B49BFF); }
+.orb.spin { animation: spin 28s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- 00 Intro ---------- */
+#intro .wrap { display: grid; justify-items: center; text-align: center; }
+.search {
+  display: flex; align-items: center; gap: 14px; width: min(680px, 100%);
+  background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 16px 22px;
+  box-shadow: 0 1px 0 rgba(11,14,26,.03), 0 18px 40px -24px rgba(23,64,169,.35);
+  font-size: clamp(15px, 1.4vw, 19px); text-align: left; margin-bottom: 44px;
+}
+.search svg { flex: none; }
+.search .q { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.caret { display: inline-block; width: 2px; height: 1.1em; background: var(--blue); vertical-align: -3px; margin-left: 2px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+.chaos { position: absolute; inset: 0; pointer-events: none; z-index: 0; }
+.chaos span {
+  position: absolute; white-space: nowrap; font-size: clamp(12px, 1.1vw, 15px); font-weight: 500;
+  background: #fff; border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; color: var(--ink);
+  box-shadow: 0 10px 30px -18px rgba(11,14,26,.35);
+  opacity: 0; transform: translate(-50%, -50%) scale(.6); transition: opacity .5s var(--ease), transform .6s var(--ease);
+}
+#intro[data-step="1"] .chaos span { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+#intro[data-step="2"] .chaos span { opacity: 0; transform: translate(calc(-50% + var(--cx)), calc(-50% + var(--cy))) scale(.2); }
+.intro-top { display: grid; place-items: center; width: 100%; margin-bottom: 44px; }
+.intro-top > * { grid-area: 1 / 1; }
+.intro-top .search { margin-bottom: 0; transition: opacity .5s var(--ease), transform .7s var(--ease); }
+#intro[data-step="2"] .search { opacity: 0; transform: scale(.3); }
+.intro-orb { width: 120px; height: 120px; transition: transform .8s var(--ease) .15s, opacity .6s .15s; }
+#intro:not([data-step="2"]) .intro-orb { transform: scale(0); opacity: 0; }
+.intro-swap { display: grid; }
+.intro-swap > * { grid-area: 1 / 1; transition: opacity .6s var(--ease), transform .6s var(--ease); }
+#intro[data-step="2"] .intro-a, #intro:not([data-step="2"]) .intro-b { opacity: 0; transform: translateY(12px); pointer-events: none; }
+.meta-row { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-top: 36px; font-size: 13px; color: var(--muted); }
+.meta-row b { color: var(--ink); font-weight: 600; }
+
+/* ---------- 01 Agenda ---------- */
+.agenda { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: a; }
+.agenda li { display: grid; grid-template-columns: 64px 1fr auto; gap: 16px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid var(--line); counter-increment: a; }
+.agenda li::before { content: counter(a, decimal-leading-zero); color: var(--faint); font-size: 14px; font-weight: 500; font-variant-numeric: tabular-nums; }
+.agenda li span { font-size: clamp(20px, 2.1vw, 30px); font-weight: 300; letter-spacing: -.02em; }
+.agenda li em { font-style: normal; font-size: 13px; color: var(--muted); }
+.agenda li.game span::after { content: "Live game"; margin-left: 14px; font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--orange); border: 1px solid currentColor; border-radius: 999px; padding: 4px 9px; vertical-align: 6px; }
+
+/* ---------- 02 Video ---------- */
+.film {
+  margin-top: 40px; aspect-ratio: 16 / 9; width: 100%; max-width: 100%; border-radius: 28px; position: relative; overflow: hidden;
+  background: radial-gradient(80% 90% at 70% 30%, #1E3B9A, #0B0E1A 70%);
+  display: grid; place-items: center; color: var(--night-ink);
+}
+.film .play { width: 88px; height: 88px; border-radius: 50%; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.25); display: grid; place-items: center; backdrop-filter: blur(6px); }
+.film figcaption { position: absolute; left: 28px; bottom: 24px; right: 28px; display: flex; justify-content: space-between; gap: 16px; font-size: 13px; color: #A9AEC0; flex-wrap: wrap; }
+
+/* ---------- 03 Who ---------- */
+.quote { font-weight: 300; font-size: clamp(34px, 5vw, 72px); line-height: 1.06; letter-spacing: -.04em; margin: 0; max-width: 18em; text-wrap: balance; }
+.quote em { font-style: normal; color: var(--blue); }
+.people { display: flex; gap: 48px; margin-top: 48px; flex-wrap: wrap; }
+.people div { display: grid; gap: 4px; }
+.people b { font-weight: 600; font-size: 17px; }
+.people small { font-size: 12px; color: var(--muted); letter-spacing: .12em; text-transform: uppercase; }
+
+/* ---------- 04 Legacy ---------- */
+.timeline { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 64px; position: relative; }
+.timeline::before { content: ""; position: absolute; left: 0; right: 0; top: 7px; height: 1px; background: var(--line); }
+.timeline article { padding-right: 32px; display: grid; gap: 14px; align-content: start; }
+.timeline .dot { width: 15px; height: 15px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--ink); position: relative; }
+.timeline article:last-child .dot { background: var(--orange); border-color: var(--orange); }
+.timeline .when { font-size: 13px; color: var(--muted); margin-top: 14px; }
+
+/* ---------- 05 Numbers ---------- */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 64px; border-top: 1px solid var(--line); }
+.stat { padding: 36px 32px 0 0; display: grid; gap: 10px; }
+.stat + .stat { padding-left: 32px; border-left: 1px solid var(--line); }
+.stat .n { font-weight: 300; font-size: clamp(60px, 9vw, 150px); letter-spacing: -.06em; line-height: .9; font-variant-numeric: tabular-nums; }
+.stat .n sup { font-size: .4em; color: var(--orange); vertical-align: top; position: relative; top: .25em; margin-left: .06em; }
+.stat .k { font-size: 16px; font-weight: 500; }
+
+/* ---------- 06 Ecosystem ---------- */
+.eco-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+.brands { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; margin-top: 48px; }
+.brand {
+  background: var(--panel); border-radius: 24px; padding: 24px; display: grid; gap: 14px; align-content: start;
+  border: 1px solid transparent; transition: background .3s, border-color .3s, transform .4s var(--ease); cursor: pointer; text-align: left; font: inherit; color: inherit;
+}
+.brand:hover, .brand[aria-pressed="true"] { background: #fff; border-color: var(--line); transform: translateY(-4px); }
+.brand .orb { position: relative; width: 56px; height: 56px; }
+.brand .stage { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+.brand .name { font-size: 26px; font-weight: 500; letter-spacing: -.03em; }
+.brand .what { font-size: 14px; line-height: 1.5; color: var(--muted); min-height: 4.5em; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips span { font-size: 12px; font-weight: 500; padding: 6px 10px; border-radius: 999px; background: var(--bg); border: 1px solid var(--line); white-space: nowrap; }
+.brand[aria-pressed="true"] .chips span, .brand:hover .chips span { background: var(--panel); }
+.chips span.soon { color: var(--faint); border-style: dashed; }
+.journey { margin-top: 26px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; position: relative; }
+.journey::before { content: ""; position: absolute; left: 12px; right: 12px; top: 5px; height: 1px; background: repeating-linear-gradient(90deg, var(--orange) 0 6px, transparent 6px 12px); }
+.journey div { font-size: 13px; color: var(--muted); padding-top: 22px; position: relative; }
+.journey div::before { content: ""; position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%; background: var(--orange); }
+.journey b { color: var(--ink); font-weight: 600; }
+.powered { margin-top: 28px; display: flex; gap: 10px; align-items: center; font-size: 13px; color: var(--muted); }
+.powered i { width: 8px; height: 8px; border-radius: 50%; background: var(--blue); }
+
+/* ---------- Chapter dividers ---------- */
+.chapter-slide .wrap { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 48px; align-items: center; }
+.chapter-slide .big-orb { width: min(420px, 70vw); aspect-ratio: 1; max-width: 100%; position: relative; justify-self: center; }
+.chapter-no { font-size: 13px; font-weight: 600; color: var(--orange); letter-spacing: .16em; text-transform: uppercase; margin-bottom: 22px; }
+
+/* ---------- 08 SAT ---------- */
+.sat { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; margin-top: 44px; }
+.card { background: var(--panel); border-radius: 24px; padding: 28px; display: grid; gap: 18px; align-content: start; }
+.card .row { display: flex; gap: 32px; flex-wrap: wrap; }
+.card .row div { display: grid; gap: 2px; }
+.card .row b { font-weight: 300; font-size: clamp(36px, 4vw, 56px); letter-spacing: -.04em; line-height: 1; font-variant-numeric: tabular-nums; }
+.card .row small { font-size: 12px; color: var(--muted); }
+.facts { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; margin-top: 36px; }
+.facts div { border-top: 1px solid var(--ink); padding-top: 14px; display: grid; gap: 6px; }
+.facts b { font-weight: 500; font-size: 17px; }
+.scale-1600 { font-weight: 300; font-size: clamp(64px, 10vw, 160px); letter-spacing: -.06em; line-height: .85; color: var(--blue); }
+.sat-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+.why { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 48px; }
+.why .card { min-height: 260px; align-content: space-between; }
+.why .card .h3 { font-size: clamp(22px, 2.2vw, 32px); font-weight: 400; }
+.note { margin-top: 18px; padding: 18px 22px; border-radius: 18px; border: 1px solid var(--line); background: #fff; font-size: 15px; color: var(--muted); display: flex; gap: 12px; align-items: baseline; }
+.note b { color: var(--ink); font-weight: 600; white-space: nowrap; }
+
+/* ---------- 10 Method stepper ---------- */
+.method { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; margin-top: 40px; align-items: start; }
+.steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.steps button {
+  all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 36px 1fr; gap: 10px;
+  padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 16px; color: var(--faint); transition: color .3s;
+}
+.steps button span { font-size: 12px; font-variant-numeric: tabular-nums; padding-top: 3px; }
+.steps button[aria-current="true"] { color: var(--ink); font-weight: 500; }
+.steps button[aria-current="true"] span { color: var(--orange); }
+.steps button.done { color: var(--muted); }
+.step-panel { background: var(--panel); border-radius: 28px; padding: clamp(24px, 3vw, 44px); display: grid; gap: 22px; min-height: 440px; align-content: start; position: relative; overflow: hidden; }
+.step-panel .big { font-weight: 300; font-size: clamp(64px, 8vw, 120px); line-height: .85; letter-spacing: -.06em; color: var(--blue); font-variant-numeric: tabular-nums; }
+.step-panel .h2 { font-size: clamp(30px, 3.6vw, 52px); }
+.step-panel .you { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
+.step-panel .you small { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
+.step-panel .you p { margin: 0; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.45; color: var(--ink); font-weight: 400; }
+.step-panel .orb { width: 220px; height: 220px; right: -60px; top: -60px; opacity: .9; }
+.loop { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
+.fade-in { animation: fadeUp .5s var(--ease); }
+@keyframes fadeUp { from { opacity: .001; transform: translateY(10px); } }
+
+/* ---------- 11 Elmy ---------- */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 32px; }
+.tabs button { font: 500 14px/1 var(--sans); padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--bg); color: var(--muted); cursor: pointer; }
+.tabs button[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: var(--bg); }
+.showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 320px); gap: 32px; margin-top: 22px; align-items: start; }
+.screen { border-radius: 24px; background: var(--panel); padding: 14px; }
+.screen img { display: block; width: 100%; height: auto; max-height: 52vh; object-fit: cover; object-position: top left; border-radius: 14px; border: 1px solid var(--line); background: #fff; }
+.shot-copy { display: grid; gap: 16px; align-content: start; padding-top: 8px; }
+.shot-copy .step-tag { font-size: 12px; font-weight: 600; color: var(--blue); background: var(--blue-soft); border-radius: 999px; padding: 6px 12px; justify-self: start; }
+
+/* ---------- 12 Glitch ---------- */
+.glitch { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; margin-top: 40px; align-items: start; }
+.plan { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 8px 24px; }
+.plan li { list-style: none; display: grid; grid-template-columns: 52px 1fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 16px; transition: color .3s; }
+.plan li:last-child { border-bottom: 0; }
+.plan li b { font-weight: 600; font-size: 13px; color: var(--muted); padding-top: 2px; }
+.plan li.found { color: var(--bad); text-decoration: line-through; text-decoration-thickness: 1px; }
+.plan ul { margin: 0; padding: 0; }
+.found-list { display: grid; gap: 10px; align-content: start; }
+.found-list .fix { background: var(--panel); border-radius: 18px; padding: 16px 18px; display: grid; gap: 4px; }
+.found-list .fix small { font-size: 11px; font-weight: 600; color: var(--blue); letter-spacing: .12em; text-transform: uppercase; }
+.found-list .fix span { font-size: 15px; }
+.found-empty { font-size: 15px; color: var(--muted); border: 1px dashed var(--line); border-radius: 18px; padding: 22px; }
+.score { font-size: 13px; color: var(--muted); }
+
+/* ---------- 13 Challenge ---------- */
+#challenge .wrap { text-align: center; display: grid; justify-items: center; }
+.ladder { display: flex; gap: 14px; margin: 48px 0 32px; flex-wrap: wrap; justify-content: center; }
+.ladder button {
+  width: clamp(64px, 9vw, 112px); aspect-ratio: 1; border-radius: 50%; border: 1px solid rgba(255,255,255,.25); background: transparent; color: var(--night-ink);
+  font: 300 clamp(24px, 3vw, 40px)/1 var(--sans); cursor: pointer; transition: background .3s, border-color .3s, transform .3s var(--ease);
+}
+.ladder button.ok { background: var(--good); border-color: var(--good); }
+.ladder button.no { background: var(--bad); border-color: var(--bad); }
+.ladder button.cur { border-color: var(--orange); transform: scale(1.06); }
+.rules { display: flex; gap: 32px; flex-wrap: wrap; justify-content: center; font-size: 14px; color: #A9AEC0; }
+.rules b { color: var(--night-ink); font-weight: 600; }
+.verdict { min-height: 1.6em; font-size: clamp(18px, 1.6vw, 22px); margin-top: 26px; color: var(--orange); }
+
+/* ---------- 14 Close ---------- */
+.close-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center; }
+.qr-card { background: var(--night-ink); color: var(--night); border-radius: 28px; padding: 28px; display: grid; gap: 16px; justify-items: center; text-align: center; }
+.qr-box { width: 100%; max-width: 260px; aspect-ratio: 1; border-radius: 16px; border: 1.5px dashed #C3C7D3; display: grid; place-items: center; font-size: 13px; color: var(--muted); padding: 16px; }
+.qr-card b { font-size: 18px; font-weight: 600; }
+.logos { display: flex; gap: 28px; align-items: center; margin-top: 48px; flex-wrap: wrap; }
+.logos img { height: 34px; width: auto; opacity: .9; }
+.logos .elmy-logo { height: 40px; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .brands, .journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .method, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
+  .why, .timeline, .stats { grid-template-columns: minmax(0, 1fr); }
+  .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
+  .timeline { gap: 32px; } .timeline::before { display: none; }
+  .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .chapter-slide .big-orb { width: 200px; }
+  .bar-actions .hide-sm { display: none; }
+  .chapter { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #deck { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<header class="bar">
+  <div class="brandmark">Test<span>Prep</span></div>
+  <div class="chapter" id="chapter">Intro</div>
+  <div class="bar-actions">
+    <button class="pill hide-sm" id="btn-notes" aria-pressed="false">Notes</button>
+    <button class="pill hide-sm" id="btn-fs">Present</button>
+    <button class="pill solid" id="btn-next">Next</button>
+  </div>
+</header>
+<div id="progress"></div>
+<aside id="notes" hidden><small>Presenter notes · press N to hide</small><span id="notes-text"></span></aside>
+
+<main id="deck">
+
+  <!-- 00 · Intro -->
+  <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="2"
+    data-notes="Before you say anything, press → once. The question explodes into everything Nizar sees online. Let it sit for three seconds. Press → again: it all collapses into one orb. Then: 'Today, we're going to make it clear.'">
+    <div class="chaos" aria-hidden="true" id="chaos"></div>
+    <div class="wrap">
+      <div class="intro-top">
+      <div class="search" role="img" aria-label="Search bar: how do I start studying for the SAT?">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#6A6F80" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <span class="q" id="typed">how do I start studying for the SAT?</span><span class="caret"></span>
+      </div>
+      <div class="orb tp-warm spin intro-orb"></div>
+      </div>
+      <div class="intro-swap">
+        <div class="intro-a">
+          <p class="label">TestPrep · by House of Prep</p>
+          <h1 class="display">Where do you<br>even start?</h1>
+        </div>
+        <div class="intro-b">
+          <p class="label">TestPrep · by House of Prep</p>
+          <h1 class="display">Today, we make it <span class="accent">clear.</span></h1>
+        </div>
+      </div>
+      <div class="meta-row"><span><b>40 min</b> session</span><span><b>Grades</b> 10–12</span><span><b>2</b> live games</span><span><b>1</b> free SAT course</span></div>
+    </div>
+  </section>
+
+  <!-- 01 · Agenda -->
+  <section class="slide" id="agenda" data-chapter="Today"
+    data-notes="Don't read the list. Point at the two games and the free course: that's the hook. 'Pay attention, because everything I show you is going to help you win.'">
+    <div class="wrap">
+      <p class="label">Today</p>
+      <h2 class="h2">The next forty minutes.</h2>
+      <ol class="agenda">
+        <li><span>Meet Nizar</span><em>Opening film</em></li>
+        <li><span>Who we are</span><em>TestPrep and House of Prep</em></li>
+        <li><span>What is the SAT?</span><em>And why it matters</em></li>
+        <li><span>How we work</span><em>The 7-step Performance Engine</em></li>
+        <li><span>Powered by Elmy</span><em>The platform behind it</em></li>
+        <li class="game"><span>Spot the Glitch</span><em>Whole room</em></li>
+        <li class="game"><span>Do U Think U Have What It Takes?</span><em>One volunteer</em></li>
+        <li><span>Your next move</span><em>Scan and join</em></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 02 · Film -->
+  <section class="slide" id="film" data-chapter="Meet Nizar"
+    data-notes="Play the opening film (2 minutes). When it freezes on Nizar buried in books, step forward: 'Be honest. Hands up if you know exactly where you'd start studying for the SAT tomorrow morning.'">
+    <div class="wrap">
+      <p class="label">Opening film</p>
+      <h2 class="h2">Meet Nizar.</h2>
+      <figure class="film" style="margin-inline:0;margin-bottom:0">
+        <div class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#F4F5F8"><path d="M8 5v14l11-7z"/></svg></div>
+        <figcaption><span>Same student. Different journey.</span><span>2:00 · in production</span></figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- 03 · Who we are -->
+  <section class="slide" id="who" data-chapter="Who we are"
+    data-notes="Read the quote slowly, like a promise. 'This is the one sentence our whole company is built on.' Then introduce the founders in one line.">
+    <div class="orb tp spin" style="width:38vw;height:38vw;right:-12vw;bottom:-14vw;opacity:.12"></div>
+    <div class="wrap">
+      <p class="label">Who we are</p>
+      <p class="quote">“Instruction should follow <em>the student</em>, not the other way around.”</p>
+      <div class="people">
+        <div><b>Nizar Al Awar</b><small>Founder &amp; CEO</small></div>
+        <div><b>Karim Fattah</b><small>COO</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 · Legacy -->
+  <section class="slide" id="legacy" data-chapter="Our legacy"
+    data-notes="Three stops, one breath each. Land on the last one: TestPrep is now part of a bigger House, and that's what the next slides show.">
+    <div class="wrap">
+      <p class="label">Our legacy</p>
+      <h2 class="h2">From one classroom<br>to a whole House.</h2>
+      <div class="timeline">
+        <article><span class="dot"></span><p class="when">Beirut · 12+ years ago</p><h3 class="h3">One classroom</h3><p class="body">Founded on one belief: with the right preparation, any student can outperform what they think is possible.</p></article>
+        <article><span class="dot"></span><p class="when">TestPrep 2.0</p><h3 class="h3">A system</h3><p class="body">A data-driven method that finds gaps, targets them and adapts until the student reaches the target score.</p></article>
+        <article><span class="dot"></span><p class="when">Today</p><h3 class="h3">A House</h3><p class="body">TestPrep is part of House of Prep: a second home for learning, from school to university.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 · Numbers -->
+  <section class="slide" id="numbers" data-chapter="Our numbers"
+    data-notes="Let each number land. 'Twenty thousand students. Every single one of them started exactly where you are sitting right now.'">
+    <div class="wrap">
+      <p class="label">Our numbers</p>
+      <h2 class="h2">Every one of them started<br>where you are.</h2>
+      <div class="stats">
+        <div class="stat"><div class="n" data-count="20000">20,000<sup>+</sup></div><div class="k">Students trained</div><p class="body">Across Lebanon and the region.</p></div>
+        <div class="stat"><div class="n" data-count="12">12<sup>+</sup></div><div class="k">Years of experience</div><p class="body">From one classroom to a full system.</p></div>
+        <div class="stat"><div class="n" data-count="40">40<sup>+</sup></div><div class="k">Academic partnerships</div><p class="body">Schools and institutions that work with us.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 · Ecosystem -->
+  <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
+    data-notes="Press → to light up each brand in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). Close with: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.'">
+    <div class="wrap">
+      <div class="eco-head">
+        <div>
+          <p class="label">House of Prep</p>
+          <h2 class="h2">One roof. Every stage.</h2>
+        </div>
+        <p class="body" style="max-width:26em">House of Prep is a second home for learning. Four brands, each built for a different moment in a student's life.</p>
+      </div>
+      <div class="brands" id="brands">
+        <button class="brand" data-i="1" aria-pressed="false">
+          <span class="orb pm"></span><span class="stage">School</span><span class="name">PrepMe</span>
+          <span class="what">School subjects, so the foundations are solid before the big tests.</span>
+          <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB · soon</span><span class="soon">French · soon</span></span>
+        </button>
+        <button class="brand" data-i="0" aria-pressed="false">
+          <span class="orb tp-warm"></span><span class="stage">Tests</span><span class="name">TestPrep</span>
+          <span class="what">Every standardised test and entrance exam that matters.</span>
+          <span class="chips"><span>SAT</span><span>PSAT</span><span>AP</span><span>IELTS</span><span>TOEFL</span><span>Duolingo</span><span>EEE</span><span>LNAT</span><span>USJ concours</span><span>BAU entrance</span><span>MCAT</span><span>GMAT</span><span>GRE</span><span>LSAT</span><span>CFA</span></span>
+        </button>
+        <button class="brand" data-i="2" aria-pressed="false">
+          <span class="orb wg"></span><span class="stage">Choosing</span><span class="name">WeGuide</span>
+          <span class="what">Choosing a major, a university and a career, and actually getting in.</span>
+          <span class="chips"><span>Career guidance</span><span>Mentoring</span><span>University exploration</span><span>Applications</span></span>
+        </button>
+        <button class="brand" data-i="3" aria-pressed="false">
+          <span class="orb tl"></span><span class="stage">University</span><span class="name">Taleb</span>
+          <span class="what">The home of university learning, for when you get there.</span>
+          <span class="chips"><span>Subject courses</span><span>Academic writing</span><span>Research support</span><span>Digital skills</span></span>
+        </button>
+      </div>
+      <div class="journey" aria-hidden="true">
+        <div><b>Grade 10–12</b> · keep your grades strong</div>
+        <div><b>Grade 11–12</b> · hit your target score</div>
+        <div><b>Grade 12</b> · choose and apply</div>
+        <div><b>University</b> · thrive there</div>
+      </div>
+      <p class="powered"><i></i>The TestPrep platform is powered by Elmy.</p>
+    </div>
+  </section>
+
+  <!-- 07 · Chapter: The SAT -->
+  <section class="slide chapter-slide" id="ch-sat" data-chapter="The SAT"
+    data-notes="Ask: 'Who here has heard of the SAT? Keep your hand up if you know how it's scored.' Most hands drop. 'Perfect. Two minutes, and you'll know more than most people in your grade.'">
+    <div class="wrap">
+      <div>
+        <p class="chapter-no">Chapter 03</p>
+        <h2 class="display">So… what is<br>the SAT?</h2>
+        <p class="lede">The test Nizar had never heard of, explained in two minutes.</p>
+      </div>
+      <div class="big-orb"><div class="orb tp spin" style="inset:0"></div></div>
+    </div>
+  </section>
+
+  <!-- 08 · What is the SAT -->
+  <section class="slide" id="sat" data-chapter="The SAT"
+    data-notes="Walk it fast: two sections, all digital, and the second module adapts to how you did on the first. 'That last part is why guessing your way through practice doesn't work.'">
+    <div class="wrap">
+      <div class="sat-top">
+        <div>
+          <p class="label">What is the SAT?</p>
+          <h2 class="h2">One test. Two sections.<br>One score.</h2>
+        </div>
+        <div style="text-align:right"><div class="scale-1600 num">1600</div><p class="body">Top score · range 400–1600</p></div>
+      </div>
+      <div class="sat">
+        <div class="card"><h3 class="h3">Reading &amp; Writing</h3><div class="row"><div><b>54</b><small>questions</small></div><div><b>64</b><small>minutes</small></div><div><b>800</b><small>max score</small></div></div><p class="body">Short passages. Vocabulary in context, grammar, and what a text is really saying.</p></div>
+        <div class="card"><h3 class="h3">Math</h3><div class="row"><div><b>44</b><small>questions</small></div><div><b>70</b><small>minutes</small></div><div><b>800</b><small>max score</small></div></div><p class="body">Algebra, problem solving, data and geometry. A Desmos graphing calculator is built in.</p></div>
+      </div>
+      <div class="facts">
+        <div><b>Digital</b><p class="body">On a laptop or tablet, in the Bluebook app.</p></div>
+        <div><b>Adaptive</b><p class="body">The second module of each section adjusts to how you did on the first.</p></div>
+        <div><b>2 h 14 min</b><p class="body">Total testing time, plus a 10-minute break.</p></div>
+        <div><b>Retakeable</b><p class="body">Offered several times a year. Many students take it more than once.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 · Why the SAT -->
+  <section class="slide" id="why" data-chapter="The SAT"
+    data-notes="Bring Nizar back: 'Nobody told Nizar why this test mattered.' Three reasons, one breath each. The note at the bottom is the bridge to WeGuide.">
+    <div class="wrap">
+      <p class="label">Why do students take it?</p>
+      <h2 class="h2">Because it opens doors.</h2>
+      <div class="why">
+        <div class="card"><span class="label" style="margin:0">01</span><div style="display:grid;gap:12px"><h3 class="h3">University admission</h3><p class="body">Many universities in the US and around the world use it to compare applicants from different schools and countries.</p></div></div>
+        <div class="card"><span class="label" style="margin:0">02</span><div style="display:grid;gap:12px"><h3 class="h3">Scholarships</h3><p class="body">A strong score can strengthen merit scholarship and financial aid applications.</p></div></div>
+        <div class="card"><span class="label" style="margin:0">03</span><div style="display:grid;gap:12px"><h3 class="h3">A common measure</h3><p class="body">Your grades come from your school. The SAT puts every applicant on the same scale.</p></div></div>
+      </div>
+      <p class="note"><b>Good to know</b>Requirements differ by university and by country. Check each one you apply to. That's exactly what WeGuide helps with.</p>
+    </div>
+  </section>
+
+  <!-- 10 · Chapter: Methodology -->
+  <section class="slide chapter-slide" id="ch-method" data-chapter="How we work"
+    data-notes="'Nizar studied hard. He just studied wrong. Here is what studying right looks like.' Pause. Next slide.">
+    <div class="wrap">
+      <div>
+        <p class="chapter-no">Chapter 04 · How we work</p>
+        <h2 class="display">Not a course.<br>A <span class="accent">system.</span></h2>
+        <p class="lede">The TestPrep Performance Engine: seven steps that turn effort into a score. Every student starts in a different place, so no two plans look the same.</p>
+      </div>
+      <div class="big-orb"><div class="orb tp-warm spin" style="inset:0"></div></div>
+    </div>
+  </section>
+
+  <!-- 11 · Method stepper -->
+  <section class="slide" id="method" data-chapter="How we work" data-steps="6"
+    data-notes="Press → to move through the seven steps. For each one, read only the line under 'For you, this means'. On step 7, point at the loop: the cycle restarts until you hit your target. That's the opposite of Nizar's plan.">
+    <div class="wrap">
+      <p class="label">The TestPrep Performance Engine</p>
+      <h2 class="h2">Seven steps. One loop.</h2>
+      <div class="method">
+        <ol class="steps" id="steps"></ol>
+        <div class="step-panel" id="step-panel" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 · Elmy -->
+  <section class="slide" id="elmy" data-chapter="Powered by Elmy" data-steps="3"
+    data-notes="'This is where Nizar's guessing ends.' Press → to move through the four screens. Keep each one to a sentence: this is what you see, this is the step it powers.">
+    <div class="wrap">
+      <p class="label">Powered by Elmy</p>
+      <h2 class="h2" style="font-size:clamp(32px,4.2vw,60px)">You never have to guess<br>what to study next.</h2>
+      <div class="tabs" role="tablist" id="elmy-tabs"></div>
+      <div class="showcase">
+        <div class="screen"><img id="elmy-img" src="assets/elmy/dashboard.jpg" alt="Elmy student dashboard" width="1600" height="1232"></div>
+        <div class="shot-copy" id="elmy-copy"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 · Spot the Glitch -->
+  <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="7"
+    data-notes="Whole room plays. 'This is Nizar's study week. He works hard every single day. Find what's wrong.' When someone shouts a glitch, click that line (or press → to reveal in order). Each glitch shows the step that fixes it. Seven glitches, seven steps.">
+    <div class="wrap">
+      <p class="label">Live game · whole room</p>
+      <h2 class="h2">Spot the Glitch.</h2>
+      <p class="lede" style="margin-top:14px">This is Nizar's study week. He works hard every day. What's wrong with it?</p>
+      <div class="glitch">
+        <ul class="plan" id="plan"></ul>
+        <div>
+          <div class="found-list" id="found"><p class="found-empty">Shout it out. Every glitch you find shows the step that fixes it.</p></div>
+          <p class="score" id="glitch-score" style="margin-top:14px">0 of 7 found</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 · Challenge -->
+  <section class="slide dark" id="challenge" data-chapter="The challenge"
+    data-notes="Bring one volunteer on stage. Five questions, alternating Math and English. Click a circle once for correct (green), twice for wrong (red), three times to reset. Five greens wins free enrollment in the SAT course within the school program.">
+    <div class="wrap">
+      <p class="label">Live game · one volunteer</p>
+      <h2 class="display">Do U Think U Have<br>What It <span class="accent">Takes?</span></h2>
+      <div class="ladder" id="ladder"></div>
+      <div class="rules"><span><b>5</b> questions</span><span><b>Math</b> and <b>English</b></span><span><b>5 / 5</b> = free SAT course enrollment within the school program</span></div>
+      <p class="verdict" id="verdict" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- 15 · Close -->
+  <section class="slide dark" id="close" data-chapter="Your next move"
+    data-notes="Lights down on the film's last frame if you can. 'Nizar and Nazarethe were the same student. The only difference was the journey.' Then: 'Phones out. Scan this. Two minutes, and we'll know exactly where you're starting from.' Leave this slide up until the room is done.">
+    <div class="orb tp-warm spin" style="width:46vw;height:46vw;left:-16vw;bottom:-22vw;opacity:.18"></div>
+    <div class="wrap close-grid">
+      <div>
+        <p class="label">Your next move</p>
+        <h2 class="display">Same student.<br>Different <span class="accent">journey.</span></h2>
+        <p class="lede">Scan the code and tell us where you're starting from. We'll take it from there.</p>
+        <div class="logos"><img src="assets/logo-testprep-white.png" alt="TestPrep" width="900" height="604"><img class="elmy-logo" src="assets/logo-elmy-white.svg" alt="Elmy" width="140" height="40"></div>
+      </div>
+      <div class="qr-card">
+        <div class="qr-box" id="qr">QR code goes here once the sign-up form is live.</div>
+        <b>Scan to join</b>
+        <p class="body">2 minutes · for you and your school</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+(() => {
+  const deck = document.getElementById('deck');
+  const slides = [...document.querySelectorAll('.slide')];
+  const chapterEl = document.getElementById('chapter');
+  const progress = document.getElementById('progress');
+  const notes = document.getElementById('notes');
+  const notesText = document.getElementById('notes-text');
+  let cur = 0;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------- Intro ---------- */
+  const chaosWords = ['Which book?', 'Khan Academy?', '1,000 practice questions', 'Is 1200 good?', 'Math or English first?', 'Do I even need it?', 'TikTok SAT hacks', 'Free PDF (2019)', 'Ask my cousin', 'Start in summer?', 'How many hours a day?', 'Digital or paper?', 'What is Bluebook?', 'Desmos??', 'Grammar rules list', '30-day plan', 'Practice test #7', 'Reddit thread', 'My friend got 1500', 'Is it too late?'];
+  const spots = [[12,18],[30,10],[70,12],[88,20],[8,40],[92,42],[14,64],[86,66],[24,84],[50,90],[76,84],[40,22],[62,24],[6,86],[94,88],[20,30],[80,32],[36,76],[64,74],[50,8]];
+  const chaos = document.getElementById('chaos');
+  chaosWords.forEach((w, i) => {
+    const s = document.createElement('span'); s.textContent = w;
+    const [x, y] = spots[i]; s.style.left = x + '%'; s.style.top = y + '%';
+    s.style.setProperty('--cx', (50 - x) + 'vw'); s.style.setProperty('--cy', (45 - y) + 'vh');
+    s.style.transitionDelay = (i * 35) + 'ms'; chaos.appendChild(s);
+  });
+  const intro = document.getElementById('intro');
+
+  /* ---------- Ecosystem ---------- */
+  const brandEls = [...document.querySelectorAll('#brands .brand')];
+  const order = ['PrepMe', 'TestPrep', 'WeGuide', 'Taleb'];
+  function lightBrand(k) { brandEls.forEach(b => b.setAttribute('aria-pressed', b.querySelector('.name').textContent === order[k])); }
+  brandEls.forEach(b => b.addEventListener('click', () => { const k = order.indexOf(b.querySelector('.name').textContent); state.ecosystem = k; lightBrand(k); }));
+
+  /* ---------- Method ---------- */
+  const STEPS = [
+    ['Diagnostic Assessment', 'Establish baseline performance and identify hidden weaknesses.', 'Before a single lesson, we know exactly where you stand, so no time is wasted on what you already know.'],
+    ['Performance Gap Analysis', 'Break down deficiencies by skill, topic and cognitive process.', 'Not "you\'re bad at math". You\'ll know it\'s linear equations, and why you miss them.'],
+    ['Personalized Learning Plan', 'Design a tailored roadmap aligned with the target score.', 'Your plan is built around your gaps and your target score, not a standard course everyone follows.'],
+    ['Targeted Instruction', 'Deliver focused lessons on high-impact weaknesses.', 'Your hours go where they move your score the most.'],
+    ['Micro-Assessments', 'Measure mastery continuously after each intervention.', 'Short checks after every lesson show what\'s fixed, before it becomes a problem on test day.'],
+    ['Adaptive Optimization', 'Reallocate instructional effort based on performance data.', 'When the data shows something changed, your plan changes with it.'],
+    ['Full-Length Simulation & Iteration', 'Validate progress and restart the cycle until goals are achieved.', 'Real-conditions practice tests, then the loop runs again until you hit your target.'],
+  ];
+  const stepsEl = document.getElementById('steps'), panel = document.getElementById('step-panel');
+  STEPS.forEach((s, i) => {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.innerHTML = `<span>0${i + 1}</span>${s[0]}`; b.addEventListener('click', () => { state.method = i; renderMethod(); });
+    li.appendChild(b); stepsEl.appendChild(li);
+  });
+  function renderMethod() {
+    const i = state.method, s = STEPS[i];
+    [...stepsEl.querySelectorAll('button')].forEach((b, j) => { b.setAttribute('aria-current', j === i); b.classList.toggle('done', j < i); });
+    panel.innerHTML = `<div class="orb ${i % 2 ? 'tp' : 'tp-warm'} spin"></div>
+      <div class="big num fade-in">0${i + 1}</div>
+      <div class="fade-in" style="display:grid;gap:12px"><h3 class="h2">${s[0]}</h3><p class="body" style="font-size:16px;max-width:34em">${s[1]}</p></div>
+      <div class="you fade-in"><small>For you, this means</small><p>${s[2]}</p></div>
+      ${i === 6 ? '<span class="loop fade-in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF963E" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.3L3 16m0 5v-5h5"/></svg>Back to step 01 until you hit your target</span>' : ''}`;
+  }
+
+  /* ---------- Elmy ---------- */
+  const SHOTS = [
+    ['Dashboard', 'dashboard.jpg', 'Step 03 · Personalized plan', 'Your plan, every day', 'Sessions, tasks and exams in one place, so you always know what today is for.'],
+    ['Practice exams', 'exam.jpg', 'Step 05 · Micro-assessments', 'Practice in the real format', 'Timed, digital questions that feel like test day, with every answer saved and measured.'],
+    ['Performance', 'performance.jpg', 'Step 02 · Gap analysis', 'See your progress', 'Scores over time and skill coverage show exactly where you are strong and where you are not yet.'],
+    ['Common errors', 'common-errors.jpg', 'Step 06 · Adaptive optimization', 'Fix the pattern, not the question', 'Elmy groups your mistakes into patterns and tells you what to focus on next.'],
+  ];
+  const tabs = document.getElementById('elmy-tabs'), img = document.getElementById('elmy-img'), copy = document.getElementById('elmy-copy');
+  SHOTS.forEach((s, i) => { const b = document.createElement('button'); b.setAttribute('role', 'tab'); b.textContent = s[0]; b.addEventListener('click', () => { state.elmy = i; renderElmy(); }); tabs.appendChild(b); });
+  SHOTS.forEach(s => { const p = new Image(); p.src = 'assets/elmy/' + s[1]; });
+  function renderElmy() {
+    const s = SHOTS[state.elmy];
+    [...tabs.children].forEach((b, j) => b.setAttribute('aria-selected', j === state.elmy));
+    img.src = 'assets/elmy/' + s[1]; img.alt = 'Elmy ' + s[0].toLowerCase() + ' screen';
+    copy.innerHTML = `<span class="step-tag fade-in">${s[2]}</span><h3 class="h2 fade-in" style="font-size:clamp(28px,2.8vw,40px)">${s[3]}</h3><p class="body fade-in" style="font-size:16px">${s[4]}</p>`;
+  }
+
+  /* ---------- Glitch ---------- */
+  const PLAN = [
+    ['Mon', 'Open the big SAT book at chapter 1 and start reading.', '01 · Diagnose', 'He never found out where he actually stands.'],
+    ['Tue', 'Watch whatever SAT videos come up on YouTube.', '02 · Gap analysis', 'He has no idea which skills are costing him points.'],
+    ['Wed', 'Do 100 random math questions.', '03 · Personalized plan', 'Random practice, no plan built around his target.'],
+    ['Thu', 'Re-read the reading tips he already knows.', '04 · Targeted instruction', 'Comfortable review instead of his real weak spots.'],
+    ['Fri', 'Finish a practice set. Don\'t check the answers.', '05 · Micro-assessments', 'He never measures whether anything improved.'],
+    ['Sat', 'Same plan as last week.', '06 · Adaptive optimization', 'Nothing changes, even when the results do.'],
+    ['Sun', 'First full-length test: on test day.', '07 · Full-length simulation', 'No rehearsal under real conditions.'],
+  ];
+  const planEl = document.getElementById('plan'), foundEl = document.getElementById('found'), scoreEl = document.getElementById('glitch-score');
+  PLAN.forEach((p, i) => { const li = document.createElement('li'); li.innerHTML = `<b>${p[0]}</b><span>${p[1]}</span>`; li.style.cursor = 'pointer'; li.addEventListener('click', () => reveal(i)); planEl.appendChild(li); });
+  const found = new Set();
+  function reveal(i) {
+    if (found.has(i)) return; found.add(i);
+    planEl.children[i].classList.add('found');
+    foundEl.querySelector('.found-empty')?.remove();
+    const d = document.createElement('div'); d.className = 'fix fade-in';
+    d.innerHTML = `<small>Fixed by step ${PLAN[i][2]}</small><span>${PLAN[i][3]}</span>`;
+    foundEl.appendChild(d);
+    scoreEl.textContent = `${found.size} of 7 found` + (found.size === 7 ? ' · that\'s the whole Performance Engine.' : '');
+  }
+
+  /* ---------- Challenge ---------- */
+  const ladder = document.getElementById('ladder'), verdict = document.getElementById('verdict');
+  const marks = [0, 0, 0, 0, 0];
+  for (let i = 0; i < 5; i++) {
+    const b = document.createElement('button'); b.textContent = i + 1; b.setAttribute('aria-label', 'Question ' + (i + 1));
+    b.addEventListener('click', () => { marks[i] = (marks[i] + 1) % 3; paintLadder(); });
+    ladder.appendChild(b);
+  }
+  function paintLadder() {
+    const next = marks.indexOf(0), wrong = marks.includes(2);
+    [...ladder.children].forEach((b, i) => { b.className = marks[i] === 1 ? 'ok' : marks[i] === 2 ? 'no' : (i === next && !wrong ? 'cur' : ''); });
+    const ok = marks.filter(m => m === 1).length;
+    verdict.textContent = wrong ? 'So close. Give it up for them anyway.' : ok === 5 ? 'Five for five. Free SAT course enrollment unlocked.' : ok ? `${ok} down, ${5 - ok} to go.` : '';
+  }
+  paintLadder();
+
+  /* ---------- Numbers ---------- */
+  function countUp() {
+    if (reduce) return;
+    document.querySelectorAll('#numbers .n').forEach(el => {
+      const target = +el.dataset.count, t0 = performance.now();
+      const tick = now => { const p = Math.min(1, (now - t0) / 1400), e = 1 - Math.pow(1 - p, 3); el.innerHTML = Math.round(target * e).toLocaleString('en-US') + '<sup>+</sup>'; if (p < 1) requestAnimationFrame(tick); };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  /* ---------- Steps within slides ---------- */
+  const state = { intro: 0, ecosystem: -1, method: 0, elmy: 0, glitch: 0 };
+  renderMethod(); renderElmy();
+  const handlers = {
+    intro: { next() { if (state.intro < 2) { state.intro++; intro.dataset.step = state.intro; return true; } }, prev() { if (state.intro > 0) { state.intro--; intro.dataset.step = state.intro; return true; } } },
+    ecosystem: { next() { if (state.ecosystem < 3) { lightBrand(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > -1) { lightBrand(--state.ecosystem); return true; } } },
+    method: { next() { if (state.method < 6) { state.method++; renderMethod(); return true; } }, prev() { if (state.method > 0) { state.method--; renderMethod(); return true; } } },
+    elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
+    glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
+  };
+
+  function goTo(i) { cur = Math.max(0, Math.min(slides.length - 1, i)); slides[cur].scrollIntoView({ behavior: reduce ? 'auto' : 'smooth' }); }
+  function next() { const h = handlers[slides[cur].id]; if (h?.next?.()) return; goTo(cur + 1); }
+  function prev() { const h = handlers[slides[cur].id]; if (h?.prev?.()) return; goTo(cur - 1); }
+
+  // Current slide = the one whose top is nearest the top of the viewport (works for slides taller than the screen).
+  let synced = -1;
+  function sync() {
+    const y = deck.scrollTop + deck.clientHeight * 0.35;
+    let i = 0; slides.forEach((sl, k) => { if (sl.offsetTop <= y) i = k; });
+    if (i === synced) return;
+    synced = cur = i; const el = slides[i]; const first = !el.dataset.seen; el.dataset.seen = 1;
+    chapterEl.textContent = el.dataset.chapter;
+    notesText.textContent = el.dataset.notes || '';
+    progress.style.width = ((cur + 1) / slides.length * 100) + '%';
+    document.body.classList.toggle('on-dark', el.classList.contains('dark'));
+    if (el.id === 'numbers' && first) countUp();
+  }
+  let raf = 0; deck.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
+  sync();
+
+  document.addEventListener('keydown', e => {
+    if (e.target.closest('input, textarea')) return;
+    if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key === 'Home') goTo(0); else if (e.key === 'End') goTo(slides.length - 1);
+    else if (e.key.toLowerCase() === 'n') toggleNotes();
+    else if (e.key.toLowerCase() === 'f') present();
+  });
+  function toggleNotes() { notes.hidden = !notes.hidden; document.getElementById('btn-notes').setAttribute('aria-pressed', !notes.hidden); }
+  function present() { const el = document.documentElement; const p = document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); p?.catch?.(() => {}); }
+  document.getElementById('btn-notes').onclick = toggleNotes;
+  document.getElementById('btn-fs').onclick = present;
+  document.getElementById('btn-next').onclick = next;
+
+  const start = slides.findIndex(s => s.id === location.hash.slice(1));
+  if (start > 0) requestAnimationFrame(() => slides[start].scrollIntoView());
+})();
+</script>

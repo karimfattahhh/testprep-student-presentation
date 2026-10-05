@@ -1,0 +1,485 @@
+<title>TestPrep Student Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,700&family=Caveat:wght@600;700&display=swap">
+<style>
+/* Layout: one fixed 16:9 stage (1600×900) scaled to fit the window; one slide visible at a time; controls bar below. */
+/* Deliberate single look: a projected deck, so colours are fixed rather than theme-switching. */
+:root {
+  color-scheme: light;
+  --blue: #1740A9;        /* TestPrep primary */
+  --blue-ink: #0F2C7A;
+  --orange: #FF963E;      /* TestPrep accent */
+  --paper: #F7F9FF;       /* blue-biased white */
+  --line: #D6DEF3;
+  --muted: #5B6790;
+  --night: #071338;       /* brain slide ground */
+  --night-2: #0D1D4F;
+  --yellow: #FFD15C;
+  --sky: #8EC5FF;
+  --violet: #B49BFF;
+  --chrome: #E9EDF8;
+  --font: "Montserrat", "Helvetica Neue", Arial, sans-serif;
+  --hand: "Caveat", "Comic Sans MS", cursive;
+}
+html, body { height: 100%; }
+body {
+  background: var(--chrome);
+  color: var(--blue-ink);
+  font-family: var(--font);
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  padding-inline: 16px; padding-block: 12px;
+  box-sizing: border-box;
+}
+#viewport { flex: 1; min-height: 0; display: grid; place-items: center; }
+#stage {
+  width: 1600px; height: 900px; position: relative;
+  transform-origin: center center; flex: none;
+  border-radius: 14px; overflow: hidden;
+  box-shadow: 0 30px 60px -30px rgba(15,44,122,.45);
+  background: var(--paper);
+}
+.slide { position: absolute; inset: 0; padding: 88px 104px; box-sizing: border-box; display: none; }
+.slide.active { display: block; }
+.dots-bg {
+  background-color: var(--paper);
+  background-image: radial-gradient(var(--line) 2.2px, transparent 2.4px);
+  background-size: 36px 36px;
+}
+.eyebrow { font-size: 22px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin: 0 0 22px; }
+h1, h2 { margin: 0; text-wrap: balance; letter-spacing: -.02em; }
+h1 { font-size: 92px; line-height: .98; font-weight: 900; color: var(--blue); }
+h2 { font-size: 72px; line-height: 1.02; font-weight: 900; color: var(--blue); }
+.lede { font-size: 30px; line-height: 1.45; font-weight: 500; color: var(--muted); max-width: 30em; margin: 30px 0 0; }
+.hand { font-family: var(--hand); color: var(--orange); font-weight: 700; }
+.corner { position: absolute; left: 104px; bottom: 44px; font-size: 18px; font-weight: 800; letter-spacing: .04em; color: var(--blue); }
+.corner span { color: var(--orange); }
+.pageno { position: absolute; right: 104px; bottom: 44px; font-size: 18px; font-weight: 600; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+/* 1 — Who we are */
+.who { display: grid; grid-template-columns: 1.25fr 1fr; gap: 80px; height: 100%; align-items: center; }
+.who blockquote { margin: 0; font-size: 64px; line-height: 1.08; font-weight: 800; color: var(--blue); letter-spacing: -.02em; text-wrap: balance; }
+.who blockquote em { font-style: normal; color: var(--orange); }
+.who .sig { margin-top: 40px; display: flex; gap: 56px; }
+.who .sig b { display: block; font-size: 24px; color: var(--blue-ink); }
+.who .sig small { font-size: 16px; font-weight: 700; letter-spacing: .14em; color: var(--muted); }
+.legacy { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; position: relative; }
+.legacy::before { content: ""; position: absolute; left: 21px; top: 24px; bottom: 24px; width: 3px; background: repeating-linear-gradient(var(--blue) 0 10px, transparent 10px 18px); }
+.legacy li { display: grid; grid-template-columns: 46px 1fr; gap: 26px; padding: 22px 0; align-items: start; }
+.legacy .pin { width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--blue); background: var(--paper); box-sizing: border-box; position: relative; z-index: 1; }
+.legacy li:last-child .pin { background: var(--orange); border-color: var(--orange); }
+.legacy h3 { margin: 4px 0 6px; font-size: 30px; font-weight: 800; color: var(--blue); }
+.legacy p { margin: 0; font-size: 21px; line-height: 1.45; color: var(--muted); font-weight: 500; }
+
+/* 2 — Numbers */
+.nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; margin-top: 70px; border-top: 3px solid var(--blue); }
+.num { padding: 44px 40px 0 0; }
+.num + .num { padding-left: 40px; border-left: 2px dashed var(--line); }
+.num .v { font-size: 168px; font-weight: 900; color: var(--blue); line-height: .9; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.num .v sup { font-size: 90px; color: var(--orange); vertical-align: top; position: relative; top: 8px; margin-left: 4px; }
+.num .k { margin-top: 22px; font-size: 28px; font-weight: 700; color: var(--blue-ink); }
+.num .d { margin-top: 8px; font-size: 20px; color: var(--muted); font-weight: 500; line-height: 1.4; }
+.nums-note { position: absolute; right: 104px; top: 96px; font-size: 40px; transform: rotate(-4deg); }
+
+/* 3 — Brain */
+#s-brain { background: radial-gradient(1200px 700px at 50% 45%, var(--night-2), var(--night)); padding: 0; color: #fff; }
+#s-brain svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.brain-head { position: absolute; left: 72px; top: 60px; z-index: 2; pointer-events: none; }
+.brain-head .eyebrow { margin-bottom: 12px; }
+.brain-head h2 { color: #fff; font-size: 54px; }
+.brain-cap { position: absolute; left: 72px; right: 72px; bottom: 54px; z-index: 2; display: flex; justify-content: space-between; align-items: flex-end; gap: 40px; pointer-events: none; }
+.brain-cap p { margin: 0; font-size: 28px; line-height: 1.4; font-weight: 600; color: rgba(255,255,255,.88); max-width: 21em; min-height: 2.8em; }
+.brain-cap .stepper { font-size: 16px; font-weight: 700; letter-spacing: .16em; color: rgba(255,255,255,.5); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.legend { position: absolute; right: 72px; top: 66px; z-index: 2; display: grid; gap: 10px; font-size: 17px; font-weight: 600; color: rgba(255,255,255,.75); }
+.legend span { display: flex; align-items: center; gap: 10px; }
+.legend i { width: 14px; height: 14px; border-radius: 50%; display: inline-block; }
+.node-label { font-family: var(--font); fill: rgba(255,255,255,.78); font-weight: 600; paint-order: stroke; stroke: var(--night); stroke-width: 5px; stroke-linejoin: round; pointer-events: none; }
+.node-label.l0 { font-size: 30px; font-weight: 900; fill: #fff; }
+.node-label.l1 { font-size: 24px; font-weight: 800; fill: #fff; }
+.node-label.l2 { font-size: 17px; font-weight: 700; fill: rgba(255,255,255,.7); text-transform: uppercase; letter-spacing: .08em; }
+.node-label.l3 { font-size: 18px; }
+.node { cursor: grab; }
+.link { stroke: rgba(173,196,255,.22); stroke-width: 1.6; fill: none; }
+.link.dashed { stroke-dasharray: 6 7; stroke: rgba(255,255,255,.35); }
+.dim { opacity: .14; transition: opacity .25s; }
+.journey { fill: none; stroke: var(--orange); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 14; filter: drop-shadow(0 0 8px rgba(255,150,62,.7)); }
+.jlabel { font-family: var(--hand); font-size: 34px; fill: var(--orange); font-weight: 700; paint-order: stroke; stroke: var(--night); stroke-width: 6px; }
+
+/* 4/5 — SAT */
+.sat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 56px; }
+.section-card { border: 3px solid var(--blue); border-radius: 22px; padding: 36px 40px; background: #fff; }
+.section-card h3 { margin: 0 0 18px; font-size: 38px; font-weight: 900; color: var(--blue); }
+.section-card .meta { display: flex; gap: 40px; }
+.section-card .meta div b { display: block; font-size: 60px; font-weight: 900; color: var(--blue-ink); line-height: 1; font-variant-numeric: tabular-nums; }
+.section-card .meta div small { font-size: 18px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.section-card p { margin: 22px 0 0; font-size: 22px; line-height: 1.45; color: var(--muted); font-weight: 500; }
+.facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 44px; }
+.fact { border-top: 3px solid var(--orange); padding-top: 16px; }
+.fact b { display: block; font-size: 30px; font-weight: 900; color: var(--blue); }
+.fact span { display: block; margin-top: 6px; font-size: 20px; line-height: 1.4; color: var(--muted); font-weight: 500; }
+.score-scale { position: absolute; right: 104px; top: 88px; text-align: right; }
+.score-scale b { font-size: 120px; font-weight: 900; color: var(--orange); line-height: .9; letter-spacing: -.04em; }
+.score-scale small { display: block; font-size: 20px; font-weight: 700; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; }
+.why { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 64px; }
+.why article { display: grid; gap: 16px; align-content: start; }
+.why .n { font-size: 26px; font-weight: 900; color: var(--orange); }
+.why h3 { margin: 0; font-size: 40px; line-height: 1.08; font-weight: 900; color: var(--blue); text-wrap: balance; }
+.why p { margin: 0; font-size: 23px; line-height: 1.5; color: var(--muted); font-weight: 500; }
+.check-note { position: absolute; left: 104px; right: 104px; bottom: 108px; display: flex; gap: 22px; align-items: center; padding: 24px 32px; border-radius: 18px; background: var(--blue); color: #fff; font-size: 24px; font-weight: 600; line-height: 1.4; }
+.check-note .hand { font-size: 38px; color: var(--orange); white-space: nowrap; }
+
+/* Controls */
+#bar { flex: none; display: flex; align-items: center; justify-content: center; gap: 14px; padding-top: 12px; flex-wrap: wrap; }
+#bar button { font: 700 14px/1 var(--font); color: var(--blue); background: #fff; border: 2px solid var(--line); border-radius: 999px; padding: 10px 16px; cursor: pointer; }
+#bar button:hover { border-color: var(--blue); }
+#bar button:focus-visible { outline: 3px solid var(--orange); outline-offset: 2px; }
+#bar button.primary { background: var(--blue); color: #fff; border-color: var(--blue); }
+#tabs { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+#tabs button { font-weight: 600; font-size: 13px; padding: 8px 12px; }
+#tabs button[aria-current="true"] { background: var(--orange); border-color: var(--orange); color: #fff; }
+#notes { flex: none; max-width: 1100px; margin: 10px auto 0; width: 100%; background: #fff; border: 2px solid var(--line); border-radius: 14px; padding: 14px 18px; box-sizing: border-box; font-size: 15px; line-height: 1.55; color: var(--blue-ink); }
+#notes b { color: var(--orange); letter-spacing: .1em; font-size: 12px; text-transform: uppercase; display: block; margin-bottom: 4px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<div id="viewport">
+  <div id="stage" role="region" aria-label="Slides">
+
+    <!-- 1 · Who we are + legacy -->
+    <section class="slide dots-bg active" id="s-who" data-name="Who we are"
+      data-notes="Slow down here. Read the quote like it's a promise. Then walk the three stops on the right: one classroom, then a real system, then a whole House. Don't list achievements yet; the next slide does that.">
+      <div class="who">
+        <div>
+          <p class="eyebrow">Who we are</p>
+          <blockquote>“Instruction should follow <em>the student</em>, not the other way around.”</blockquote>
+          <div class="sig">
+            <div><b>Nizar Al Awar</b><small>FOUNDER &amp; CEO</small></div>
+            <div><b>Karim Fattah</b><small>COO</small></div>
+          </div>
+        </div>
+        <ol class="legacy" aria-label="Our legacy">
+          <li><span class="pin"></span><div><h3>One classroom</h3><p>Founded in Beirut more than a decade ago, on one belief: with the right preparation, any student can outperform what they think is possible.</p></div></li>
+          <li><span class="pin"></span><div><h3>A system</h3><p>TestPrep 2.0 turned that belief into a data-driven method that finds gaps, targets them and adapts until the target score is reached.</p></div></li>
+          <li><span class="pin"></span><div><h3>A House</h3><p>Today TestPrep is part of House of Prep, a second home for learning from school to university.</p></div></li>
+        </ol>
+      </div>
+      <div class="corner">Test<span>Prep</span> · by House of Prep</div>
+      <div class="pageno">01</div>
+    </section>
+
+    <!-- 2 · Numbers -->
+    <section class="slide dots-bg" id="s-numbers" data-name="Our numbers"
+      data-notes="Let each number land before the next. Ask the room: 'Twenty thousand. How many people are in this hall right now?' Then point out that every one of those students started exactly where they are today.">
+      <p class="eyebrow">Our numbers</p>
+      <h2>A decade of students<br>who started where you are.</h2>
+      <span class="nums-note hand">and counting →</span>
+      <div class="nums">
+        <div class="num"><div class="v" data-count="20000">20,000<sup>+</sup></div><div class="k">Students trained</div><div class="d">Across Lebanon and the region.</div></div>
+        <div class="num"><div class="v" data-count="12">12<sup>+</sup></div><div class="k">Years of experience</div><div class="d">From one classroom to a full system.</div></div>
+        <div class="num"><div class="v" data-count="40">40<sup>+</sup></div><div class="k">Academic partnerships</div><div class="d">Schools and institutions that work with us.</div></div>
+      </div>
+      <div class="corner">Test<span>Prep</span> · by House of Prep</div>
+      <div class="pageno">02</div>
+    </section>
+
+    <!-- 3 · Brain -->
+    <section class="slide" id="s-brain" data-name="House of Prep brain"
+      data-notes="Press → to grow the graph one step at a time. Each press adds a branch; let the nodes settle before you speak. Final press draws the journey: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.' You can drag nodes, and hovering a node lights up its connections.">
+      <svg id="brain" viewBox="0 0 1600 900" aria-label="House of Prep ecosystem graph" role="img"></svg>
+      <div class="brain-head"><p class="eyebrow">One roof</p><h2>The House of Prep brain</h2></div>
+      <div class="legend" aria-hidden="true">
+        <span><i style="background:var(--orange)"></i>TestPrep</span>
+        <span><i style="background:var(--yellow)"></i>PrepMe</span>
+        <span><i style="background:var(--sky)"></i>WeGuide</span>
+        <span><i style="background:var(--violet)"></i>Taleb</span>
+        <span><i style="background:transparent;border:2px dashed rgba(255,255,255,.6);box-sizing:border-box"></i>Elmy (platform)</span>
+      </div>
+      <div class="brain-cap"><p id="brain-caption"></p><span class="stepper" id="brain-step"></span></div>
+    </section>
+
+    <!-- 4 · What is the SAT -->
+    <section class="slide dots-bg" id="s-sat" data-name="What is the SAT?"
+      data-notes="Ask first: 'Who here has heard of the SAT? Keep your hand up if you know how it's scored.' Hands drop. Then walk it: two sections, all on a laptop, the second module adapts to you. Keep it fast; this is orientation, not a lesson.">
+      <p class="eyebrow">For anyone asking “wait, what is it?”</p>
+      <h2>What is the SAT?</h2>
+      <p class="lede" style="margin-top:20px">One test, two sections, one score. Universities use it to compare students from very different schools on the same scale.</p>
+      <div class="score-scale"><b>1600</b><small>Top score · range 400–1600</small></div>
+      <div class="sat-grid">
+        <div class="section-card">
+          <h3>Reading &amp; Writing</h3>
+          <div class="meta"><div><b>54</b><small>questions</small></div><div><b>64</b><small>minutes</small></div><div><b>200–800</b><small>score</small></div></div>
+          <p>Short passages. Vocabulary in context, grammar, and understanding what a text is really saying.</p>
+        </div>
+        <div class="section-card">
+          <h3>Math</h3>
+          <div class="meta"><div><b>44</b><small>questions</small></div><div><b>70</b><small>minutes</small></div><div><b>200–800</b><small>score</small></div></div>
+          <p>Algebra, problem solving, data and geometry. A Desmos graphing calculator is built in.</p>
+        </div>
+      </div>
+      <div class="facts">
+        <div class="fact"><b>Digital</b><span>Taken on a laptop or tablet in the Bluebook app.</span></div>
+        <div class="fact"><b>Adaptive</b><span>Each section has two modules. The second adjusts to how you did on the first.</span></div>
+        <div class="fact"><b>2 h 14 min</b><span>Total testing time, plus a 10-minute break.</span></div>
+        <div class="fact"><b>Retakeable</b><span>Offered several times a year. Many students take it more than once.</span></div>
+      </div>
+      <div class="pageno">04</div>
+    </section>
+
+    <!-- 5 · Why the SAT -->
+    <section class="slide dots-bg" id="s-why" data-name="Why take it?"
+      data-notes="Bring Nizar back: 'Remember Nizar? Nobody told him why this test mattered.' Three reasons, one breath each. End on the blue bar; it keeps us honest and it's the bridge to WeGuide.">
+      <p class="eyebrow">Why do students take it?</p>
+      <h2>Because it opens doors.</h2>
+      <div class="why">
+        <article><span class="n">01</span><h3>University admission</h3><p>Many universities in the US and around the world use the SAT to compare applicants from different schools and countries.</p></article>
+        <article><span class="n">02</span><h3>Scholarships</h3><p>A strong score can strengthen merit scholarship and financial aid applications.</p></article>
+        <article><span class="n">03</span><h3>A common measure</h3><p>Your grades come from your school. The SAT puts every applicant on the same scale, so a strong score speaks for you anywhere.</p></article>
+      </div>
+      <div class="check-note"><span class="hand">Good to know</span>Requirements differ by university and by country. Check each one you apply to; that's exactly what WeGuide helps with.</div>
+      <div class="pageno">05</div>
+    </section>
+
+  </div>
+</div>
+
+<div id="bar">
+  <button id="prev" aria-label="Previous">← Back</button>
+  <div id="tabs"></div>
+  <button id="next" class="primary" aria-label="Next">Next →</button>
+  <button id="toggle-notes" aria-pressed="false">Presenter notes (N)</button>
+  <button id="fs">Fullscreen (F)</button>
+</div>
+<div id="notes" hidden><b>Presenter notes</b><span id="notes-text"></span></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js"></script>
+<script>
+(() => {
+  const stage = document.getElementById('stage');
+  const slides = [...document.querySelectorAll('.slide')];
+  const tabs = document.getElementById('tabs');
+  const notesBox = document.getElementById('notes');
+  const notesText = document.getElementById('notes-text');
+  let cur = 0;
+
+  function fit() {
+    const vp = document.getElementById('viewport').getBoundingClientRect();
+    const s = Math.min(vp.width / 1600, vp.height / 900);
+    stage.style.transform = `scale(${s})`;
+    stage.style.margin = `${(900 * s - 900) / 2}px ${(1600 * s - 1600) / 2}px`;
+  }
+  window.addEventListener('resize', fit);
+
+  slides.forEach((sl, i) => {
+    const b = document.createElement('button');
+    b.textContent = sl.dataset.name;
+    b.id = 'tab-' + sl.id;
+    b.addEventListener('click', () => go(i));
+    tabs.appendChild(b);
+  });
+
+  function go(i) {
+    cur = Math.max(0, Math.min(slides.length - 1, i));
+    slides.forEach((s, j) => s.classList.toggle('active', j === cur));
+    [...tabs.children].forEach((b, j) => b.setAttribute('aria-current', j === cur));
+    notesText.textContent = ' ' + slides[cur].dataset.notes;
+    if (slides[cur].id === 's-numbers') countUp();
+    if (slides[cur].id === 's-brain') brain.enter();
+  }
+  function next() { if (slides[cur].id === 's-brain' && brain.advance()) return; go(cur + 1); }
+  function prev() { if (slides[cur].id === 's-brain' && brain.back()) return; go(cur - 1); }
+
+  document.getElementById('next').onclick = next;
+  document.getElementById('prev').onclick = prev;
+  const notesBtn = document.getElementById('toggle-notes');
+  function toggleNotes() { notesBox.hidden = !notesBox.hidden; notesBtn.setAttribute('aria-pressed', !notesBox.hidden); fit(); }
+  notesBtn.onclick = toggleNotes;
+  function fullscreen() { const el = document.documentElement; (document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.())?.catch?.(() => {}); }
+  document.getElementById('fs').onclick = fullscreen;
+  document.addEventListener('keydown', e => {
+    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); next(); }
+    else if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
+    else if (e.key.toLowerCase() === 'n') toggleNotes();
+    else if (e.key.toLowerCase() === 'f') fullscreen();
+  });
+
+  // Numbers count up when the slide is shown (resting state already shows final values).
+  function countUp() {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.querySelectorAll('#s-numbers .v').forEach(el => {
+      const target = +el.dataset.count, sup = '<sup>+</sup>', t0 = performance.now(), dur = 1400;
+      const tick = now => {
+        const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+        el.innerHTML = Math.round(target * e).toLocaleString('en-US') + sup;
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    });
+  }
+
+  // ---------- The House of Prep brain ----------
+  const C = { hop: '#FFFFFF', testprep: '#FF963E', prepme: '#FFD15C', weguide: '#8EC5FF', taleb: '#B49BFF', elmy: '#C9D3F0' };
+  const N = [], L = [];
+  const add = (id, label, level, group, parent, step, extra = {}) => { N.push({ id, label, level, group, step, parent, ...extra }); if (parent) L.push({ source: parent, target: id, step, dashed: !!extra.dashed }); };
+  add('hop', 'House of Prep', 0, 'hop', null, 0);
+  add('testprep', 'TestPrep', 1, 'testprep', 'hop', 1);
+  add('prepme', 'PrepMe', 1, 'prepme', 'hop', 1);
+  add('weguide', 'WeGuide', 1, 'weguide', 'hop', 1);
+  add('taleb', 'Taleb', 1, 'taleb', 'hop', 1);
+  // TestPrep: website programmes (+ AP, USJ concours, BAU entrance from the House of Prep vault)
+  const tp = {
+    'Professional': ['CFA'],
+    'Graduate admissions': ['GMAT', 'GRE', 'LSAT'],
+    'University admission': ['SAT', 'PSAT', 'AP', 'LNAT', 'USJ concours', 'BAU entrance'],
+    'English proficiency': ['IELTS', 'TOEFL', 'EEE', 'Duolingo'],
+    'Medical school': ['MCAT'],
+  };
+  Object.entries(tp).forEach(([cat, tests]) => {
+    const cid = 'tp-' + cat; add(cid, cat, 2, 'testprep', 'testprep', 2);
+    tests.forEach(t => add('tp-' + t, t, 3, 'testprep', cid, 2, t === 'SAT' ? { star: true } : {}));
+  });
+  ['Lebanese curriculum', 'American curriculum', 'IB · coming soon', 'French · coming soon'].forEach(s => add('pm-' + s, s, 3, 'prepme', 'prepme', 3));
+  ['Career guidance', 'Mentoring', 'University exploration', 'Applications'].forEach(s => add('wg-' + s, s, 3, 'weguide', 'weguide', 4));
+  ['Subject-course tutoring', 'Academic writing', 'Research support', 'Digital & practical skills'].forEach(s => add('tl-' + s, s, 3, 'taleb', 'taleb', 5));
+  add('elmy', 'Elmy', 1, 'elmy', 'testprep', 6, { dashed: true });
+  add('elmy-tag', 'Powered by Elmy', 3, 'elmy', 'elmy', 6, { dashed: true });
+
+  const captions = [
+    'It starts with one home.',
+    'Four brands. Each one built for a different moment in a student’s life.',
+    'TestPrep: every test that matters, from the SAT to medical and graduate school.',
+    'PrepMe: school subjects, so the foundations are solid before the big tests.',
+    'WeGuide: choosing a major, a university, a career, and actually getting in.',
+    'Taleb: the home of university learning, for when you get there.',
+    'Underneath it all, the TestPrep platform is powered by Elmy, so progress is tracked, not guessed.',
+    'Nizar needed five different places. This is one roof, from grade 10 to graduation.',
+  ];
+  const STEPS = captions.length - 1;
+  const R = { 0: 34, 1: 22, 2: 11, 3: 7 };
+
+  const svg = d3.select('#brain');
+  const defs = svg.append('defs');
+  const glow = defs.append('filter').attr('id', 'glow').attr('x', '-80%').attr('y', '-80%').attr('width', '260%').attr('height', '260%');
+  glow.append('feGaussianBlur').attr('stdDeviation', 7).attr('result', 'b');
+  const fm = glow.append('feMerge'); fm.append('feMergeNode').attr('in', 'b'); fm.append('feMergeNode').attr('in', 'SourceGraphic');
+
+  const gJourney = svg.append('g');
+  const gLinks = svg.append('g');
+  const gNodes = svg.append('g');
+  const W = 1600, H = 900, CX = 800, CY = 470;
+  // Deterministic radial layout: brands at fixed spots, children fanned outward from their parent.
+  const BR = { hop: [810, 470], testprep: [470, 470], prepme: [900, 300], weguide: [1190, 440], taleb: [1080, 630], elmy: [640, 680] };
+  const kids = id => N.filter(n => n.parent === id && n.id !== 'elmy');
+  function fan(parent, dirDeg, spreadDeg, r) {
+    const ks = kids(parent.id), n = ks.length;
+    ks.forEach((k, i) => {
+      const a = (dirDeg + (n === 1 ? 0 : -spreadDeg / 2 + spreadDeg * i / (n - 1))) * Math.PI / 180;
+      k.tx = parent.tx + Math.cos(a) * r; k.ty = parent.ty + Math.sin(a) * r;
+    });
+  }
+  N.forEach(n => { if (BR[n.id]) [n.tx, n.ty] = BR[n.id]; });
+  fan(N.find(n => n.id === 'testprep'), 180, 200, 165);
+  kids('testprep').forEach(c => {
+    const d = Math.atan2(c.ty - 470, c.tx - 470) * 180 / Math.PI, k = kids(c.id).length;
+    fan(c, d, Math.min(120, 30 * (k - 1)), k > 4 ? 115 : k === 1 ? 72 : 92);
+  });
+  fan(N.find(n => n.id === 'prepme'), -90, 150, 140);
+  fan(N.find(n => n.id === 'weguide'), 0, 150, 140);
+  fan(N.find(n => n.id === 'taleb'), 60, 120, 130);
+  fan(N.find(n => n.id === 'elmy'), 0, 0, 105);
+
+  let step = 0, entered = false;
+  const sim = d3.forceSimulation()
+    .force('link', d3.forceLink().id(d => d.id).strength(0))
+    .force('charge', d3.forceManyBody().strength(-40).distanceMax(120))
+    .force('x', d3.forceX(d => d.tx).strength(.22))
+    .force('y', d3.forceY(d => d.ty).strength(.22))
+    .alphaDecay(.03)
+    .on('tick', ticked).stop();
+
+  let linkSel = gLinks.selectAll('line'), nodeSel = gNodes.selectAll('g');
+
+  function render() {
+    const vis = N.filter(n => n.step <= step);
+    const visL = L.filter(l => l.step <= step);
+    vis.forEach(n => {
+      if (n.x == null) {
+        const p = N.find(m => m.id === n.parent);
+        n.x = (p?.x ?? CX) + (Math.random() - .5) * 40; n.y = (p?.y ?? CY) + (Math.random() - .5) * 40;
+      }
+    });
+    linkSel = gLinks.selectAll('line').data(visL, l => (l.source.id ?? l.source) + '>' + (l.target.id ?? l.target))
+      .join(enter => enter.append('line').attr('class', l => 'link' + (l.dashed ? ' dashed' : '')).attr('opacity', 0).call(e => e.transition().duration(600).attr('opacity', 1)));
+    nodeSel = gNodes.selectAll('g.node').data(vis, d => d.id).join(enter => {
+      const g = enter.append('g').attr('class', 'node').attr('opacity', 0);
+      g.append('circle').attr('r', d => R[d.level])
+        .attr('fill', d => d.group === 'elmy' ? 'transparent' : C[d.group])
+        .attr('stroke', d => d.group === 'elmy' ? C.elmy : (d.level >= 2 ? 'none' : 'rgba(255,255,255,.9)'))
+        .attr('stroke-width', d => d.group === 'elmy' ? 2.5 : 3)
+        .attr('stroke-dasharray', d => d.group === 'elmy' ? '5 5' : null)
+        .attr('filter', d => d.level <= 1 || d.star ? 'url(#glow)' : null);
+      g.filter(d => d.star).append('circle').attr('r', 16).attr('fill', 'none').attr('stroke', C.testprep).attr('stroke-width', 2);
+      g.append('text').attr('class', d => 'node-label l' + d.level).attr('text-anchor', 'middle')
+        .attr('dy', d => R[d.level] + (d.level <= 1 ? 32 : 22)).text(d => d.label);
+      g.on('mouseenter', (e, d) => highlight(d)).on('mouseleave', () => highlight(null));
+      g.call(d3.drag()
+        .on('start', (e, d) => { if (!e.active) sim.alphaTarget(.25).restart(); d.fx = d.x; d.fy = d.y; })
+        .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+        .on('end', (e, d) => { if (!e.active) sim.alphaTarget(0); if (d.level > 0) { d.fx = null; d.fy = null; } }));
+      g.transition().duration(700).attr('opacity', 1);
+      return g;
+    });
+    const hop = N[0]; hop.fx = CX; hop.fy = CY;
+    sim.nodes(vis); sim.force('link').links(visL); sim.alpha(.9).restart();
+    document.getElementById('brain-caption').textContent = captions[step];
+    document.getElementById('brain-step').textContent = `STEP ${step + 1} / ${STEPS + 1}`;
+    drawJourney();
+  }
+
+  function ticked() {
+    nodeSel.each(d => { d.x = Math.max(70, Math.min(W - 70, d.x)); d.y = Math.max(140, Math.min(H - 150, d.y)); });
+    nodeSel.filter(d => d.level === 3).select('text').each(function (d) {
+      const p = N.find(m => m.id === d.parent); if (!p) return;
+      const a = Math.atan2(d.y - p.y, d.x - p.x), c = Math.cos(a), s = Math.sin(a), r = R[d.level] + 8;
+      d3.select(this).attr('text-anchor', c > .35 ? 'start' : c < -.35 ? 'end' : 'middle')
+        .attr('x', c * r).attr('dy', null).attr('y', s * r + (Math.abs(c) > .35 ? 6 : s > 0 ? 18 : -6));
+    });
+    linkSel.attr('x1', l => l.source.x).attr('y1', l => l.source.y).attr('x2', l => l.target.x).attr('y2', l => l.target.y);
+    nodeSel.attr('transform', d => `translate(${d.x},${d.y})`);
+    nodeSel.filter(d => d.level === 2).select('text').each(function (d) {
+      const v = Math.abs(Math.sin(Math.atan2(d.ty - 470, d.tx - 470))) > .8;
+      d3.select(this).attr('dy', null).attr('text-anchor', v ? 'start' : 'middle').attr('x', v ? 20 : 0).attr('y', v ? 6 : -20);
+    });
+    if (step === STEPS) drawJourney();
+  }
+
+  function highlight(d) {
+    if (!d) { nodeSel.classed('dim', false); linkSel.classed('dim', false); return; }
+    const near = new Set([d.id]);
+    sim.force('link').links().forEach(l => { if (l.source.id === d.id) near.add(l.target.id); if (l.target.id === d.id) near.add(l.source.id); });
+    nodeSel.classed('dim', n => !near.has(n.id));
+    linkSel.classed('dim', l => !(l.source.id === d.id || l.target.id === d.id));
+  }
+
+  function drawJourney() {
+    const on = step === STEPS;
+    const pts = ['prepme', 'testprep', 'weguide', 'taleb'].map(id => N.find(n => n.id === id));
+    const data = on && pts.every(p => p.x != null) ? [pts] : [];
+    gJourney.selectAll('path').data(data).join('path').attr('class', 'journey')
+      .attr('d', p => d3.line().curve(d3.curveCatmullRom.alpha(.6))(p.map(n => [n.x, n.y])));
+    const labels = on ? [['School', pts[0]], ['Tests', pts[1]], ['Choosing', pts[2]], ['University', pts[3]]] : [];
+    gJourney.selectAll('text').data(labels).join('text').attr('class', 'jlabel').attr('text-anchor', 'middle')
+      .attr('x', d => d[1].x + 46).attr('y', d => d[1].y - 34).text(d => d[0]);
+  }
+
+  window.brain = {
+    enter() { if (!entered) { entered = true; render(); } },
+    advance() { if (step < STEPS) { step++; render(); return true; } return false; },
+    back() { if (step > 0) { step--; trim(); render(); return true; } return false; },
+  };
+  function trim() { N.forEach(n => { if (n.step > step) { n.x = n.y = null; n.vx = n.vy = 0; } }); gNodes.selectAll('g.node').filter(d => d.step > step).remove(); gLinks.selectAll('line').filter(l => l.step > step).remove(); }
+  const brain = window.brain;
+
+  const start = { brain: 2, sat: 3, why: 4, numbers: 1 }[location.hash.slice(1)] ?? 0;
+  fit(); go(start);
+})();
+</script>
