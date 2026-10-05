@@ -252,16 +252,14 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .bcard .chips { display: flex; flex-wrap: wrap; gap: 6px; }
 .bcard .chips span { font-size: 11.5px; font-weight: 500; padding: 5px 9px; border-radius: 999px; background: var(--panel); white-space: nowrap; }
 .bcard .chips span.soon { color: var(--faint); background: transparent; border: 1px dashed var(--line); }
-.bcard[data-brand="prepme"] { --tint: #ECFBF6; }
-.bcard[data-brand="testprep"] { --tint: #EEF2FC; }
-.bcard[data-brand="weguide"] { --tint: #F1ECFE; }
-.bcard[data-brand="taleb"] { --tint: #26473F; background: #26473F; border-color: #26473F; color: #F6F1EA; }
+/* Every card: brand colour on top with the logo in white/cream, white below with the text. */
+.bcard[data-brand="prepme"] { --tint: #1C2D57; }
+.bcard[data-brand="testprep"] { --tint: #1740A9; }
+.bcard[data-brand="weguide"] { --tint: #6E41F4; }
+.bcard[data-brand="taleb"] { --tint: #26473F; }
+.bcard .logo-area .stage-pill { background: rgba(255,255,255,.16); color: #fff; z-index: 1; }
 .bcard[data-brand="taleb"] .logo-area { padding: 0; }
-.bcard[data-brand="taleb"] .logo-area img { position: absolute; inset: 0; max-width: none; max-height: none; width: 100%; height: 100%; object-fit: cover; }
-.bcard[data-brand="taleb"] .stage-pill { z-index: 1; }
-.bcard[data-brand="taleb"] .who { color: #B9C8C1; }
-.bcard[data-brand="taleb"] .chips span { background: rgba(246,241,234,.12); color: #F6F1EA; }
-.bcard[data-brand="taleb"] .stage-pill { background: rgba(246,241,234,.16); color: #F6F1EA; }
+.bcard[data-brand="taleb"] .logo-area img { position: absolute; left: 50%; top: 50%; max-width: none; max-height: none; width: auto; height: 165%; transform: translate(-50%, -50%); }   /* square logo on the same green: scale so the wordmark matches the others */
 .eco-journey { position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(16px, 3vh, 28px); }
 .eco-journey::before { content: ""; position: absolute; left: 0; right: 0; top: 5px; height: 2px; background: var(--line); }
 .eco-journey .fill { position: absolute; left: 0; top: 5px; height: 2px; width: 0; background: linear-gradient(90deg, var(--blue), var(--orange)); }
@@ -652,17 +650,17 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
       </div>
       <div class="carousel" id="carousel">
         <button class="bcard" data-brand="prepme" aria-label="PrepMe">
-          <div class="logo-area"><span class="stage-pill">School</span><img src="assets/brands/prepme.png" alt="PrepMe" width="1200" height="211"></div>
+          <div class="logo-area"><span class="stage-pill">School</span><img src="assets/brands/prepme-white.png" alt="PrepMe" width="1200" height="217"></div>
           <div class="info"><span class="who">School students</span><p class="what">School subjects, so the foundations are solid before the big tests.</p>
             <span class="chips"><span>Lebanese curriculum</span><span>American curriculum</span><span class="soon">IB &#183; soon</span><span class="soon">French &#183; soon</span></span></div>
         </button>
         <button class="bcard" data-brand="testprep" aria-label="TestPrep">
-          <div class="logo-area"><span class="stage-pill">Tests</span><img src="assets/logo-testprep.svg" alt="TestPrep" width="2018" height="407"></div>
+          <div class="logo-area"><span class="stage-pill">Tests</span><img src="assets/logo-testprep-white.svg" alt="TestPrep" width="2018" height="407"></div>
           <div class="info"><span class="who">High school and beyond</span><p class="what">Every standardised test and entrance exam that matters.</p>
             <span class="chips"><span>SAT</span><span>PSAT</span><span>AP</span><span>IELTS</span><span>TOEFL</span><span>Duolingo</span><span>EEE</span><span>LNAT</span><span>USJ concours</span><span>BAU entrance</span><span>MCAT</span><span>GMAT</span><span>GRE</span><span>LSAT</span><span>CFA</span></span></div>
         </button>
         <button class="bcard" data-brand="weguide" aria-label="WeGuide">
-          <div class="logo-area"><span class="stage-pill">Choosing</span><img src="assets/brands/weguide.svg" alt="WeGuide" width="479" height="92"></div>
+          <div class="logo-area"><span class="stage-pill">Choosing</span><img src="assets/brands/weguide-white.svg" alt="WeGuide" width="479" height="92"></div>
           <div class="info"><span class="who">Students and graduates</span><p class="what">Choosing a major, a university and a career, and actually getting in.</p>
             <span class="chips"><span>Career guidance</span><span>Mentoring</span><span>University exploration</span><span>Applications</span></span></div>
         </button>
