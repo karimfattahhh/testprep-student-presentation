@@ -137,22 +137,6 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .intro-swap { display: grid; }
 .intro-swap > * { grid-area: 1 / 1; transition: opacity .6s var(--ease), transform .6s var(--ease); }
 #intro[data-step="2"] .intro-a, #intro:not([data-step="2"]) .intro-b { opacity: 0; transform: translateY(12px); pointer-events: none; }
-/* Prize pill: a light that sweeps around the border, a pulsing live dot. */
-.prize {
-  --sweep: 0deg; position: relative; margin-top: 40px; display: inline-flex; align-items: center; gap: 14px; flex-wrap: wrap; justify-content: center;
-  padding: 10px 12px 10px 10px; border-radius: 999px; font-size: clamp(14px, 1.2vw, 16px); color: var(--ink);
-  background: linear-gradient(var(--bg), var(--bg)) padding-box,
-              conic-gradient(from var(--sweep), var(--line) 0deg, var(--line) 250deg, var(--orange) 300deg, var(--blue) 340deg, var(--line) 360deg) border-box;
-  border: 1.5px solid transparent; animation: sweep 3.2s linear infinite;
-  box-shadow: 0 16px 40px -24px rgba(255,150,62,.6);
-}
-@property --sweep { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
-@keyframes sweep { to { --sweep: 360deg; } }
-.prize b { font-weight: 600; color: var(--blue); }
-.prize .live { display: inline-flex; align-items: center; gap: 7px; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #fff; background: var(--ink); border-radius: 999px; padding: 7px 11px 7px 9px; }
-.prize .live i { width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 0 rgba(255,150,62,.7); animation: pulse 1.6s ease-out infinite; }
-@keyframes pulse { 70% { box-shadow: 0 0 0 9px rgba(255,150,62,0); } 100% { box-shadow: 0 0 0 0 rgba(255,150,62,0); } }
-.prize .who { font-weight: 600; color: var(--orange); padding-right: 6px; }
 
 /* ---------- 01 Agenda ---------- */
 .agenda { list-style: none; margin: 48px 0 0; padding: 0; border-top: 1px solid var(--line); counter-reset: a; }
@@ -388,17 +372,12 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
         <div class="glow" aria-hidden="true"><i></i><i></i><i></i></div>
         <div class="intro-a">
           <p class="label">TestPrep &#183; by House of Prep</p>
-          <h1 class="display">Where do you<br>even start?</h1>
+          <h1 class="display">Where do I<br>even start?</h1>
         </div>
         <div class="intro-b">
           <p class="label">TestPrep &#183; by House of Prep</p>
           <h1 class="display">Today, we make it <span class="accent">clear.</span></h1>
         </div>
-      </div>
-      <div class="prize" role="note">
-        <span class="live"><i></i>Live</span>
-        <span>Someone in this room leaves today with a <b>free SAT course</b>.</span>
-        <span class="who">Could be you &#8594;</span>
       </div>
     </div>
   </section>
@@ -978,7 +957,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   sync();
 
   document.addEventListener('keydown', e => {
-    if (e.target.closest('input, textarea')) return;
+    if (e.target.closest?.('input, textarea')) return;
     if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); next(); }
     else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); prev(); }
     else if (e.key === 'Home') goTo(0); else if (e.key === 'End') goTo(slides.length - 1);
