@@ -242,27 +242,61 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 .note { margin-top: 18px; padding: 18px 22px; border-radius: 18px; border: 1px solid var(--line); background: #fff; font-size: 15px; color: var(--muted); display: flex; gap: 12px; align-items: baseline; }
 .note b { color: var(--ink); font-weight: 600; white-space: nowrap; }
 
-/* ---------- 10 Method stepper ---------- */
-.method { display: grid; grid-template-columns: minmax(0, 360px) minmax(0, 1fr); gap: 48px; margin-top: 40px; align-items: start; }
-.steps { list-style: none; margin: 0; padding: 0; display: grid; }
-.steps button {
-  all: unset; box-sizing: border-box; width: 100%; cursor: pointer; display: grid; grid-template-columns: 36px 1fr; gap: 10px;
-  padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 16px; color: var(--faint); transition: color .3s;
-}
-.steps button span { font-size: 12px; font-variant-numeric: tabular-nums; padding-top: 3px; }
-.steps button[aria-current="true"] { color: var(--ink); font-weight: 500; }
-.steps button[aria-current="true"] span { color: var(--orange); }
-.steps button.done { color: var(--muted); }
-.step-panel { background: var(--panel); border-radius: 28px; padding: clamp(24px, 3vw, 44px); display: grid; gap: 22px; min-height: 440px; align-content: start; position: relative; overflow: hidden; }
-.step-panel .big { font-weight: 300; font-size: clamp(64px, 8vw, 120px); line-height: .85; letter-spacing: -.06em; color: var(--blue); font-variant-numeric: tabular-nums; }
-.step-panel .h2 { font-size: clamp(30px, 3.6vw, 52px); }
-.step-panel .you { border-top: 1px solid var(--line); padding-top: 18px; display: grid; gap: 6px; }
-.step-panel .you small { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); }
-.step-panel .you p { margin: 0; font-size: clamp(17px, 1.5vw, 21px); line-height: 1.45; color: var(--ink); font-weight: 400; }
-.step-panel .orb { width: 220px; height: 220px; right: -60px; top: -60px; opacity: .9; }
-.loop { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
-.fade-in { animation: fadeUp .5s var(--ease); }
-@keyframes fadeUp { from { opacity: .001; transform: translateY(10px); } }
+/* ---------- 10 Performance Engine (GSAP) ---------- */
+#method { padding-block: 80px 48px; }
+.eng-head { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+.eng-tag { font-size: 13px; color: var(--muted); display: inline-flex; gap: 8px; align-items: center; }
+.eng-tag i { width: 8px; height: 8px; border-radius: 50%; background: var(--orange); }
+.engine { display: grid; grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr); gap: clamp(24px, 4vw, 64px); align-items: center; margin-top: 12px; }
+.ring-wrap { position: relative; width: 100%; max-width: 560px; aspect-ratio: 1; justify-self: center; }
+#ring { width: 100%; height: 100%; overflow: visible; display: block; }
+.ring-track { fill: none; stroke: var(--line); stroke-width: 2; }
+.ring-progress { fill: none; stroke: url(#ringGrad); stroke-width: 6; stroke-linecap: round; }
+.ring-glow { fill: none; stroke: url(#ringGrad); stroke-width: 18; stroke-linecap: round; opacity: .18; filter: blur(6px); }
+.node { cursor: pointer; }
+.node circle { fill: var(--bg); stroke: var(--faint); stroke-width: 2; transition: stroke .3s; }
+.node text { font: 500 15px var(--sans); fill: var(--faint); transition: fill .3s; }
+.node.done circle { fill: var(--blue); stroke: var(--blue); }
+.node.done text { fill: var(--muted); }
+.node.active text { fill: var(--ink); font-weight: 600; }
+.node.active circle { stroke: var(--orange); }
+.node:hover text { fill: var(--ink); }
+#ring-dot { fill: var(--orange); }
+#ring-dot-halo { fill: var(--orange); opacity: .25; }
+.ring-center { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; pointer-events: none; }
+.ring-center small { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); }
+.ring-num { font-weight: 300; font-size: clamp(96px, 12vw, 176px); line-height: .9; letter-spacing: -.06em; color: var(--blue); font-variant-numeric: tabular-nums; margin: 6px 0 4px; }
+.eng-copy { display: grid; gap: 18px; align-content: center; min-width: 0; }
+.eng-title { font-weight: 300; font-size: clamp(34px, 3.8vw, 58px); line-height: 1.02; letter-spacing: -.04em; margin: 0; min-height: 2.04em; text-wrap: balance; }
+.eng-you { margin: 0; font-size: clamp(16px, 1.3vw, 19px); line-height: 1.5; color: var(--muted); max-width: 34em; min-height: 3em; }
+.dash { background: #fff; border: 1px solid var(--line); border-radius: 24px; padding: 20px 22px; display: grid; gap: 14px; row-gap: 14px; box-shadow: 0 24px 60px -40px rgba(23,64,169,.45); position: relative; overflow: hidden; }
+.dash-top { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+.dash-status { font-size: 13px; font-weight: 600; color: var(--ink); display: inline-flex; align-items: center; gap: 8px; min-height: 1.4em; }
+.dash-status::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--good); box-shadow: 0 0 0 4px rgba(30,158,98,.15); }
+.dash-score { display: inline-flex; align-items: baseline; gap: 6px; }
+.dash-score b { font-weight: 300; font-size: 40px; letter-spacing: -.04em; font-variant-numeric: tabular-nums; color: var(--ink); line-height: 1; }
+.dash-score small { font-size: 12px; color: var(--muted); }
+.score-track { position: relative; height: 6px; border-radius: 999px; background: var(--panel); }
+.score-track i { position: absolute; left: 0; top: 0; bottom: 0; width: 36%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), #6E93FF); }
+.score-track.hit i { background: linear-gradient(90deg, var(--blue), var(--orange)); }
+.score-track em { position: absolute; top: -5px; bottom: -5px; left: 75%; width: 2px; background: var(--orange); border-radius: 2px; }
+.score-track em::after { content: "Target 1400"; position: absolute; top: 18px; left: 50%; transform: translateX(-50%); font: 600 10px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--orange); font-style: normal; }
+.skills { display: grid; gap: 4px; position: relative; margin-top: 14px; }
+.skill { display: grid; grid-template-columns: 84px minmax(0, 1fr) 40px 128px 18px; gap: 12px; align-items: center; padding: 8px 0; font-size: 14px; }
+.skill .nm { font-weight: 500; }
+.skill .tr { height: 10px; border-radius: 999px; background: var(--panel); position: relative; overflow: hidden; }
+.skill .fl { position: absolute; inset: 0 auto 0 0; width: 0; border-radius: inherit; background: var(--ink); transition: background .4s; }
+.skill.focus .fl { background: var(--orange); }
+.skill .vl { font-variant-numeric: tabular-nums; color: var(--muted); text-align: right; font-size: 13px; }
+.skill .ch { font-size: 11px; font-weight: 600; border-radius: 999px; padding: 5px 9px; background: var(--panel); color: var(--muted); white-space: nowrap; justify-self: start; opacity: 0; }
+.skill.focus .ch { background: #FFF1E4; color: #B85E12; }
+.skill .ck { width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; color: #fff; transform: scale(0); }
+.skill .ck.ok { background: var(--good); }
+.skill .ck.no { background: var(--bad); }
+.scanline { position: absolute; top: -6px; bottom: -6px; left: 0; width: 70px; background: linear-gradient(90deg, transparent, rgba(23,64,169,.16), transparent); pointer-events: none; opacity: 0; }
+.eng-loop { margin: 0; display: inline-flex; align-items: center; gap: 10px; font-size: 14px; color: var(--muted); opacity: 0; }
+.eng-loop svg { flex: none; }
+.split-line { overflow: hidden; }
 
 /* ---------- 11 Elmy ---------- */
 .tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 32px; }
@@ -315,12 +349,14 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 /* ---------- Responsive ---------- */
 @media (max-width: 900px) {
   .brands, .journey { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .method, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
+  .engine, .showcase, .glitch, .close-grid, .chapter-slide .wrap, .sat { grid-template-columns: minmax(0, 1fr); }
   .why, .timeline, .stats { grid-template-columns: minmax(0, 1fr); }
   .stat + .stat { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); }
   .timeline { gap: 32px; } .timeline::before { display: none; }
   .facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .chapter-slide .big-orb { width: 200px; }
+  .ring-wrap { max-width: 360px; }
+  .skill { grid-template-columns: 72px minmax(0, 1fr) 34px 18px; } .skill .ch { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   #deck { scroll-behavior: auto; }
@@ -551,13 +587,42 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   <!-- 11 &#183; Method stepper -->
   <section class="slide" id="method" data-chapter="How we work" data-steps="6"
-    data-notes="Press &#8594; to move through the seven steps. For each one, read only the line under 'For you, this means'. On step 7, point at the loop: the cycle restarts until you hit your target. That's the opposite of Nizar's plan.">
+    data-notes="Press &#8594; to run the engine one step at a time. Read the title and the one line under it; let the dashboard do the rest. Step 2: the bars re-sort, weakest first. Step 6: watch Reading jump the queue because it slipped. Step 7: the score crosses the target and the loop closes. Close with: 'That is studying smart. Nizar never had this.'">
     <div class="wrap">
-      <p class="label">The TestPrep Performance Engine</p>
-      <h2 class="h2">Seven steps. One loop.</h2>
-      <div class="method">
-        <ol class="steps" id="steps"></ol>
-        <div class="step-panel" id="step-panel" aria-live="polite"></div>
+      <div class="eng-head">
+        <p class="label" style="margin:0">The TestPrep Performance Engine</p>
+        <span class="eng-tag"><i></i>Example student &#183; Nazarethe &#183; target 1400</span>
+      </div>
+      <div class="engine">
+        <div class="ring-wrap">
+          <svg id="ring" viewBox="0 0 600 600" role="img" aria-label="The seven-step loop">
+            <defs>
+              <linearGradient id="ringGrad" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1740A9"/><stop offset=".6" stop-color="#6E93FF"/><stop offset="1" stop-color="#FF963E"/>
+              </linearGradient>
+            </defs>
+            <circle class="ring-track" cx="300" cy="300" r="220"/>
+            <path class="ring-glow" id="ring-glow" d="M300 80 A220 220 0 1 1 300 520 A220 220 0 1 1 300 80"/>
+            <path class="ring-progress" id="ring-path" d="M300 80 A220 220 0 1 1 300 520 A220 220 0 1 1 300 80"/>
+            <g id="ring-nodes"></g>
+            <circle id="ring-dot-halo" r="22" cx="0" cy="0"/>
+            <circle id="ring-dot" r="10" cx="0" cy="0"/>
+          </svg>
+          <div class="ring-center"><small>Step</small><div class="ring-num" id="ring-num">01</div><small>of 07</small></div>
+        </div>
+        <div class="eng-copy">
+          <h3 class="eng-title" id="eng-title">Diagnostic Assessment</h3>
+          <p class="eng-you" id="eng-you">Before a single lesson, we know exactly where you stand.</p>
+          <div class="dash">
+            <div class="dash-top">
+              <span class="dash-status" id="dash-status">Baseline scan complete</span>
+              <span class="dash-score"><b id="score">1090</b><small>practice score</small></span>
+            </div>
+            <div class="score-track" id="score-track"><i id="score-fill"></i><em></em></div>
+            <div class="skills" id="skills"><div class="scanline" id="scanline"></div></div>
+          </div>
+          <p class="eng-loop" id="eng-loop"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF963E" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.3L3 16m0 5v-5h5"/></svg>Then the loop runs again, until you hit your target.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -626,6 +691,12 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/DrawSVGPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/MotionPathPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/ScrambleTextPlugin.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/SplitText.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.15.0/Flip.min.js"></script>
 <script>
 (() => {
   const deck = document.getElementById('deck');
@@ -691,31 +762,123 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
   function lightBrand(k) { brandEls.forEach(b => b.setAttribute('aria-pressed', b.querySelector('.name').textContent === order[k])); }
   brandEls.forEach(b => b.addEventListener('click', () => { const k = order.indexOf(b.querySelector('.name').textContent); state.ecosystem = k; lightBrand(k); }));
 
-  /* ---------- Method ---------- */
-  const STEPS = [
-    ['Diagnostic Assessment', 'Establish baseline performance and identify hidden weaknesses.', 'Before a single lesson, we know exactly where you stand, so no time is wasted on what you already know.'],
-    ['Performance Gap Analysis', 'Break down deficiencies by skill, topic and cognitive process.', 'Not "you\'re bad at math". You\'ll know it\'s linear equations, and why you miss them.'],
-    ['Personalized Learning Plan', 'Design a tailored roadmap aligned with the target score.', 'Your plan is built around your gaps and your target score, not a standard course everyone follows.'],
-    ['Targeted Instruction', 'Deliver focused lessons on high-impact weaknesses.', 'Your hours go where they move your score the most.'],
-    ['Micro-Assessments', 'Measure mastery continuously after each intervention.', 'Short checks after every lesson show what\'s fixed, before it becomes a problem on test day.'],
-    ['Adaptive Optimization', 'Reallocate instructional effort based on performance data.', 'When the data shows something changed, your plan changes with it.'],
-    ['Full-Length Simulation & Iteration', 'Validate progress and restart the cycle until goals are achieved.', 'Real-conditions practice tests, then the loop runs again until you hit your target.'],
+  /* ---------- Performance Engine (GSAP: DrawSVG, MotionPath, ScrambleText, SplitText, Flip) ---------- */
+  gsap.registerPlugin(DrawSVGPlugin, MotionPathPlugin, ScrambleTextPlugin, SplitText, Flip);
+  const SK = ['Algebra', 'Geometry', 'Reading', 'Grammar'];
+  const F3 = 'Focus \u00b7 3\u00d7 / week', F2 = 'Focus \u00b7 2\u00d7 / week', M1 = 'Maintain \u00b7 1\u00d7 / week', OK = 'On track';
+  const ENG = [
+    { t: 'Diagnostic Assessment', s: 'Diagnose', you: 'Before a single lesson, we know exactly where you stand. No time wasted on what you already know.',
+      st: 'Baseline scan complete', score: 1090, v: [64, 41, 70, 52], order: [0, 1, 2, 3], focus: [], chips: null, checks: null },
+    { t: 'Performance Gap Analysis', s: 'Analyze', you: 'Not \u201cyou\u2019re bad at math\u201d. You see which skills cost you points, ranked.',
+      st: '2 gaps found \u00b7 Geometry, Grammar', score: 1090, v: [64, 41, 70, 52], order: [1, 3, 0, 2], focus: [1, 3], chips: null, checks: null },
+    { t: 'Personalized Learning Plan', s: 'Plan', you: 'Your plan is built around your gaps and your target. Not a course everyone follows.',
+      st: 'Plan built around your gaps', score: 1090, v: [64, 41, 70, 52], order: [1, 3, 0, 2], focus: [1, 3], chips: [M1, F3, M1, F2], checks: null },
+    { t: 'Targeted Instruction', s: 'Teach', you: 'Your hours go exactly where they move your score the most.',
+      st: 'Lessons on the highest-impact gaps', score: 1180, v: [64, 55, 70, 61], order: [1, 3, 0, 2], focus: [1, 3], chips: [M1, F3, M1, F2], checks: null },
+    { t: 'Micro-Assessments', s: 'Check', you: 'A short check after every lesson shows what is fixed, and what just slipped.',
+      st: 'Checked after every lesson \u00b7 Reading slipped', score: 1240, v: [64, 58, 60, 66], order: [1, 3, 0, 2], focus: [1, 3], chips: [M1, F3, M1, F2], checks: ['ok', 'ok', 'no', 'ok'] },
+    { t: 'Adaptive Optimization', s: 'Adapt', you: 'When the data changes, your plan changes with it. Automatically.',
+      st: 'Plan updated \u00b7 Reading moves up', score: 1290, v: [64, 58, 60, 66], order: [1, 2, 0, 3], focus: [1, 2], chips: [M1, F3, F2, M1], checks: null },
+    { t: 'Full-Length Simulation & Iteration', s: 'Simulate', you: 'Real test conditions, start to finish. Then the loop runs again until you hit your target.',
+      st: 'Full-length test \u00b7 target reached', score: 1420, v: [84, 78, 80, 82], order: [1, 2, 0, 3], focus: [], chips: [OK, OK, OK, OK], checks: ['ok', 'ok', 'ok', 'ok'] },
   ];
-  const stepsEl = document.getElementById('steps'), panel = document.getElementById('step-panel');
-  STEPS.forEach((s, i) => {
-    const li = document.createElement('li'), b = document.createElement('button');
-    b.innerHTML = `<span>0${i + 1}</span>${s[0]}`; b.addEventListener('click', () => { state.method = i; renderMethod(); });
-    li.appendChild(b); stepsEl.appendChild(li);
+  const ringPath = document.getElementById('ring-path'), ringGlow = document.getElementById('ring-glow');
+  const nodesG = document.getElementById('ring-nodes'), dot = document.getElementById('ring-dot'), halo = document.getElementById('ring-dot-halo');
+  const numEl = document.getElementById('ring-num'), titleEl = document.getElementById('eng-title'), youEl = document.getElementById('eng-you');
+  const statusEl = document.getElementById('dash-status'), engScoreEl = document.getElementById('score'), scoreFill = document.getElementById('score-fill');
+  const scoreTrack = document.getElementById('score-track'), skillsEl = document.getElementById('skills'), scan = document.getElementById('scanline');
+  const loopEl = document.getElementById('eng-loop');
+  const NS = 'http://www.w3.org/2000/svg';
+  const nodeEls = ENG.map((e, i) => {
+    const a = (-90 + i * 360 / 7) * Math.PI / 180, x = 300 + Math.cos(a) * 220, y = 300 + Math.sin(a) * 220;
+    const lx = 300 + Math.cos(a) * 262, ly = 300 + Math.sin(a) * 262;
+    const g = document.createElementNS(NS, 'g'); g.setAttribute('class', 'node'); g.setAttribute('tabindex', '0'); g.setAttribute('role', 'button'); g.setAttribute('aria-label', 'Step ' + (i + 1) + ': ' + e.t);
+    const c = document.createElementNS(NS, 'circle'); c.setAttribute('cx', x); c.setAttribute('cy', y); c.setAttribute('r', 9);
+    const t = document.createElementNS(NS, 'text'); t.setAttribute('x', lx); t.setAttribute('y', ly + 5);
+    t.setAttribute('text-anchor', Math.abs(Math.cos(a)) < .2 ? 'middle' : Math.cos(a) > 0 ? 'start' : 'end'); t.textContent = e.s;
+    g.append(c, t); nodesG.appendChild(g);
+    const pick = () => { state.method = i; engine.go(i); };
+    g.addEventListener('click', pick); g.addEventListener('keydown', ev => { if (ev.key === 'Enter') pick(); });
+    return g;
   });
-  function renderMethod() {
-    const i = state.method, s = STEPS[i];
-    [...stepsEl.querySelectorAll('button')].forEach((b, j) => { b.setAttribute('aria-current', j === i); b.classList.toggle('done', j < i); });
-    panel.innerHTML = `<div class="orb ${i % 2 ? 'tp' : 'tp-warm'} spin"></div>
-      <div class="big num fade-in">0${i + 1}</div>
-      <div class="fade-in" style="display:grid;gap:12px"><h3 class="h2">${s[0]}</h3><p class="body" style="font-size:16px;max-width:34em">${s[1]}</p></div>
-      <div class="you fade-in"><small>For you, this means</small><p>${s[2]}</p></div>
-      ${i === 6 ? '<span class="loop fade-in"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#FF963E" stroke-width="2" stroke-linecap="round"><path d="M3 12a9 9 0 0 1 15.5-6.3L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.3L3 16m0 5v-5h5"/></svg>Back to step 01 until you hit your target</span>' : ''}`;
+  const rows = SK.map((name, k) => {
+    const r = document.createElement('div'); r.className = 'skill'; r.dataset.k = k;
+    r.innerHTML = `<span class="nm">${name}</span><span class="tr"><span class="fl"></span></span><span class="vl num">0</span><span class="ch"></span><span class="ck"></span>`;
+    skillsEl.appendChild(r); return r;
+  });
+  const frac = i => i === 6 ? 1 : i / 7;
+  const dur = reduce ? 0.001 : 1;
+  let at = 0, split = null, live = null;
+
+  function placeDot(f) {
+    const p = ringPath.getPointAtLength(ringPath.getTotalLength() * (f % 1));
+    gsap.set([dot, halo], { attr: { cx: p.x, cy: p.y } });
   }
+  function setTitle(text, animate) {
+    split?.revert(); titleEl.textContent = text;
+    if (!animate) return;
+    split = SplitText.create(titleEl, { type: 'words,chars', mask: 'words' });
+    gsap.from(split.chars, { yPercent: 110, duration: .7 * dur, ease: 'power4.out', stagger: .018 * dur });
+  }
+
+  const engine = {
+    go(i, instant) {
+      const e = ENG[i], prev = at; at = i;
+      const d = instant ? 0 : dur;
+      live?.kill(); const tl = live = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
+
+      // Ring: draw the loop up to this step, move the student around it.
+      tl.to([ringPath, ringGlow], { drawSVG: '0% ' + (frac(i) * 100) + '%', duration: 1.1 * d }, 0);
+      const obj = { f: prev === 6 ? 6 / 7 : frac(prev) };
+      tl.to(obj, { f: i === 6 ? 6 / 7 : frac(i), duration: 1.1 * d, onUpdate: () => placeDot(obj.f) }, 0);
+      nodeEls.forEach((n, j) => { n.classList.toggle('done', j < i); n.classList.toggle('active', j === i); });
+      tl.to(nodeEls.map(n => n.querySelector('circle')), { attr: { r: (j) => j === i ? 14 : 9 }, duration: .5 * d, ease: 'back.out(3)' }, .35 * d);
+
+      // Number, title, line, status.
+      tl.to(numEl, { scrambleText: { text: '0' + (i + 1), chars: '0123456789', speed: .6 }, duration: .8 * d, ease: 'none' }, 0);
+      tl.add(() => setTitle(e.t, !instant), .1 * d);
+      tl.fromTo(youEl, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: .6 * d, ease: 'power2.out', onStart: () => { youEl.textContent = e.you; } }, .3 * d);
+      tl.to(statusEl, { scrambleText: { text: e.st, chars: 'lowerCase', speed: .5 }, duration: .9 * d, ease: 'none' }, .2 * d);
+
+      // Score.
+      const sc = { v: +engScoreEl.textContent };
+      tl.to(sc, { v: e.score, duration: 1.2 * d, ease: 'power2.out', onUpdate: () => { engScoreEl.textContent = Math.round(sc.v); } }, .3 * d);
+      tl.to(scoreFill, { width: ((e.score - 800) / 800 * 100) + '%', duration: 1.2 * d, ease: 'power2.out' }, .3 * d);
+      tl.add(() => scoreTrack.classList.toggle('hit', e.score >= 1400), 1.2 * d);
+
+      // Skill rows: re-sort with Flip, then grow bars and tag them.
+      const before = Flip.getState(rows);
+      e.order.forEach(k => skillsEl.appendChild(rows[k]));
+      tl.add(Flip.from(before, { duration: .9 * d, ease: 'power3.inOut' }), .15 * d);
+      rows.forEach((r, k) => {
+        r.classList.toggle('focus', e.focus.includes(k));
+        const vl = r.querySelector('.vl'), o = { v: +vl.textContent };
+        tl.to(r.querySelector('.fl'), { width: e.v[k] + '%', duration: (i === 0 ? 1.4 : .9) * d, ease: 'power3.out' }, (i === 0 ? .4 : .7) * d + k * .06 * d);
+        tl.to(o, { v: e.v[k], duration: .9 * d, onUpdate: () => { vl.textContent = Math.round(o.v); } }, .7 * d);
+        const ch = r.querySelector('.ch');
+        if (e.chips) { tl.add(() => { ch.textContent = e.chips[k]; }, .8 * d); tl.to(ch, { opacity: 1, x: 0, duration: .4 * d, ease: 'power2.out' }, .8 * d + k * .07 * d); }
+        else tl.to(ch, { opacity: 0, duration: .2 * d }, 0);
+        const ck = r.querySelector('.ck');
+        if (e.checks) { tl.add(() => { ck.className = 'ck ' + e.checks[k]; ck.textContent = e.checks[k] === 'ok' ? '\u2713' : '\u2715'; }, 1 * d);
+          tl.to(ck, { scale: 1, duration: .45 * d, ease: 'back.out(3)' }, 1 * d + k * .12 * d); }
+        else tl.to(ck, { scale: 0, duration: .2 * d }, 0);
+      });
+      if (i === 0 && !instant) tl.fromTo(scan, { left: '-10%', opacity: 1 }, { left: '100%', duration: 1.3 * d, ease: 'power1.inOut' }, .35 * d).set(scan, { opacity: 0 });
+      tl.to(loopEl, { opacity: i === 6 ? 1 : 0, duration: .5 * d }, 1.1 * d);
+      if (i === 6 && !instant) tl.to(halo, { attr: { r: 40 }, opacity: 0, duration: .9, repeat: 2, ease: 'power2.out' }, 1.2);
+      else tl.set(halo, { attr: { r: 22 }, opacity: .25 });
+      return tl;
+    },
+    enter() {
+      // First arrival: draw the ring, pop the nodes in, then run step 1.
+      gsap.set([ringPath, ringGlow], { drawSVG: '0% 0%' }); rows.forEach(r => { r.querySelector('.fl').style.width = '0'; r.querySelector('.vl').textContent = '0'; });
+      if (reduce) { engine.go(at, true); return; }
+      gsap.from('.ring-track', { drawSVG: '50% 50%', duration: 1.2, ease: 'power3.inOut' });
+      gsap.from(nodeEls, { scale: 0, transformOrigin: '50% 50%', duration: .6, ease: 'back.out(3)', stagger: .07, delay: .4 });
+      gsap.delayedCall(.9, () => engine.go(at));
+    },
+  };
+  placeDot(0); engine.go(0, true);
 
   /* ---------- Elmy ---------- */
   const SHOTS = [
@@ -785,11 +948,11 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
 
   /* ---------- Steps within slides ---------- */
   const state = { intro: 0, ecosystem: -1, method: 0, elmy: 0, glitch: 0 };
-  renderMethod(); renderElmy();
+  renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 2) { state.intro++; intro.dataset.step = state.intro; return true; } }, prev() { if (state.intro > 0) { state.intro--; intro.dataset.step = state.intro; return true; } } },
     ecosystem: { next() { if (state.ecosystem < 3) { lightBrand(++state.ecosystem); return true; } }, prev() { if (state.ecosystem > -1) { lightBrand(--state.ecosystem); return true; } } },
-    method: { next() { if (state.method < 6) { state.method++; renderMethod(); return true; } }, prev() { if (state.method > 0) { state.method--; renderMethod(); return true; } } },
+    method: { next() { if (state.method < 6) { engine.go(++state.method); return true; } }, prev() { if (state.method > 0) { engine.go(--state.method); return true; } } },
     elmy: { next() { if (state.elmy < 3) { state.elmy++; renderElmy(); return true; } }, prev() { if (state.elmy > 0) { state.elmy--; renderElmy(); return true; } } },
     glitch: { next() { const i = PLAN.findIndex((_, k) => !found.has(k)); if (i >= 0) { reveal(i); return true; } } },
   };
@@ -809,6 +972,7 @@ body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
     progress.style.width = ((cur + 1) / slides.length * 100) + '%';
     document.body.classList.toggle('on-dark', el.classList.contains('dark'));
     if (el.id === 'numbers' && first) countUp();
+    if (el.id === 'method' && first) engine.enter();
   }
   let raf = 0; deck.addEventListener('scroll', () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(sync); }, { passive: true });
   sync();
