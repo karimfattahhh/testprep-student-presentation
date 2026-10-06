@@ -675,7 +675,7 @@ header.bar, #progress { transition: opacity .6s; }
 .shot-copy { display: grid; gap: 16px; align-content: start; padding-top: 8px; }
 .shot-copy .step-tag { font-size: 12px; font-weight: 600; color: var(--blue); background: var(--blue-soft); border-radius: 999px; padding: 6px 12px; justify-self: start; }
 
-/* ---------- 12 Spot the Glitch: Nizar's desk of paper notes ---------- */
+/* ---------- 12 Spot the Glitch: Mazen's desk of paper notes ---------- */
 /* A board tilted in 3D (Raylight depth); a caught note flies to centre stage next to a glowing reality card (Framer glow). */
 #glitch .wrap { display: grid; gap: clamp(10px, 2vh, 18px); }
 .g-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; flex-wrap: wrap; }
@@ -830,7 +830,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Intro -->
   <section class="slide" id="intro" data-step="0" data-chapter="Intro" data-steps="1"
-    data-notes="Let the room read the floating questions while the search bar types: this is everything Nizar sees online. Then press &#8594;: every question flies into one ball, it bursts, and the line lands. Say it with it: 'Today, we make it clear.'">
+    data-notes="Let the room read the floating questions while the search bar types: this is everything Mazen sees online. Then press &#8594;: every question flies into one ball, it bursts, and the line lands. Say it with it: 'Today, we make it clear.'">
     <div class="chaos" aria-hidden="true" id="chaos"></div>
     <div class="ball" id="ball" aria-hidden="true"></div>
     <div class="wrap">
@@ -861,7 +861,7 @@ header.bar, #progress { transition: opacity .6s; }
       <p class="label">Today</p>
       <h2 class="h2">The next forty minutes.</h2>
       <ol class="agenda">
-        <li><span>Meet Nizar</span><em>Opening film</em></li>
+        <li><span>Meet Mazen</span><em>A student just like you</em></li>
         <li><span>What is the SAT?</span><em>And why it matters</em></li>
         <li class="game"><span>Spot the Glitch</span><em>Whole room</em></li>
         <li><span>How we work</span><em>The 7-step Performance Engine</em></li>
@@ -874,11 +874,11 @@ header.bar, #progress { transition: opacity .6s; }
   </section>
 
   <!-- Film -->
-  <section class="slide" id="film" data-chapter="Meet Nizar"
-    data-notes="Press Space (or click) to play the film. It fills the screen and runs about 44 seconds; stay silent and let it play. It ends on 'Meet Nizar.' Then step forward: 'Be honest. Hands up if you know exactly where you'd start studying for the SAT tomorrow morning.' Space again moves on. Pressing Space mid-film skips to the end; left arrow resets it.">
+  <section class="slide" id="film" data-off hidden data-chapter="Meet Mazen"
+    data-notes="Press Space (or click) to play the film. It fills the screen and runs about 44 seconds; stay silent and let it play. It ends on 'Meet Mazen.' Then step forward: 'Be honest. Hands up if you know exactly where you'd start studying for the SAT tomorrow morning.' Space again moves on. Pressing Space mid-film skips to the end; left arrow resets it.">
     <div class="wrap">
       <p class="label">Opening film</p>
-      <h2 class="h2">Meet Nizar.</h2>
+      <h2 class="h2">Meet Mazen.</h2>
       <figure class="film" id="film-frame" style="margin-inline:0;margin-bottom:0" role="button" tabindex="0" aria-label="Play the opening film">
         <img class="fl-poster" src="assets/film/take/poster.jpg" alt="" width="1600" height="893">
         <div class="fl-layer fl-v" data-k="1"><video src="assets/film/take/t1.mp4" preload="auto" playsinline></video></div>
@@ -886,7 +886,7 @@ header.bar, #progress { transition: opacity .6s; }
           <div class="ui-bar"><i></i><i></i><i></i><span class="ui-url">admissions.lau.edu.lb/apply</span></div>
           <div class="ui-body">
             <p class="ui-h">Undergraduate application</p><p class="ui-sub">Fall 2013 &#183; Lebanese American University</p>
-            <div class="ui-field"><label>Full name</label><span class="in" data-t="Nizar A."></span></div>
+            <div class="ui-field"><label>Full name</label><span class="in" data-t="Mazen A."></span></div>
             <div class="ui-field"><label>Intended major</label><span class="in" data-t="Engineering"></span></div>
             <div class="ui-field"><label>School transcript</label><span class="in" data-t="&#10003; uploaded"></span></div>
             <span class="ui-btn" id="ui-submit">Submit application</span>
@@ -903,7 +903,7 @@ header.bar, #progress { transition: opacity .6s; }
               <span class="from">LAU Admissions &#183; to me</span>
               <span class="subj">Update on your application</span>
               <span class="ui-status">&#9679; Status: incomplete</span>
-              <p>Dear Nizar,<br>Your application cannot be reviewed yet. Missing document: <span class="ui-miss">official SAT score report<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path id="ui-miss-path" d="M3 13 C 70 5, 150 4, 297 9"/></svg></span>.</p>
+              <p>Dear Mazen,<br>Your application cannot be reviewed yet. Missing document: <span class="ui-miss">official SAT score report<svg viewBox="0 0 300 20" preserveAspectRatio="none" aria-hidden="true"><path id="ui-miss-path" d="M3 13 C 70 5, 150 4, 297 9"/></svg></span>.</p>
             </div>
           </div></div></div>
         <div class="fl-layer fl-v" data-k="2"><video src="assets/film/take/t2.mp4" preload="auto" playsinline></video></div>
@@ -934,7 +934,7 @@ header.bar, #progress { transition: opacity .6s; }
         <p class="fl-title" id="fl-title"><b>Beirut,</b> 2013</p>
         <div class="fl-card" id="fl-c0"><div><p>He got in.</p><p style="font-size:.55em;color:rgba(255,255,255,.6);margin-top:.5em">Not with the score his effort deserved.</p></div></div>
         <div class="fl-card" id="fl-c1"><p>Nobody told him.</p></div>
-        <div class="fl-card" id="fl-c2"><div><p class="big">Meet Nizar.</p><small>A TestPrep story</small></div></div>
+        <div class="fl-card" id="fl-c2"><div><p class="big">Meet Mazen.</p><small>A TestPrep story</small></div></div>
         <div class="play" aria-hidden="true"><svg width="28" height="28" viewBox="0 0 24 24" fill="#F4F5F8"><path d="M8 5v14l11-7z"/></svg></div>
         <figcaption><span>Beirut, 2013. One application. One missing test.</span><span>0:44 &#183; press Space</span></figcaption>
       </figure>
@@ -948,7 +948,7 @@ header.bar, #progress { transition: opacity .6s; }
       <div>
         <p class="chapter-no">The SAT</p>
         <h2 class="display"><span class="so">So&#8230;</span>what is<br>the <b>SAT</b><span class="qm">?</span></h2>
-        <p class="lede">The test Nizar had never heard of, explained in two minutes.</p>
+        <p class="lede">The test Mazen had never heard of, explained in two minutes.</p>
         <div class="chq-meta"><span><b>1</b> test</span><span><b>2</b> sections</span><span><b>2</b> minutes to get it</span></div>
       </div>
       <div class="chq-stage" id="chq-stage">
@@ -1116,7 +1116,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Why the SAT -->
   <section class="slide dark" id="why" data-chapter="The SAT" data-steps="3"
-    data-notes="Bring Nizar back: 'Nobody told Nizar why this test mattered.' Press &#8594; to open each door; let the light spill out, then one sentence. 1: admission letter. 2: scholarships cover part of the cost. 3: every school grades differently, the SAT puts everyone on one scale. End on the WeGuide line.">
+    data-notes="Bring Mazen back: 'Nobody told Mazen why this test mattered.' Press &#8594; to open each door; let the light spill out, then one sentence. 1: admission letter. 2: scholarships cover part of the cost. 3: every school grades differently, the SAT puts everyone on one scale. End on the WeGuide line.">
     <div class="wrap">
       <div class="why-head">
         <div>
@@ -1166,13 +1166,13 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Spot the Glitch -->
   <section class="slide" id="glitch" data-chapter="Spot the Glitch" data-steps="8"
-    data-notes="Whole room plays. 'This is Nizar's desk. He studies every single day. So why isn't it working?' Let them shout. Click the note they name (or press &#8594; to go in order): it flies forward, gets crossed out, and the real SAT appears next to it. &#8594; again puts it back and brings up the next. These all link to what they just learned about the SAT. Finish on: 'He wasn't lazy. He was preparing for a test that doesn't exist anymore.' Then into How we work.">
+    data-notes="Whole room plays. 'This is Mazen's desk. He studies every single day. So why isn't it working?' Let them shout. Click the note they name (or press &#8594; to go in order): it flies forward, gets crossed out, and the real SAT appears next to it. &#8594; again puts it back and brings up the next. These all link to what they just learned about the SAT. Finish on: 'He wasn't lazy. He was preparing for a test that doesn't exist anymore.' Then into How we work.">
     <div class="wrap">
       <div class="g-head">
         <div>
           <p class="label">Live game &#183; whole room</p>
           <h2 class="h2 g-title" id="g-title">Spot the Glitch.</h2>
-          <p class="lede" style="margin-top:10px">This is Nizar&#8217;s desk. He studies every single day. So why isn&#8217;t it working?</p>
+          <p class="lede" style="margin-top:10px">This is Mazen&#8217;s desk. He studies every single day. So why isn&#8217;t it working?</p>
         </div>
         <div class="g-meter" aria-live="polite">
           <span class="g-count"><b id="g-n">0</b>/ 7 glitches found</span>
@@ -1198,7 +1198,7 @@ header.bar, #progress { transition: opacity .6s; }
   <div class="hstrip" id="strip-method"><div class="hrow">
   <!-- Chapter: Methodology -->
   <section class="slide chapter-slide" id="ch-method" data-chapter="How we work"
-    data-notes="'Nizar studied hard. He just studied wrong. Here is what studying right looks like.' Pause. Next slide.">
+    data-notes="'Mazen studied hard. He just studied wrong. Here is what studying right looks like.' Pause. Next slide.">
     <div class="wrap">
       <div>
         <p class="chapter-no">How we work</p>
@@ -1212,11 +1212,11 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Method stepper -->
   <section class="slide" id="method" data-chapter="How we work" data-steps="6"
-    data-notes="Press &#8594; to run the engine one step at a time. Read the title and the one line under it; let the dashboard do the rest. Step 2: the bars re-sort, weakest first. Step 6: watch Reading jump the queue because it slipped. Step 7: the score crosses the target and the loop closes. Close with: 'That is studying smart. Nizar never had this.'">
+    data-notes="Press &#8594; to run the engine one step at a time. Read the title and the one line under it; let the dashboard do the rest. Step 2: the bars re-sort, weakest first. Step 6: watch Reading jump the queue because it slipped. Step 7: the score crosses the target and the loop closes. Close with: 'That is studying smart. Mazen never had this.'">
     <div class="wrap">
       <div class="eng-head">
         <p class="label" style="margin:0">The TestPrep Performance Engine</p>
-        <span class="eng-tag"><i></i>Example student &#183; Nizar &#183; target 1400</span>
+        <span class="eng-tag"><i></i>Example student &#183; Mazen &#183; target 1400</span>
       </div>
       <div class="engine">
         <div class="ring-wrap">
@@ -1256,7 +1256,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Elmy -->
   <section class="slide" id="elmy" data-chapter="Powered by Elmy" data-steps="3"
-    data-notes="'This is where Nizar's guessing ends.' Press &#8594; to move through the four screens. Keep each one to a sentence: this is what you see, this is the step it powers.">
+    data-notes="'This is where Mazen's guessing ends.' Press &#8594; to move through the four screens. Keep each one to a sentence: this is what you see, this is the step it powers.">
     <div class="wrap">
       <p class="label">Powered by Elmy</p>
       <h2 class="h2" style="font-size:clamp(32px,4.2vw,60px)">You never have to guess<br>what to study next.</h2>
@@ -1269,7 +1269,7 @@ header.bar, #progress { transition: opacity .6s; }
   </section>
 
   <!-- The reveal: Nizar is real -->
-  <section class="slide dark" id="nizar" data-chapter="Who we are" data-steps="2"
+  <section class="slide dark" id="nizar" data-off hidden data-chapter="Who we are" data-steps="2"
     data-notes="Speak about Nizar in the third person, as you have all talk. 'Remember Nizar? Nobody ever told him why the SAT mattered.' Press &#8594;: his real story appears. Read it plainly: 2013, LAU, no idea the SAT was required, engineering, then business, two years gone. Pause. Press &#8594;: the figurine of 17-year-old Nizar dissolves into the real photo. Let it land, then: 'I'm Nizar.' Beat. 'That was 2013. The test has changed since. The mistake hasn't. It's still happening, to students sitting where you are.' Then: 'So I built the place I wish I'd had.'">
     <div class="nz-glow" aria-hidden="true"></div>
     <div class="wrap nz-wrap">
@@ -1300,7 +1300,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Who we are -->
   <section class="slide dark" id="who" data-chapter="Who we are"
-    data-notes="Straight from the reveal: 'Everything we do comes from one belief.' Let the sentence light up word by word and read it with it, slowly, like a promise. 'This is the one sentence our whole company is built on.' Touch the three beliefs in one breath each, then introduce Karim in one line (they already know who you are).">
+    data-notes="Bridge from Elmy: 'All of that comes from one belief.' Let the sentence light up word by word and read it with it, slowly, like a promise. 'This is the one sentence our whole company is built on.' Touch the three beliefs in one breath each, then introduce the founders in one line.">
     <div class="who-glow" aria-hidden="true"></div>
     <div class="wrap who-wrap">
       <div class="who-top"><p class="label">Who we are</p><span>TestPrep &#183; by House of Prep &#183; Beirut</span></div>
@@ -1376,7 +1376,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Ecosystem -->
   <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
-    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. On Taleb: 'Nizar needed five different places. This is one roof, from grade 10 to graduation.' Last card, Elmy: 'And under all of it, the platform that tracks every answer.'">
+    data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. On Taleb: 'Mazen needed five different places. This is one roof, from grade 10 to graduation.' Last card, Elmy: 'And under all of it, the platform that tracks every answer.'">
     <div class="wrap">
       <div class="eco-head">
         <div>
@@ -1452,7 +1452,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   <!-- Close -->
   <section class="slide dark" id="close" data-chapter="Your next move"
-    data-notes="Lights down. 'Same Nizar. Same effort. The only thing that changed was the journey.' Then: 'Phones out. Scan this. Two minutes, and we'll know exactly where you're starting from.' Leave this slide up until the room is done.">
+    data-notes="Lights down. 'Same Mazen. Same effort. The only thing that changed was the journey.' Then: 'Phones out. Scan this. Two minutes, and we'll know exactly where you're starting from.' Leave this slide up until the room is done.">
     <div class="close-pool" id="close-pool" aria-hidden="true"></div>
     <div class="wrap close-wrap">
       <p class="label" style="margin:0">Your next move</p>
@@ -1489,7 +1489,7 @@ header.bar, #progress { transition: opacity .6s; }
 <script>
 (() => {
   const deck = document.getElementById('deck');
-  const slides = [...document.querySelectorAll('.slide')];
+  const slides = [...document.querySelectorAll('.slide:not([data-off])')];   // data-off: parked slides, kept in the file but skipped
   const progress = document.getElementById('progress');
   const notes = document.getElementById('notes');
   const notesText = document.getElementById('notes-text');
@@ -1798,7 +1798,7 @@ header.bar, #progress { transition: opacity .6s; }
     copy.innerHTML = `<span class="step-tag fade-in">${s[2]}</span><h3 class="h2 fade-in" style="font-size:clamp(28px,2.8vw,40px)">${s[3]}</h3><p class="body fade-in" style="font-size:16px">${s[4]}</p>`;
   }
 
-  /* ---------- Spot the Glitch: Nizar's desk (3D board, fly-to-focus, glow card) ---------- */
+  /* ---------- Spot the Glitch: Mazen's desk (3D board, fly-to-focus, glow card) ---------- */
   // Each glitch is a habit that ignores what the room just learned about the real, digital SAT.
   const PLAN = [
     ['Practise on the paper tests from my 2019 SAT book.', 'The SAT is digital now. You take it on a laptop, in the Bluebook app.', 'Practise in the real digital format, on screen.'],
@@ -2632,7 +2632,7 @@ header.bar, #progress { transition: opacity .6s; }
 
   // Where each slide lives: its row in the vertical track, and (inside a strip) its column.
   const META = [];
-  [...track.children].forEach((node, row) => {
+  [...track.children].filter(n => !n.hasAttribute('data-off')).forEach((node, row) => {
     if (node.classList.contains('hstrip')) [...node.querySelectorAll('.slide')].forEach((sl, col) => META[slides.indexOf(sl)] = { row, col, strip: node.querySelector('.hrow') });
     else META[slides.indexOf(node)] = { row, col: 0, strip: null };
   });
