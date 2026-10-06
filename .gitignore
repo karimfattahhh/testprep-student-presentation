@@ -1,1 +1,9 @@
 .DS_Store
+
+# Raw AI generations and superseded film cuts stay local; the deck only uses assets/film/take/*.mp4 + poster
+assets/film/src/
+assets/film/real/
+assets/film/take/src/
+assets/film/s*.mp4
+assets/film/poster.jpg
+assets/people/mini/
