@@ -776,21 +776,26 @@ header.bar, #progress { transition: opacity .6s; }
 .close-wrap { display: grid; justify-items: center; text-align: center; gap: clamp(14px, 2.6vh, 26px); }
 .close-title { margin: 0; font-weight: 600; font-size: clamp(44px, 6.4vw, 104px); line-height: .98; letter-spacing: -.05em; color: #fff; text-wrap: balance; }
 .close-title .grad { background: linear-gradient(90deg, #9DB0FF, #FFC48E 70%, #FF963E); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.close-sub { margin: 0; font-size: clamp(16px, 1.3vw, 20px); color: #B9C3E6; max-width: 34em; line-height: 1.5; }
-.close-cta { display: flex; align-items: center; gap: clamp(20px, 3vw, 44px); margin-top: 6px; text-align: left; flex-wrap: wrap; justify-content: center; }
+.close-sub { margin: 0; font-size: clamp(16px, 1.3vw, 20px); color: #B9C3E6; max-width: 34em; line-height: 1.5; text-wrap: balance; }
+.close-cta { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: clamp(22px, 2.6vw, 40px); margin-top: 6px; text-align: left;
+  width: min(100%, 720px); padding: 16px clamp(22px, 2.4vw, 36px) 16px 16px; border-radius: 34px;
+  background: linear-gradient(180deg, rgba(255,255,255,.09), rgba(255,255,255,.04)); border: 1px solid rgba(157,176,255,.22);
+  box-shadow: 0 40px 90px -40px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(10px); }
 .qr-card { --sweep2: 0deg; padding: 14px; border-radius: 26px; border: 1.5px solid transparent; animation: sweep2 3.4s linear infinite;
   background: linear-gradient(#fff, #fff) padding-box,
               conic-gradient(from var(--sweep2), rgba(255,255,255,.25) 0deg, rgba(255,255,255,.25) 200deg, #6E93FF 260deg, var(--orange) 330deg, rgba(255,255,255,.25) 360deg) border-box;
   box-shadow: 0 30px 80px -20px rgba(30,77,196,.65); }
 .qr-box { width: clamp(170px, 15vw, 230px); aspect-ratio: 1; max-width: 100%; display: block; padding: 6px; }
 .qr-box img { width: 100%; height: 100%; display: block; image-rendering: pixelated; }
-.cta-copy .qr-url { font-size: 13px; color: #DCE3F8; letter-spacing: .01em; font-variant-numeric: tabular-nums; }
-.cta-copy { display: grid; gap: 10px; max-width: 300px; }
-.cta-copy b { font-size: clamp(24px, 2.2vw, 34px); font-weight: 600; color: #fff; letter-spacing: -.03em; }
-.cta-copy .meta { font-size: 14px; color: #9DB0FF; }
-.cta-steps { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 8px; counter-reset: c; }
-.cta-steps li { counter-increment: c; display: grid; grid-template-columns: 26px 1fr; gap: 10px; align-items: center; font-size: 15px; color: #DCE3F8; }
+.cta-copy .qr-url { justify-self: start; display: inline-flex; align-items: center; gap: 8px; margin-top: 4px; font-size: 13px; color: #B9C3E6; padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(157,176,255,.22); }
+.cta-copy .qr-url b { font-size: 13px; font-weight: 600; color: #fff; letter-spacing: .01em; }
+.cta-copy { display: grid; gap: 12px; min-width: 0; }
+.cta-copy > b { font-size: clamp(28px, 2.5vw, 40px); font-weight: 600; color: #fff; letter-spacing: -.035em; line-height: 1; }
+.cta-copy .meta { font-size: 15px; font-weight: 500; color: #C9D3F5; margin-top: -4px; }
+.cta-steps { list-style: none; margin: 4px 0 0; padding: 14px 0 0; display: grid; gap: 10px; counter-reset: c; border-top: 1px solid rgba(255,255,255,.12); }
+.cta-steps li { counter-increment: c; display: grid; grid-template-columns: 26px 1fr; gap: 12px; align-items: center; font-size: clamp(15px, 1.15vw, 17px); color: #E6EBFA; white-space: nowrap; }
 .cta-steps li::before { content: counter(c); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #060F33; background: var(--orange); }
+@media (max-width: 640px) { .close-cta { grid-template-columns: minmax(0, 1fr); justify-items: center; padding: 16px; } .cta-steps li { white-space: normal; } .cta-copy .qr-url { flex-wrap: wrap; } }
 .close-brand { display: grid; justify-items: center; gap: 8px; margin-top: clamp(10px, 2vh, 22px); }
 .close-brand img { height: clamp(30px, 3vw, 44px); width: auto; filter: drop-shadow(0 0 24px rgba(110,147,255,.55)); }
 .close-brand span { font-size: 12px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #9DB0FF; }
@@ -1461,9 +1466,9 @@ header.bar, #progress { transition: opacity .6s; }
         <div class="qr-card"><a class="qr-box" id="qr" href="https://forms.gle/52L71hbLQB5f32Jy6" target="_blank" rel="noopener" aria-label="Open the TestPrep sign-up form"><img src="assets/qr-form.svg" alt="QR code for the TestPrep sign-up form" width="29" height="29"></a></div>
         <div class="cta-copy">
           <b>Scan to join</b>
-          <span class="meta">2 minutes &#183; for you and your school</span>
-          <span class="qr-url">forms.gle/52L71hbLQB5f32Jy6</span>
-          <ol class="cta-steps"><li>Scan the code</li><li>Tell us your goals</li><li>We reach out with your starting point</li></ol>
+          <span class="meta">Takes 2 minutes &#183; free</span>
+          <ol class="cta-steps"><li>Scan the code</li><li>Tell us about you and your goals</li><li>Get your personal starting point</li></ol>
+          <span class="qr-url">or open <b>forms.gle/52L71hbLQB5f32Jy6</b></span>
         </div>
       </div>
       <div class="close-brand" id="close-brand"><img src="assets/logo-testprep-white.svg" alt="TestPrep" width="2018" height="407"><span>by House of Prep</span></div>
