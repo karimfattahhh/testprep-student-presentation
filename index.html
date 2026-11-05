@@ -298,6 +298,37 @@ header.bar, #progress { transition: opacity .6s; }
 .nz-cap .rl { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.55); }
 @media (max-width: 899px) { .nz-wrap { grid-template-columns: minmax(0, 1fr); } .nz-card { width: min(100%, 260px); } }
 
+/* Trusted by: 78 school logos settle into the shape of Lebanon, then open into a wall the room can search. */
+#trusted { background: #060F33 !important; color: #fff; overflow: hidden; }
+.tr-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(45% 60% at 72% 48%, rgba(30,77,196,.5), transparent 68%), radial-gradient(35% 40% at 8% 105%, rgba(255,150,62,.16), transparent 70%); }
+.tr-wrap { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 5vw, 90px); align-items: center; min-height: 72vh; }
+.tr-copy { display: grid; gap: clamp(16px, 2.6vh, 26px); align-content: center; position: relative; z-index: 2; }
+.tr-copy .label { margin: 0; color: #9DB0FF; }
+.tr-title { margin: 0; font-weight: 500; font-size: clamp(40px, 4.6vw, 76px); line-height: 1.02; letter-spacing: -.045em; text-wrap: balance; }
+.tr-title .grad { background: linear-gradient(90deg, #9DB0FF, #FFC48E 75%, #FF963E); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tr-stats { display: flex; gap: clamp(28px, 4vw, 64px); align-items: flex-end; flex-wrap: wrap; padding-top: 8px; border-top: 1px solid rgba(255,255,255,.14); }
+.tr-stat { display: grid; gap: 2px; padding-top: 16px; }
+.tr-stat b { font-weight: 600; font-size: clamp(56px, 6vw, 104px); line-height: .9; letter-spacing: -.05em; font-variant-numeric: tabular-nums; }
+.tr-stat.small b { font-size: clamp(34px, 3.4vw, 56px); color: #FFC48E; }
+.tr-stat span { font-size: clamp(13px, 1vw, 15px); color: rgba(255,255,255,.62); }
+.tr-cue { font-size: 13px; color: rgba(255,255,255,.5); display: inline-flex; gap: 8px; align-items: center; }
+.tr-cue kbd { font: inherit; font-size: 12px; padding: 2px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,.2); color: #fff; }
+.tr-stage { position: relative; width: min(100%, 580px, 76vh * .8); aspect-ratio: .8; justify-self: center; }   /* capped by height so the south never runs off a short screen */
+.tr-layer { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.tr-tile { position: absolute; left: 0; top: 0; border-radius: 7px; background: #fff; overflow: hidden; will-change: transform;
+  box-shadow: 0 6px 18px -8px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.08); }
+.tr-tile img { width: 100%; height: 100%; display: block; object-fit: contain; }
+.tr-tile.p::after { content: ""; position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 2px #fff; opacity: 0; transition: opacity .4s; }
+#trusted.wall .tr-tile.p::after { opacity: 1; }
+.tr-city { position: absolute; z-index: 2; font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: #FFC48E; white-space: nowrap; pointer-events: none; }
+.tr-city::before { content: ""; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--orange); margin-right: 7px; vertical-align: 2px; }
+.tr-head { position: absolute; left: 0; right: 0; top: clamp(70px, 10vh, 110px); z-index: 2; display: flex; justify-content: space-between; align-items: baseline; gap: 16px; padding-inline: max(16px, 4vw); opacity: 0; visibility: hidden; }
+.tr-head h3 { margin: 0; font-weight: 500; font-size: clamp(28px, 3vw, 48px); letter-spacing: -.04em; }
+.tr-head span { font-size: 14px; color: rgba(255,255,255,.62); display: inline-flex; align-items: center; gap: 8px; }
+.tr-head span i { width: 9px; height: 9px; border-radius: 50%; background: var(--orange); box-shadow: 0 0 0 2px #fff; }
+@media (max-width: 899px) { .tr-wrap { grid-template-columns: minmax(0, 1fr); } .tr-stage { width: min(100%, 340px); } }
+
 /* Who we are: Framer-style stage. Deep navy, words light up one by one, beliefs on hairlines, founders row. */
 #who { background: #060F33 !important; color: #fff; }
 .who-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
@@ -1378,6 +1409,26 @@ header.bar, #progress { transition: opacity .6s; }
   <svg id="link-line" aria-hidden="true"><defs><linearGradient id="link-grad" x1="0" x2="1" y1="0" y2="0"><stop offset="0" stop-color="#C9CCD5"/><stop offset=".45" stop-color="#FFC48E"/><stop offset="1" stop-color="#FF963E"/></linearGradient></defs><path id="link-path"/><circle id="link-head" r="5" cx="0" cy="0" opacity="0"/></svg>
   </div></div>
 
+  <!-- Trusted by -->
+  <section class="slide dark" id="trusted" data-chapter="Trusted across Lebanon" data-steps="1"
+    data-notes="Let the map build without talking: every tile is a real school, and together they make Lebanon. Then: 'Seventy-eight schools across the country. Thirty of them are partner schools.' Press &#8594;: the map opens into every logo. 'Raise your hand if you can find your school.' Give them a few seconds; this is the moment it becomes personal.">
+    <div class="tr-glow" aria-hidden="true"></div>
+    <div class="wrap tr-wrap">
+      <div class="tr-copy" id="tr-copy">
+        <p class="label">Trusted across Lebanon</p>
+        <h2 class="tr-title">From Akkar to the South, <span class="grad">schools work with us.</span></h2>
+        <div class="tr-stats">
+          <div class="tr-stat"><b id="tr-count">78</b><span>schools across Lebanon</span></div>
+          <div class="tr-stat small"><b>30</b><span>partner schools</span></div>
+        </div>
+        <span class="tr-cue"><kbd>&#8594;</kbd> find your school</span>
+      </div>
+      <div class="tr-stage" id="tr-stage" aria-hidden="true"></div>
+    </div>
+    <div class="tr-head" id="tr-head"><h3>Find your school.</h3><span><i></i>Partner school</span></div>
+    <div class="tr-layer" id="tr-layer" role="list" aria-label="78 schools that trust us"><div class="tr-tile" title="Mahdi Schools - Beirut"><img src="assets/schools/s01.jpg" alt="Mahdi Schools - Beirut" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Makassed Schools - Beirut"><img src="assets/schools/s02.jpg" alt="Makassed Schools - Beirut" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lebanese Evangelical School for Boys & Girls - Louaizeh"><img src="assets/schools/s03.jpg" alt="Lebanese Evangelical School for Boys & Girls - Louaizeh" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Antonines International School - Ajaltoun"><img src="assets/schools/s04.jpg" alt="Antonines International School - Ajaltoun" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Ahliah School"><img src="assets/schools/s05.jpg" alt="Ahliah School" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Beirut Annunciation Orthodox College (BAC)"><img src="assets/schools/s06.jpg" alt="Beirut Annunciation Orthodox College (BAC)" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="College Protestant Francaise - Quraytem"><img src="assets/schools/s07.jpg" alt="College Protestant Francaise - Quraytem" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="College Protestant Francaise - Montana"><img src="assets/schools/s08.jpg" alt="College Protestant Francaise - Montana" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Ecole Secondaire De Filles de La Charite - Achrafieh"><img src="assets/schools/s09.jpg" alt="Ecole Secondaire De Filles de La Charite - Achrafieh" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Ecole des Trois Docteurs"><img src="assets/schools/s10.jpg" alt="Ecole des Trois Docteurs" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="American Community School (ACS)"><img src="assets/schools/s11.jpg" alt="American Community School (ACS)" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Universal College of Aley"><img src="assets/schools/s12.jpg" alt="Universal College of Aley" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Sagesse Achrafieh"><img src="assets/schools/s13.jpg" alt="Sagesse Achrafieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Sagesse Brazilia"><img src="assets/schools/s14.jpg" alt="Sagesse Brazilia" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Sagesse High School (Ain Saadeh)"><img src="assets/schools/s15.jpg" alt="Sagesse High School (Ain Saadeh)" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Sagesse Jdeideh"><img src="assets/schools/s16.jpg" alt="Sagesse Jdeideh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Apotres - Jounieh"><img src="assets/schools/s17.jpg" alt="College De Apotres - Jounieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="SABIS Cheoifat"><img src="assets/schools/s18.jpg" alt="SABIS Cheoifat" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College de la Sainte Famille Francaise - Fanar"><img src="assets/schools/s19.jpg" alt="College de la Sainte Famille Francaise - Fanar" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De La Saint Famille Francaise - Jounieh"><img src="assets/schools/s20.jpg" alt="College De La Saint Famille Francaise - Jounieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Freres Mont La Salle"><img src="assets/schools/s21.jpg" alt="College De Freres Mont La Salle" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Ecole Saint George Bsalim"><img src="assets/schools/s22.jpg" alt="Ecole Saint George Bsalim" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Saint Coeurs - Hadat"><img src="assets/schools/s23.jpg" alt="College De Saint Coeurs - Hadat" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lycee Saint Joseph Antoura"><img src="assets/schools/s24.jpg" alt="Lycee Saint Joseph Antoura" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College Sacre Couers - Frere Gemmayzeh"><img src="assets/schools/s25.jpg" alt="College Sacre Couers - Frere Gemmayzeh" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="La Lycee National"><img src="assets/schools/s26.jpg" alt="La Lycee National" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lycee Franco Libanais Nahr Ibrahim"><img src="assets/schools/s27.jpg" alt="Lycee Franco Libanais Nahr Ibrahim" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lycee Franco Libanais Habbouche"><img src="assets/schools/s28.jpg" alt="Lycee Franco Libanais Habbouche" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Lycee Franco Libanais Verdun"><img src="assets/schools/s29.jpg" alt="Lycee Franco Libanais Verdun" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Grand Lycee Franco Libanais - Achrafieh"><img src="assets/schools/s30.jpg" alt="Grand Lycee Franco Libanais - Achrafieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Central Jounieh"><img src="assets/schools/s31.jpg" alt="College De Central Jounieh" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Musatafa - Ksarnaba"><img src="assets/schools/s32.jpg" alt="Musatafa - Ksarnaba" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Mustafa - Nabatieh"><img src="assets/schools/s33.jpg" alt="Mustafa - Nabatieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Beirut Baptist School"><img src="assets/schools/s34.jpg" alt="Beirut Baptist School" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Amjad High School"><img src="assets/schools/s35.jpg" alt="Amjad High School" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="International College (IC)"><img src="assets/schools/s36.jpg" alt="International College (IC)" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Eastwood"><img src="assets/schools/s37.jpg" alt="Eastwood" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Brummana High School"><img src="assets/schools/s38.jpg" alt="Brummana High School" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Beirut Evanlegical School for Boys & Girls - Rabye"><img src="assets/schools/s39.jpg" alt="Beirut Evanlegical School for Boys & Girls - Rabye" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="College de Per Antonins - Baabda"><img src="assets/schools/s40.jpg" alt="College de Per Antonins - Baabda" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Batoul School - Dahieh"><img src="assets/schools/s41.jpg" alt="Batoul School - Dahieh" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Education & Teaching Seconday School (ETSS)"><img src="assets/schools/s42.jpg" alt="Education & Teaching Seconday School (ETSS)" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Harriri Second Secondary School"><img src="assets/schools/s43.jpg" alt="Harriri Second Secondary School" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Rawda High School"><img src="assets/schools/s44.jpg" alt="Rawda High School" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Saint Marry Orthodox College (SMOC - Salim Slem)"><img src="assets/schools/s45.jpg" alt="Saint Marry Orthodox College (SMOC - Salim Slem)" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Saint Coeurs - Ain Najm"><img src="assets/schools/s46.jpg" alt="College De Saint Coeurs - Ain Najm" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Mabarat - Kawthar Schools"><img src="assets/schools/s47.jpg" alt="Mabarat - Kawthar Schools" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Mustafa - Sour"><img src="assets/schools/s48.jpg" alt="Mustafa - Sour" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Mustafa School - Hara"><img src="assets/schools/s49.jpg" alt="Mustafa School - Hara" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Saint Anthony Hammana"><img src="assets/schools/s50.jpg" alt="Saint Anthony Hammana" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College Des Soeurs Du Rosaire Mountazah"><img src="assets/schools/s51.jpg" alt="College Des Soeurs Du Rosaire Mountazah" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Rosaire Jbeil"><img src="assets/schools/s52.jpg" alt="College De Rosaire Jbeil" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Ecole des Soeurs des Saints-Coeurs - Zahle"><img src="assets/schools/s53.jpg" alt="Ecole des Soeurs des Saints-Coeurs - Zahle" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Coll&#232;ge St Joseph des Soeurs Antonines &#8211; Ksara"><img src="assets/schools/s54.jpg" alt="Coll&#232;ge St Joseph des Soeurs Antonines &#8211; Ksara" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Saint Coeurs - Sioufi"><img src="assets/schools/s55.jpg" alt="College De Saint Coeurs - Sioufi" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Ras Beirut School"><img src="assets/schools/s56.jpg" alt="Ras Beirut School" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College De Apotres - Bawchrieh"><img src="assets/schools/s57.jpg" alt="College De Apotres - Bawchrieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="SABIS Adma"><img src="assets/schools/s58.jpg" alt="SABIS Adma" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="City International School"><img src="assets/schools/s59.jpg" alt="City International School" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="College Notre Dam De Jamhour"><img src="assets/schools/s60.jpg" alt="College Notre Dam De Jamhour" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College Notre Dam De Louazieh"><img src="assets/schools/s61.jpg" alt="College Notre Dam De Louazieh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="College Notre Dam De Nazareth"><img src="assets/schools/s62.jpg" alt="College Notre Dam De Nazareth" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Champville Maristes"><img src="assets/schools/s63.jpg" alt="Champville Maristes" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Saint Coeurs College Kfarhbab"><img src="assets/schools/s64.jpg" alt="Saint Coeurs College Kfarhbab" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="College Louis Wegman - Tayouneh"><img src="assets/schools/s65.jpg" alt="College Louis Wegman - Tayouneh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lycee Charlamagne"><img src="assets/schools/s66.jpg" alt="Lycee Charlamagne" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lycee Abdel Kader"><img src="assets/schools/s67.jpg" alt="Lycee Abdel Kader" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Lycee Amchit International School"><img src="assets/schools/s68.jpg" alt="Lycee Amchit International School" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Saint Joseph School - Zouk Mikhael"><img src="assets/schools/s69.jpg" alt="Saint Joseph School - Zouk Mikhael" width="360" height="240" loading="eager"></div><div class="tr-tile" title="SABIS Koura"><img src="assets/schools/s70.jpg" alt="SABIS Koura" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Deliverand Araya"><img src="assets/schools/s71.jpg" alt="Deliverand Araya" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Coll&#232;ge des Saints-C&#339;urs &#8211; Bikfaya (Metn)"><img src="assets/schools/s72.jpg" alt="Coll&#232;ge des Saints-C&#339;urs &#8211; Bikfaya (Metn)" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Coll&#232;ge Saint Antoine - Zahle"><img src="assets/schools/s73.jpg" alt="Coll&#232;ge Saint Antoine - Zahle" width="360" height="240" loading="eager"></div><div class="tr-tile" title="German School"><img src="assets/schools/s74.jpg" alt="German School" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Jesus & Mary Rabweh"><img src="assets/schools/s75.jpg" alt="Jesus & Mary Rabweh" width="360" height="240" loading="eager"></div><div class="tr-tile" title="Melkart"><img src="assets/schools/s76.jpg" alt="Melkart" width="360" height="240" loading="eager"></div><div class="tr-tile" title="West Hill College"><img src="assets/schools/s77.jpg" alt="West Hill College" width="360" height="240" loading="eager"></div><div class="tr-tile p" title="Wellspring"><img src="assets/schools/s78.jpg" alt="Wellspring" width="360" height="240" loading="eager"></div></div>
+  </section>
+
   <!-- Ecosystem -->
   <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
     data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. On Taleb: 'Mazen needed five different places. This is one roof, from grade 10 to graduation.' Last card, Elmy: 'And under all of it, the platform that tracks every answer.'">
@@ -2341,7 +2392,7 @@ header.bar, #progress { transition: opacity .6s; }
   }
 
   /* ---------- Steps within slides ---------- */
-  const state = { nizar: 0, intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0, why: 0 };
+  const state = { trusted: 0, nizar: 0, intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0, why: 0 };
   renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
@@ -2352,6 +2403,7 @@ header.bar, #progress { transition: opacity .6s; }
     challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
     why: { next() { if (state.why < 3) { openDoors(++state.why); return true; } }, prev() { if (state.why > 0) { openDoors(--state.why); return true; } } },
     glitch: { next() { return glitchNext(); } },
+    trusted: { next() { if (state.trusted < 1) { trusted.go(++state.trusted); return true; } }, prev() { if (state.trusted > 0) { trusted.go(--state.trusted); return true; } } },
     film: { next: () => film.next(), prev: () => film.prev() },
     nizar: { next() { if (state.nizar < 2) { nizar.go(++state.nizar); return true; } }, prev() { if (state.nizar > 0) { nizar.go(--state.nizar); return true; } } },
   };
@@ -2599,6 +2651,92 @@ header.bar, #progress { transition: opacity .6s; }
     };
   })();
 
+  /* ---------- Trusted by: the logos build the map of Lebanon, then open into a wall ---------- */
+  const trusted = (() => {
+    const sl = document.getElementById('trusted'), stage = document.getElementById('tr-stage'), layer = document.getElementById('tr-layer');
+    const tiles = [...layer.querySelectorAll('.tr-tile')], count = document.getElementById('tr-count');
+    // Lebanon's outline (lon, lat), coast south to north, then the northern, eastern and southern borders
+    const LB = [[35.104,33.093],[35.17,33.18],[35.2,33.27],[35.26,33.4],[35.33,33.5],[35.37,33.56],[35.43,33.7],[35.48,33.83],[35.47,33.9],[35.52,33.9],[35.58,33.96],
+      [35.62,34.03],[35.64,34.12],[35.66,34.25],[35.72,34.35],[35.82,34.44],[35.9,34.5],[35.97,34.58],[35.99,34.64],[36.1,34.64],[36.2,34.63],[36.33,34.65],[36.45,34.62],
+      [36.58,34.53],[36.62,34.46],[36.5,34.38],[36.42,34.25],[36.36,34.05],[36.28,33.92],[36.16,33.84],[36.07,33.72],[35.99,33.62],[35.94,33.52],[35.86,33.43],[35.82,33.33],
+      [35.75,33.33],[35.6,33.27],[35.52,33.11],[35.4,33.07],[35.25,33.09]];
+    const CITIES = [['Beirut', 35.5, 33.89], ['Tripoli', 35.84, 34.43], ['Saida', 35.37, 33.56]];
+    const K = Math.cos(33.9 * Math.PI / 180), LON0 = 35.08, LAT1 = 34.68, SPANX = (36.64 - LON0) * K, SPANY = LAT1 - 33.05;
+    const toXY = (lon, lat, w, h) => [((lon - LON0) * K) / SPANX * w, (LAT1 - lat) / SPANY * h];
+    const inside = (x, y, poly) => { let c = false; for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
+      const [xi, yi] = poly[i], [xj, yj] = poly[j]; if ((yi > y) !== (yj > y) && x < (xj - xi) * (y - yi) / (yj - yi) + xi) c = !c; } return c; };
+    let at = 0, tl = null, mapPos = [], wallPos = [];
+    function layout() {
+      const L = layer.getBoundingClientRect(), S = stage.getBoundingClientRect();
+      const w = S.width, h = S.height, ox = S.left - L.left, oy = S.top - L.top;
+      const poly = LB.map(([a, b]) => toXY(a, b, w, h));
+      // shrink the grid step until at least 78 cells fall inside the country
+      const grid = (step) => { const out = [], dy = step * .7;
+        for (let r = 0, y = dy / 2; y < h; r++, y += dy) for (let x = step / 2 + (r % 2 ? step / 2 : 0); x < w; x += step) if (inside(x, y, poly)) out.push([x, y]);
+        return out; };
+      let step = w / 4, cells = grid(step);
+      for (let k = 0; k < 200 && cells.length < tiles.length; k++) { step *= .99; cells = grid(step); }
+      // a few spare cells at most: drop the ones nearest the border so the outline stays clean
+      const edge = ([x, y]) => Math.min(...poly.map(([px, py], i) => { const [qx, qy] = poly[(i + 1) % poly.length], L2 = (qx - px) ** 2 + (qy - py) ** 2,
+        t = Math.max(0, Math.min(1, ((x - px) * (qx - px) + (y - py) * (qy - py)) / L2)); return Math.hypot(x - px - t * (qx - px), y - py - t * (qy - py)); }));
+      cells.sort((a, b) => edge(b) - edge(a)); cells = cells.slice(0, tiles.length);
+      // build order: outward from Beirut
+      const [bx, by] = toXY(35.5, 33.89, w, h);
+      cells.sort((a, b) => Math.hypot(a[0] - bx, a[1] - by) - Math.hypot(b[0] - bx, b[1] - by));
+      const tw = step * .93, th = Math.min(tw * .66, step * .7 * .92);
+      mapPos = tiles.map((t, i) => { const [x, y] = cells[i] || cells[cells.length - 1]; return { x: ox + x - tw / 2, y: oy + y - th / 2, w: tw, h: th, d: Math.hypot(x - bx, y - by) }; });
+      // the wall: 13 x 6 under the heading
+      const head = document.getElementById('tr-head').getBoundingClientRect();
+      const top = Math.max(head.bottom - L.top, 0) + 22, side = Math.max(16, L.width * .04), gap = 10, availW = L.width - side * 2, availH = L.height - top - 30;
+      // the column count that gives the biggest readable logos in the space left under the heading
+      let best = null;
+      for (let c = 8; c <= 16; c++) { const r = Math.ceil(tiles.length / c), w1 = Math.min((availW - gap * (c - 1)) / c, ((availH - gap * (r - 1)) / r) * 1.5);
+        if (!best || w1 > best.w) best = { c, r, w: w1 }; }
+      const cols = best.c, cw = best.w, ch = cw / 1.5, gy = top + Math.max(0, (availH - (best.r * ch + (best.r - 1) * gap)) / 2);
+      wallPos = tiles.map((t, i) => { const row = Math.floor(i / cols), inRow = Math.min(cols, tiles.length - row * cols);
+        const gx = (L.width - (inRow * cw + (inRow - 1) * gap)) / 2;   // the last, shorter row sits centred
+        return { x: gx + (i % cols) * (cw + gap), y: gy + row * (ch + gap), w: cw, h: ch }; });
+      // city labels
+      stage.querySelectorAll('.tr-city').forEach(e => e.remove());
+      CITIES.forEach(([n, lo, la]) => { const [x, y] = toXY(lo, la, w, h); const e = document.createElement('span'); e.className = 'tr-city'; e.textContent = n;
+        e.style.left = (n === 'Zahle' ? x + tw * .7 : x - tw * .75) + 'px'; e.style.top = (y - 8) + 'px'; if (n !== 'Zahle') e.style.transform = 'translateX(-100%)'; stage.appendChild(e); });
+      stage.querySelectorAll('.tr-city').forEach(e => { e.style.opacity = at === 0 && sl.dataset.built ? 1 : 0; });
+    }
+    const put = (arr, extra = {}) => tiles.forEach((t, i) => gsap.set(t, { x: arr[i].x, y: arr[i].y, width: arr[i].w, height: arr[i].h, ...extra }));
+    function enter() {
+      layout();
+      if (reduce) { put(mapPos, { scale: 1, opacity: 1 }); sl.dataset.built = 1; layout(); return; }
+      put(mapPos, { scale: 0, opacity: 0 });
+      const o = { v: 0 };
+      tl = gsap.timeline({ onComplete: () => { sl.dataset.built = 1; } })
+        .to(tiles, { scale: 1, opacity: 1, duration: .55, ease: 'back.out(2)', stagger: (i) => mapPos[i].d / 260 }, .2)
+        .to(o, { v: tiles.length, duration: 2, ease: 'power2.out', onUpdate: () => { count.textContent = Math.round(o.v); } }, .2)
+        .to(stage.querySelectorAll('.tr-city'), { opacity: 1, duration: .5, stagger: .1 }, 1.6);
+    }
+    function go(n) {
+      tl?.progress(1);
+      const prev = at; at = n; layout();
+      tl = gsap.timeline({ defaults: { ease: 'power3.inOut' } });
+      if (n === 1 && prev === 0) {
+        sl.classList.add('wall');
+        tl.to('#tr-copy', { autoAlpha: 0, x: -40, duration: .5, ease: 'power2.in' }, 0)
+          .to(stage.querySelectorAll('.tr-city'), { opacity: 0, duration: .3 }, 0)
+          .to(tiles, { x: (i) => wallPos[i].x, y: (i) => wallPos[i].y, width: (i) => wallPos[i].w, height: (i) => wallPos[i].h, rotation: 0, duration: 1.1, stagger: { each: .008, from: 'random' } }, .15)
+          .fromTo('#tr-head', { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: .6, ease: 'power3.out' }, .9);
+      } else if (n === 0 && prev === 1) {
+        sl.classList.remove('wall');
+        tl.to('#tr-head', { autoAlpha: 0, duration: .3 }, 0)
+          .to(tiles, { x: (i) => mapPos[i].x, y: (i) => mapPos[i].y, width: (i) => mapPos[i].w, height: (i) => mapPos[i].h, duration: 1, stagger: { each: .006, from: 'random' } }, .1)
+          .to('#tr-copy', { autoAlpha: 1, x: 0, duration: .6, ease: 'power3.out' }, .6)
+          .to(stage.querySelectorAll('.tr-city'), { opacity: 1, duration: .4 }, 1);
+      }
+      return tl;
+    }
+    gsap.set(tiles, { scale: 0, opacity: 0 });   // first visit builds the map
+    addEventListener('resize', () => { if (!sl.dataset.built) return; layout(); put(at ? wallPos : mapPos); });
+    return { enter, go };
+  })();
+
   const track = document.getElementById('track'), flyer = document.getElementById('flyer');
   const ringWrap = document.querySelector('.ring-wrap'), methodOrb = document.getElementById('method-orb');
   let moving = null;
@@ -2609,6 +2747,7 @@ header.bar, #progress { transition: opacity .6s; }
     notesText.textContent = el.dataset.notes || '';
     progress.style.width = ((i + 1) / slides.length * 100) + '%';
     document.body.classList.toggle('on-dark', el.classList.contains('dark'));
+    if (el.id === 'trusted' && first) trusted.enter();
     if (el.id === 'numbers') { if (linkState < 2) { linkState = 2; applyLink(); } if (first) countUp(); }
     if (el.id === 'legacy') playMemories();
     if (el.id !== 'film') film.stop();
