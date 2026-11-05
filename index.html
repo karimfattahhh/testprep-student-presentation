@@ -369,7 +369,7 @@ header.bar, #progress { transition: opacity .6s; }
 .ef-stats span { font-size: 13px; color: var(--muted); line-height: 1.4; }
 .ef-stats b span { font: inherit; color: inherit; letter-spacing: inherit; }
 .ef-note { margin: 0; font-size: 12px; color: #6E7386; line-height: 1.5; max-width: 36em; }
-.ef-chart, .ef-schools { grid-column: 2; grid-row: 1; }
+.ef-chart { grid-column: 2; grid-row: 1; }
 .ef-chart { position: relative; width: 100%; aspect-ratio: 1.15; max-height: 74vh; justify-self: center; }
 .ef-chart svg { width: 100%; height: 100%; overflow: visible; display: block; }
 .ef-chart .grid line { stroke: var(--line); stroke-width: 1; }
@@ -384,57 +384,59 @@ header.bar, #progress { transition: opacity .6s; }
 .ef-chart .band { fill: rgba(255,150,62,.09); opacity: 0; }
 .ef-chart .band-l { stroke: var(--orange); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: 0; }
 .ef-chart .band-t { font-family: var(--sans); font-size: 12px; font-weight: 700; fill: #D2691A; letter-spacing: .06em; opacity: 0; }
-.ef-schools { position: relative; display: grid; align-content: center; gap: clamp(8px, 1.4vh, 14px); opacity: 0; visibility: hidden; }
-.ef-schools h3 { margin: 0 0 6px; font-weight: 500; font-size: clamp(22px, 2vw, 32px); letter-spacing: -.035em; }
-.ef-schools h3 small { display: block; margin-top: 4px; font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
-.ef-row { display: grid; grid-template-columns: clamp(54px, 4.6vw, 72px) minmax(0, 1.05fr) minmax(0, 1.25fr) 3.6em; gap: clamp(10px, 1.2vw, 18px); align-items: center; padding: 6px 0; border-top: 1px solid var(--line); }
-.ef-row img { width: 100%; height: auto; aspect-ratio: 1.5; object-fit: contain; background: #fff; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
-.ef-row .nm { display: grid; gap: 1px; min-width: 0; } .ef-row .nm b { font-size: clamp(13px, 1.05vw, 16px); font-weight: 600; line-height: 1.2; }
-.ef-row .nm span { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.ef-db { position: relative; height: 26px; }
-.ef-db::before { content: ""; position: absolute; left: 0; right: 0; top: 12px; height: 2px; background: var(--line); }
-.ef-db .bar { position: absolute; top: 10px; height: 6px; border-radius: 6px; background: linear-gradient(90deg, #9DB0FF, var(--orange)); transform-origin: left center; }
-.ef-db .a, .ef-db .b { position: absolute; top: 6px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px rgba(23,64,169,.25); }
-.ef-db .a { background: #9DB0FF; } .ef-db .b { background: var(--orange); }
-.ef-db .t { position: absolute; top: -13px; font-size: 10px; color: #6E7386; transform: translateX(-50%); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.ef-row .g { font-size: clamp(18px, 1.6vw, 24px); font-weight: 700; color: #D2691A; text-align: right; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
 .ef-key { display: flex; gap: 18px; font-size: 12px; color: var(--muted); padding-top: 6px; border-top: 1px solid var(--line); }
 .ef-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 @media (max-width: 899px) { #effect .wrap { grid-template-columns: minmax(0, 1fr); } }
 
-/* Two students: same program, different commitment. Real first diagnostic vs official SAT. */
+/* Two students: two real Elmy records (names changed or hidden). Click a card to see that student's record. */
 #two { background: #060F33 !important; color: #fff; }
 .tw-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
-  background: radial-gradient(40% 55% at 25% 55%, rgba(30,77,196,.45), transparent 70%), radial-gradient(35% 45% at 80% 60%, rgba(255,150,62,.1), transparent 70%); }
-.tw-wrap { display: grid; gap: clamp(18px, 3vh, 30px); }
+  background: radial-gradient(40% 55% at 22% 60%, rgba(30,77,196,.45), transparent 70%), radial-gradient(35% 45% at 78% 45%, rgba(255,150,62,.12), transparent 70%); }
+.tw-wrap { display: grid; gap: clamp(14px, 2.4vh, 26px); }
 .tw-wrap .label { margin: 0; color: #9DB0FF; }
-.tw-title { margin: 0; font-weight: 500; font-size: clamp(34px, 3.8vw, 62px); letter-spacing: -.045em; line-height: 1.02; }
-.tw-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 36px); }
-.tw-card { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; padding: clamp(20px, 2.4vw, 32px); border-radius: 28px;
-  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); border: 1px solid rgba(157,176,255,.2); }
-.tw-card.b { opacity: .4; filter: saturate(.3); }
-.tw-who { display: grid; gap: 6px; align-content: start; }
-.tw-who small { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #9DB0FF; }
-.tw-who h3 { margin: 0; font-size: clamp(30px, 2.8vw, 46px); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
-.tw-who h3.hid { display: inline-flex; align-items: center; gap: 10px; }
-.tw-who h3.hid span { filter: blur(9px); user-select: none; }
-.tw-who h3.hid em { font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.22); }
-.tw-scores { display: grid; grid-template-columns: auto auto; gap: 4px 18px; margin-top: 14px; align-items: baseline; }
-.tw-scores span { font-size: 13px; color: rgba(255,255,255,.6); }
-.tw-scores b { font-size: clamp(26px, 2.3vw, 38px); font-weight: 600; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
-.tw-gain { margin-top: 14px; font-size: clamp(54px, 5.4vw, 92px); font-weight: 600; line-height: .9; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
-.tw-card.a .tw-gain { color: #FFC48E; } .tw-card.b .tw-gain { color: rgba(255,255,255,.75); }
-.tw-note { margin: 10px 0 0; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.5; color: rgba(255,255,255,.7); max-width: 26em; }
-.tw-meter { position: relative; width: 54px; height: clamp(220px, 34vh, 320px); border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); overflow: hidden; }
-.tw-meter .fill { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 999px; background: linear-gradient(0deg, #1E4DC4, #6E93FF 60%, #FFC48E); }
-.tw-card.b .tw-meter .fill { background: linear-gradient(0deg, #1E4DC4, #6E93FF); }
-.tw-meter .start { position: absolute; left: 6px; right: 6px; height: 2px; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.9); }
-.tw-meter .tick { position: absolute; right: 100%; margin-right: 8px; font-size: 10px; color: rgba(255,255,255,.45); transform: translateY(50%); font-variant-numeric: tabular-nums; }
-.tw-line { margin: 0; text-align: center; display: grid; gap: 6px; opacity: 0; visibility: hidden; }
-.tw-line b { font-size: clamp(26px, 2.6vw, 44px); font-weight: 600; letter-spacing: -.04em; }
+.tw-title { margin: 6px 0 0; font-weight: 500; font-size: clamp(32px, 3.4vw, 56px); letter-spacing: -.045em; line-height: 1.04; }
+.tw-body { display: grid; grid-template-columns: minmax(0, .92fr) minmax(0, 1.18fr); gap: clamp(22px, 3.2vw, 56px); align-items: center; }
+.tw-left { display: grid; gap: clamp(12px, 2vh, 18px); min-width: 0; }
+.tw-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tw-card { appearance: none; font: inherit; color: #fff; text-align: left; cursor: pointer; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: center;
+  padding: clamp(12px, 1.4vw, 18px); border-radius: 20px; background: rgba(255,255,255,.05); border: 1px solid rgba(157,176,255,.2);
+  transition: background .35s, border-color .35s, box-shadow .35s, transform .35s; }
+.tw-card:hover { background: rgba(255,255,255,.09); transform: translateY(-2px); }
+.tw-card:focus-visible { outline: 2px solid #9DB0FF; outline-offset: 3px; }
+.tw-card[aria-pressed="true"] { background: linear-gradient(180deg, rgba(255,255,255,.15), rgba(255,255,255,.06)); border-color: #FF963E; box-shadow: 0 0 0 1px #FF963E, 0 18px 40px rgba(0,0,0,.35); }
+.tw-av { width: clamp(40px, 3.4vw, 52px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; font-size: clamp(17px, 1.5vw, 22px); font-weight: 600; background: #E6ECFF; color: #1740A9; }
+.tw-card.b .tw-av { background: rgba(255,255,255,.14); color: #fff; }
+.tw-card small { display: block; font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #9DB0FF; }
+.tw-card b { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; margin-top: 3px; font-size: clamp(19px, 1.65vw, 27px); font-weight: 600; letter-spacing: -.035em; line-height: 1.1; }
+.tw-card b .blur { filter: blur(7px); user-select: none; }
+.tw-card b em { font-style: normal; font-size: 10px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.65); padding: 4px 8px; border-radius: 999px; border: 1px solid rgba(255,255,255,.22); }
+.tw-card .sub { display: block; margin-top: 4px; font-size: 12px; color: rgba(255,255,255,.62); }
+.tw-metrics { display: grid; gap: clamp(10px, 1.7vh, 16px); padding: clamp(14px, 1.6vw, 22px); border-radius: 22px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09); }
+.tw-m { display: grid; gap: 6px; }
+.tw-m > span { font-size: 12px; color: rgba(255,255,255,.66); }
+.tw-bar { display: grid; grid-template-columns: 24px minmax(0, 1fr) 4.6em; align-items: center; gap: 10px; transition: opacity .45s; }
+.tw-bar i { font-style: normal; width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 11px; font-weight: 700; background: #E6ECFF; color: #1740A9; }
+.tw-bar.b i { background: rgba(255,255,255,.16); color: #fff; }
+.tw-bar .tr { height: 10px; border-radius: 10px; background: rgba(255,255,255,.08); overflow: hidden; }
+.tw-bar .tr u { display: block; height: 100%; width: 0; border-radius: inherit; background: linear-gradient(90deg, #1E4DC4, #6E93FF 60%, #FFC48E); }
+.tw-bar.b .tr u { background: linear-gradient(90deg, #3B4570, #8E97BC); }
+.tw-bar b { font-size: clamp(14px, 1.15vw, 17px); font-weight: 600; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tw-bar b small { display: block; font-size: 10px; font-weight: 500; color: rgba(255,255,255,.55); }
+.tw-metrics[data-sel="a"] .tw-bar.b, .tw-metrics[data-sel="b"] .tw-bar.a { opacity: .38; }
+.tw-right { display: grid; gap: 10px; min-width: 0; }
+.tw-frame { position: relative; border-radius: 18px; overflow: hidden; background: #F1F4F9; box-shadow: 0 30px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.14); }
+.tw-chrome { display: flex; align-items: center; gap: 7px; height: 36px; padding: 0 14px; background: #E4E8F1; }
+.tw-chrome i { width: 10px; height: 10px; border-radius: 50%; background: #C9CFDC; }
+.tw-chrome span { margin-left: 10px; padding: 3px 14px; border-radius: 999px; background: #fff; font-size: 12px; color: #4B5268; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tw-shot { position: relative; height: min(56vh, 520px); overflow: hidden; }
+.tw-shot img { position: absolute; left: 0; top: 0; width: 100%; height: auto; opacity: 0; visibility: hidden; }
+.tw-cap { margin: 0; font-size: 12px; color: rgba(255,255,255,.55); }
+.tw-line { margin: 0; text-align: center; display: grid; gap: 4px; opacity: 0; visibility: hidden; }
+.tw-line b { font-size: clamp(24px, 2.4vw, 40px); font-weight: 600; letter-spacing: -.04em; }
 .tw-line b .grad { background: linear-gradient(90deg, #9DB0FF, #FFC48E 70%, #FF963E); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .tw-line > span { font-size: clamp(14px, 1.1vw, 17px); color: rgba(255,255,255,.7); }
-@media (max-width: 899px) { .tw-cards { grid-template-columns: minmax(0, 1fr); } .tw-meter { height: 180px; } }
+@media (max-height: 800px) and (min-width: 900px) { .tw-shot { height: 48vh; } .tw-title { font-size: clamp(30px, 3vw, 46px); } .tw-line > span { display: none; } }
+@media (max-width: 899px) { .tw-body { grid-template-columns: minmax(0, 1fr); } .tw-shot { height: 46vh; } }
 
 /* What people say: a maximalist wall of real Google reviews + the rating + a CTA to Google. */
 #reviews { background: #1740A9 !important; color: #fff; overflow: hidden; }
@@ -1579,8 +1581,8 @@ header.bar, #progress { transition: opacity .6s; }
   </section>
 
   <!-- The TestPrep Effect -->
-  <section class="slide" id="effect" data-chapter="The TestPrep Effect" data-steps="2"
-    data-notes="Let the lines draw. 'Every line is one of our students: where they started on their first TestPrep diagnostic, and where they finished on the official SAT.' Point at the orange line: 'On average, 149 points higher.' Press &#8594;: 'And this is the line every university notices: 1,200. 58 of them started above it. 142 finished above it.' Press &#8594; again: 'School by school, these are the seven schools with the most of our students. Every one of them moved up by more than 100 points on average.'">
+  <section class="slide" id="effect" data-chapter="The TestPrep Effect" data-steps="1"
+    data-notes="Let the lines draw. 'Every line is one of our students: where they started on their first TestPrep diagnostic, and where they finished on the official SAT.' Point at the orange line: 'On average, 149 points higher.' Press &#8594;: 'And this is the line every university notices: 1,200. 58 of them started above it. 142 finished above it.'">
     <div class="wrap">
       <div class="ef-copy">
         <p class="label">The TestPrep Effect</p>
@@ -1594,34 +1596,45 @@ header.bar, #progress { transition: opacity .6s; }
         <p class="ef-note">261 students from 45 schools with a first TestPrep diagnostic and an official SAT score, 2023 to 2026.</p>
       </div>
       <div class="ef-chart" id="ef-chart" aria-label="Slope chart: 261 students, first diagnostic to official SAT. Average 1,050 to 1,199." role="img"></div>
-      <div class="ef-schools" id="ef-schools" aria-label="Average gain at the seven schools with the most TestPrep students"><h3>School by school<small>Our seven schools with the most students: average first diagnostic to average official SAT</small></h3><div class="ef-row"><img src="assets/schools/s36.jpg" alt="" width="360" height="240"><div class="nm"><b>International College</b><span>37 students</span></div><div class="ef-db"><span class="bar" style="left:59.8%;width:31.0%"></span><span class="a" style="left:59.8%"></span><span class="b" style="left:90.8%"></span><span class="t" style="left:90.8%">1,272</span></div><span class="g">+161</span></div><div class="ef-row"><img src="assets/schools/s60.jpg" alt="" width="360" height="240"><div class="nm"><b>Coll&#232;ge Notre-Dame de Jamhour</b><span>20 students</span></div><div class="ef-db"><span class="bar" style="left:52.3%;width:41.5%"></span><span class="a" style="left:52.3%"></span><span class="b" style="left:93.8%"></span><span class="t" style="left:93.8%">1,288</span></div><span class="g">+216</span></div><div class="ef-row"><img src="assets/schools/s65.jpg" alt="" width="360" height="240"><div class="nm"><b>Coll&#232;ge Louise Wegmann</b><span>15 students</span></div><div class="ef-db"><span class="bar" style="left:49.8%;width:39.2%"></span><span class="a" style="left:49.8%"></span><span class="b" style="left:89.0%"></span><span class="t" style="left:89.0%">1,263</span></div><span class="g">+204</span></div><div class="ef-row"><img src="assets/schools/s30.jpg" alt="" width="360" height="240"><div class="nm"><b>Grand Lyc&#233;e Franco-Libanais</b><span>15 students</span></div><div class="ef-db"><span class="bar" style="left:35.6%;width:25.2%"></span><span class="a" style="left:35.6%"></span><span class="b" style="left:60.8%"></span><span class="t" style="left:60.8%">1,116</span></div><span class="g">+131</span></div><div class="ef-row"><img src="assets/schools/s07.jpg" alt="" width="360" height="240"><div class="nm"><b>Coll&#232;ge Protestant Fran&#231;ais</b><span>14 students</span></div><div class="ef-db"><span class="bar" style="left:59.8%;width:19.8%"></span><span class="a" style="left:59.8%"></span><span class="b" style="left:79.6%"></span><span class="t" style="left:79.6%">1,214</span></div><span class="g">+103</span></div><div class="ef-row"><img src="assets/schools/s11.jpg" alt="" width="360" height="240"><div class="nm"><b>American Community School</b><span>10 students</span></div><div class="ef-db"><span class="bar" style="left:27.3%;width:31.0%"></span><span class="a" style="left:27.3%"></span><span class="b" style="left:58.3%"></span><span class="t" style="left:58.3%">1,103</span></div><span class="g">+161</span></div><div class="ef-row"><img src="assets/schools/s59.jpg" alt="" width="360" height="240"><div class="nm"><b>City International School</b><span>10 students</span></div><div class="ef-db"><span class="bar" style="left:6.5%;width:23.7%"></span><span class="a" style="left:6.5%"></span><span class="b" style="left:30.2%"></span><span class="t" style="left:30.2%">957</span></div><span class="g">+123</span></div><div class="ef-key"><span><i style="background:#9DB0FF"></i>First diagnostic</span><span><i style="background:var(--orange)"></i>Official SAT</span></div></div>
+      
     </div>
   </section>
 
   <!-- Two students -->
-  <section class="slide dark" id="two" data-chapter="Two students" data-steps="1"
-    data-notes="'Two real students from our records.' Point at Alexy: 'Six hundred and eighty on the first diagnostic. One thousand two hundred and forty on the official SAT. Five hundred and sixty points, the biggest jump we have.' Press &#8594;: 'Same program. Same method. One thousand and forty, then one thousand and forty.' Pause. 'We bring the method. You bring the work. We are invested in you, and we need you invested too.'">
+  <section class="slide dark" id="two" data-chapter="Two students" data-steps="2"
+    data-notes="'Two real students, straight from Elmy. Names changed or hidden.' Karim is on screen: 'Twenty-four tasks, twenty-one done. Eighty-seven percent on his quizzes. One thousand four hundred and thirty on a full practice test.' Press &#8594; (or click the second card): 'Same program, same platform. Six tasks done out of nine. Thirty-one percent on quizzes. His only full test is the diagnostic: seven hundred and eighty.' Press &#8594;: 'We bring the method. You bring the work.' You can click either card at any time to switch between the two records.">
     <div class="tw-glow" aria-hidden="true"></div>
     <div class="wrap tw-wrap">
-      <p class="label">Two students, one program</p>
-      <h2 class="tw-title">Same method. Two very different results.</h2>
-      <div class="tw-cards">
-        <article class="tw-card a" data-d="680" data-o="1240">
-          <div class="tw-who"><small>Student A</small><h3>Alexy</h3>
-            <div class="tw-scores"><span>First diagnostic</span><span>Official SAT</span><b>680</b><b class="o">680</b></div>
-            <div class="tw-gain">+0</div>
-            <p class="tw-note">The biggest jump in our records.</p>
+      <div><p class="label">Two students, one program</p>
+      <h2 class="tw-title">Same platform. Two very different records.</h2></div>
+      <div class="tw-body">
+        <div class="tw-left">
+          <div class="tw-cards" role="group" aria-label="Choose a student">
+            <button type="button" class="tw-card a" data-k="a" aria-pressed="true"><span class="tw-av" aria-hidden="true">K</span><span><small>Student A</small><b>Karim</b><span class="sub">Grade 11, joined in June</span></span></button>
+            <button type="button" class="tw-card b" data-k="b" aria-pressed="false"><span class="tw-av" aria-hidden="true">?</span><span><small>Student B</small><b><span class="blur">Hidden name</span><em>Name hidden</em></b><span class="sub">Grade 12, joined in July</span></span></button>
           </div>
-          <div class="tw-meter" aria-hidden="true"><span class="fill"></span><span class="start"></span></div>
-        </article>
-        <article class="tw-card b" data-d="1040" data-o="1040">
-          <div class="tw-who"><small>Student B</small><h3 class="hid"><span>Hidden Name</span><em>Name hidden</em></h3>
-            <div class="tw-scores"><span>First diagnostic</span><span>Official SAT</span><b>1,040</b><b class="o">1,040</b></div>
-            <div class="tw-gain">+0</div>
-            <p class="tw-note">Same program, same method. The score did not move.</p>
+          <div class="tw-metrics" data-sel="a">
+            <div class="tw-m"><span>Elmy tasks done</span>
+              <div class="tw-bar a"><i>K</i><span class="tr"><u data-w="87.5"></u></span><b>21 of 24</b></div>
+              <div class="tw-bar b"><i>?</i><span class="tr"><u data-w="25"></u></span><b>6 of 9</b></div></div>
+            <div class="tw-m"><span>Average quiz score</span>
+              <div class="tw-bar a"><i>K</i><span class="tr"><u data-w="87"></u></span><b>87%</b></div>
+              <div class="tw-bar b"><i>?</i><span class="tr"><u data-w="31"></u></span><b>31%</b></div></div>
+            <div class="tw-m"><span>Latest full-length test, out of 1,600</span>
+              <div class="tw-bar a"><i>K</i><span class="tr"><u data-w="89.4"></u></span><b>1,430<small>practice test</small></b></div>
+              <div class="tw-bar b"><i>?</i><span class="tr"><u data-w="48.8"></u></span><b>780<small>diagnostic</small></b></div></div>
           </div>
-          <div class="tw-meter" aria-hidden="true"><span class="fill"></span><span class="start"></span></div>
-        </article>
+        </div>
+        <div class="tw-right">
+          <div class="tw-frame">
+            <div class="tw-chrome" aria-hidden="true"><i></i><i></i><i></i><span id="tw-url">Elmy &#183; Karim &#183; exams and assignments</span></div>
+            <div class="tw-shot" id="tw-shot">
+              <img data-k="a" src="assets/elmy-cases/student-karim.jpg" alt="Karim's Elmy record: 24 exams and assignments with their scores" width="1202" height="1771" decoding="async">
+              <img data-k="b" src="assets/elmy-cases/student-hidden.jpg" alt="Student B's Elmy record: 9 exams and assignments with their scores" width="1202" height="956" decoding="async">
+            </div>
+          </div>
+          <p class="tw-cap">Real Elmy records. Names changed or hidden. Click a student to switch.</p>
+        </div>
       </div>
       <p class="tw-line" id="tw-line"><b>We bring the method. <span class="grad">You bring the work.</span></b><span>Studying with us alone is not enough. We are invested in you, and we need you invested too.</span></p>
     </div>
@@ -2632,8 +2645,8 @@ header.bar, #progress { transition: opacity .6s; }
     challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
     why: { next() { if (state.why < 3) { openDoors(++state.why); return true; } }, prev() { if (state.why > 0) { openDoors(--state.why); return true; } } },
     glitch: { next() { return glitchNext(); } },
-    two: { next() { if (state.two < 1) { twoStudents.go(++state.two); return true; } }, prev() { if (state.two > 0) { twoStudents.go(--state.two); return true; } } },
-    effect: { next() { if (state.effect < 2) { effectChart.go(++state.effect); return true; } }, prev() { if (state.effect > 0) { effectChart.go(--state.effect); return true; } } },
+    two: { next() { if (state.two < 2) { twoStudents.go(++state.two); return true; } }, prev() { if (state.two > 0) { twoStudents.go(--state.two); return true; } } },
+    effect: { next() { if (state.effect < 1) { effectChart.go(++state.effect); return true; } }, prev() { if (state.effect > 0) { effectChart.go(--state.effect); return true; } } },
     trusted: { next() { if (state.trusted < 1) { trusted.go(++state.trusted); return true; } }, prev() { if (state.trusted > 0) { trusted.go(--state.trusted); return true; } } },
     film: { next: () => film.next(), prev: () => film.prev() },
     nizar: { next() { if (state.nizar < 2) { nizar.go(++state.nizar); return true; } }, prev() { if (state.nizar > 0) { nizar.go(--state.nizar); return true; } } },
@@ -3009,20 +3022,6 @@ header.bar, #progress { transition: opacity .6s; }
       go(n) {
         tl?.progress(1); const prev = at; at = n;
         const t = gsap.timeline({ defaults: { duration: .7, ease: 'power2.inOut' } });
-        const panel = document.getElementById('ef-schools');
-        if (n === 2 && prev === 1) {
-          const rows = panel.querySelectorAll('.ef-row');
-          t.to(box, { autoAlpha: 0, x: 30, duration: .45, ease: 'power2.in' }, 0)
-           .fromTo(panel, { autoAlpha: 0 }, { autoAlpha: 1, duration: .4 }, .35)
-           .fromTo(rows, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .5, stagger: .08, ease: 'power3.out' }, .4)
-           .fromTo(panel.querySelectorAll('.bar'), { scaleX: 0 }, { scaleX: 1, duration: .8, stagger: .08, ease: 'power3.out' }, .6)
-           .fromTo(panel.querySelectorAll('.b, .t, .g'), { opacity: 0 }, { opacity: 1, duration: .3, stagger: .03 }, 1.1);
-          return t;
-        }
-        if (n === 1 && prev === 2) {
-          t.to(panel, { autoAlpha: 0, duration: .35 }, 0).to(box, { autoAlpha: 1, x: 0, duration: .5, ease: 'power3.out' }, .3);
-          return t;
-        }
         if (n === 1 && prev === 0) {
           t.to(band, { opacity: 1 }, 0)
            .to(lines, { stroke: 'rgba(23,64,169,.06)' }, 0)
@@ -3040,30 +3039,45 @@ header.bar, #progress { transition: opacity .6s; }
     };
   })();
 
-  /* ---------- Two students: the meter fills from the first diagnostic to the official SAT ---------- */
+  /* ---------- Two students: two Elmy records. Arrows (or a click on a card) switch the record; the third step lands the line. ---------- */
   const twoStudents = (() => {
-    const cards = [...document.querySelectorAll('#two .tw-card')], LO = 400, HI = 1600, pct = (v) => (v - LO) / (HI - LO) * 100;
-    cards.forEach(c => { const d = +c.dataset.d, m = c.querySelector('.tw-meter');
-      [400, 800, 1200, 1600].forEach(v => { const t = document.createElement('span'); t.className = 'tick'; t.textContent = v.toLocaleString('en-US'); t.style.bottom = pct(v) + '%'; m.appendChild(t); });
-      gsap.set(c.querySelector('.start'), { bottom: pct(d) + '%' }); gsap.set(c.querySelector('.fill'), { height: pct(d) + '%' }); });
-    function play(c, d) {
-      const s = +c.dataset.d, o = +c.dataset.o, ob = c.querySelector('.tw-scores .o'), g = c.querySelector('.tw-gain'), v = { x: s };
-      return gsap.timeline()
-        .to(c.querySelector('.fill'), { height: pct(o) + '%', duration: 1.6 * d, ease: 'power3.inOut' }, 0)
-        .to(v, { x: o, duration: 1.6 * d, ease: 'power3.inOut', onUpdate: () => { ob.textContent = Math.round(v.x).toLocaleString('en-US'); g.textContent = '+' + Math.round(v.x - s); } }, 0);
+    const sec = document.getElementById('two'), cards = [...sec.querySelectorAll('.tw-card')], shot = document.getElementById('tw-shot'),
+      imgs = [...shot.querySelectorAll('img')], metrics = sec.querySelector('.tw-metrics'), url = document.getElementById('tw-url'),
+      URLS = { a: 'Elmy \u00b7 Karim \u00b7 exams and assignments', b: 'Elmy \u00b7 Name hidden \u00b7 exams and assignments' };
+    let sel = null, pan = null, filled = false, lineOn = false;
+    function fill(d) {
+      if (filled) return; filled = true;
+      gsap.to(sec.querySelectorAll('.tw-bar .tr u'), { width: (i, el) => el.dataset.w + '%', duration: 1.1 * d, ease: 'power3.out', stagger: .08 * d });
     }
-    let at = 0;
+    function show(k, d) {
+      if (k === sel) return; const prev = sel; sel = k;
+      cards.forEach(c => c.setAttribute('aria-pressed', String(c.dataset.k === k)));
+      metrics.dataset.sel = k; url.textContent = URLS[k];
+      const img = imgs.find(i => i.dataset.k === k), old = imgs.find(i => i.dataset.k === prev);
+      pan?.kill(); gsap.killTweensOf(imgs);
+      if (old) gsap.to(old, { autoAlpha: 0, duration: .35 * d });
+      gsap.fromTo(img, { autoAlpha: 0, y: 0, scale: 1.02 }, { autoAlpha: 1, scale: 1, duration: .55 * d, ease: 'power2.out', delay: old ? .15 * d : 0 });
+      if (d) {   /* a long record scrolls slowly so the whole history is seen */
+        const travel = () => Math.max(0, img.getBoundingClientRect().height - shot.clientHeight);
+        pan = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1.6, delay: 1.4 })
+          .to(img, { y: () => -travel(), duration: () => Math.max(.1, travel() / 38), ease: 'sine.inOut' });
+      }
+    }
+    function line(on, d) {
+      if (on === lineOn) return; lineOn = on;
+      gsap.to('#tw-line', on ? { autoAlpha: 1, y: 0, duration: .7 * d, ease: 'power3.out', startAt: { y: 14 } } : { autoAlpha: 0, duration: .3 * d });
+    }
+    cards.forEach(c => c.addEventListener('click', (e) => {   /* a click picks a record; the arrows keep working afterwards */
+      e.currentTarget.blur(); const d = reduce ? 0 : 1; fill(d); show(c.dataset.k, d);
+      if (state.two < 2) state.two = c.dataset.k === 'b' ? 1 : 0;
+    }));
     return {
-      enter() { play(cards[0], reduce ? 0 : 1); },
+      enter() { const d = reduce ? 0 : 1; fill(d); show('a', d); },
       go(n) {
-        const prev = at; at = n; const d = reduce ? 0 : 1;
-        if (n === 1 && prev === 0) return gsap.timeline()
-          .to(cards[1], { opacity: 1, filter: 'saturate(1)', duration: .6 * d }, 0)
-          .add(play(cards[1], d), .4 * d)
-          .fromTo('#tw-line', { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: .7 * d, ease: 'power3.out' }, 1.9 * d);
-        if (n === 0 && prev === 1) return gsap.timeline()
-          .to('#tw-line', { autoAlpha: 0, duration: .3 * d }, 0)
-          .to(cards[1], { opacity: .4, filter: 'saturate(.3)', duration: .5 * d }, 0);
+        const d = reduce ? 0 : 1; fill(d);
+        if (n === 0) { show('a', d); line(false, d); }
+        if (n === 1) { show('b', d); line(false, d); }
+        if (n === 2) { line(true, d); }
       },
     };
   })();
