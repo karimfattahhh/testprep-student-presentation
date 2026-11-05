@@ -10,9 +10,9 @@ The live presentation TestPrep (by House of Prep) gives to students in grades 10
 ## Present it
 
 - **→ / ↓ / Space**, scroll or swipe = next · **← / ↑** = back · **N** presenter notes · **F** full screen · click the logo to return to the start.
-- Many slides build in steps (intro, the film, the SAT laptop, the three doors, Spot the Glitch, the 7-step engine, Elmy, the Nizar reveal, House of Prep, the challenge): keep pressing → until the slide moves on.
-- **The film** (slide "Meet Nizar."): Space or click plays it full screen, about 44 s, with sound. Space mid-film skips to the end card; ← resets it.
-- Order: intro → agenda → the film → the SAT (what, why) → Spot the Glitch → how we work (engine, Elmy) → the Nizar reveal → who we are → legacy → numbers → trusted across Lebanon (78 school logos: a map, then a "find your school" wall) → House of Prep → the challenge → close (QR to the sign-up form).
+- Many slides build in steps (intro, the SAT laptop, the three doors, Spot the Glitch, the 7-step engine, Elmy, trusted across Lebanon, House of Prep, the challenge): keep pressing → until the slide moves on.
+- **Parked for a rework:** the opening film and the Nizar reveal. Both are still in `index.html` with `data-off hidden`, so the deck skips them; remove those two attributes from a `<section>` to bring it back.
+- Order: intro → agenda → the SAT (what, why) → Spot the Glitch → how we work (engine, Elmy) → who we are → legacy → numbers → trusted across Lebanon (78 school logos: a map, then a "find your school" wall) → House of Prep → the challenge → close (QR to the sign-up form).
 
 ## Notes
 
