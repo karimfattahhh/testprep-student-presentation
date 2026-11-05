@@ -87,6 +87,26 @@ body.on-dark .brandmark .on-dark-logo { display: block; }
 body.on-dark header.bar { color: var(--night-ink); }
 body.on-dark .pill { background: transparent; color: var(--night-ink); border-color: rgba(255,255,255,.2); }
 body.on-dark .pill.solid { background: var(--night-ink); color: var(--night); }
+/* Slide menu: jump to any slide (button top-right, or M). */
+.navbtn { all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 9px; font: 600 13px/1 var(--sans); color: inherit;
+  padding: 9px 12px 9px 11px; border-radius: 999px; border: 1px solid rgba(11,14,26,.12); background: rgba(255,255,255,.55); backdrop-filter: blur(8px); transition: background .25s, border-color .25s; }
+.navbtn:hover { background: rgba(255,255,255,.9); } .navbtn:focus-visible { outline: 2px solid var(--orange); outline-offset: 3px; }
+.navbtn svg { width: 15px; height: 15px; } .navbtn kbd { font: 600 10px var(--sans); padding: 2px 6px; border-radius: 5px; border: 1px solid currentColor; opacity: .55; }
+body.on-dark .navbtn { border-color: rgba(255,255,255,.22); background: rgba(255,255,255,.08); } body.on-dark .navbtn:hover { background: rgba(255,255,255,.16); }
+.navmenu { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; padding: max(16px, 4vw); background: rgba(6,15,51,.55); backdrop-filter: blur(14px); opacity: 0; visibility: hidden; }
+.navmenu .panel { width: min(100%, 1180px); max-height: 100%; overflow: auto; background: #fff; color: var(--ink); border-radius: 28px; padding: clamp(20px, 3vw, 38px); box-shadow: 0 60px 120px -40px rgba(0,0,0,.6); }
+.navmenu .top { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 20px; }
+.navmenu h2 { margin: 0; font-weight: 500; font-size: clamp(24px, 2.4vw, 36px); letter-spacing: -.035em; }
+.navmenu .top span { font-size: 13px; color: var(--muted); } .navmenu .top kbd { font: 600 11px var(--sans); padding: 2px 7px; border-radius: 5px; border: 1px solid var(--line); }
+.navmenu .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; }
+.navmenu .card { all: unset; cursor: pointer; display: grid; gap: 6px; align-content: start; min-height: 86px; padding: 14px 16px; border-radius: 16px; background: var(--bg); border: 1px solid var(--line); transition: transform .2s var(--ease), border-color .2s, background .2s; }
+.navmenu .card:hover, .navmenu .card:focus-visible { transform: translateY(-2px); border-color: var(--blue); background: #fff; }
+.navmenu .card .n { font-size: 12px; font-weight: 700; letter-spacing: .1em; color: #6E7386; font-variant-numeric: tabular-nums; }
+.navmenu .card b { font-size: 16px; font-weight: 600; letter-spacing: -.01em; line-height: 1.25; }
+.navmenu .card small { font-size: 12px; color: var(--muted); }
+.navmenu .card.game small { color: #B4571A; font-weight: 600; }
+.navmenu .card.on, .navmenu .card.on:hover, .navmenu .card.on:focus-visible { background: var(--blue); border-color: var(--blue); color: #fff; }
+.navmenu .card.on:focus-visible { box-shadow: 0 0 0 3px rgba(255,150,62,.6); } .navmenu .card.on .n, .navmenu .card.on small { color: rgba(255,255,255,.75); }
 #progress { position: fixed; left: 0; top: 0; height: 2px; background: var(--orange); z-index: 21; width: 0; transition: width .5s var(--ease); }
 
 #notes {
@@ -909,8 +929,10 @@ header.bar, #progress { transition: opacity .6s; }
 
 <header class="bar">
   <a class="brandmark" href="#intro" id="home" aria-label="TestPrep, back to the start"><img class="on-light-logo" src="assets/logo-testprep.svg" alt="" width="2018" height="407"><img class="on-dark-logo" src="assets/logo-testprep-white.svg" alt="" width="2018" height="407"></a>
+  <button class="navbtn" id="navbtn" type="button" aria-haspopup="dialog" aria-controls="navmenu" aria-label="Open the slide menu"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Slides<kbd>M</kbd></button>
 </header>
 <div id="progress"></div>
+<div class="navmenu" id="navmenu" role="dialog" aria-modal="true" aria-label="Jump to a slide"><div class="panel"><div class="top"><h2>Jump to a slide</h2><span>Click a slide, or press <kbd>Esc</kbd> to close</span></div><div class="grid" id="navgrid"></div></div></div>
 <div id="flyer" class="orb tp-warm" hidden></div>
 <aside id="notes" hidden><small>Presenter notes &#183; press N to hide</small><span id="notes-text"></span></aside>
 
@@ -3133,12 +3155,44 @@ header.bar, #progress { transition: opacity .6s; }
 
   document.addEventListener('keydown', e => {
     if (e.target.closest?.('input, textarea')) return;
+    if (navOpen) { if (e.key === 'Escape' || e.key.toLowerCase() === 'm') { e.preventDefault(); closeNav(); } return; }   // the menu keeps its own keys (Tab, Enter)
+    if (e.key.toLowerCase() === 'm') { e.preventDefault(); openNav(); return; }
     const fwd = ['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key), back = ['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key);
     if (fwd || back) { e.preventDefault(); if (e.repeat) return; step(fwd ? 1 : -1); }
     else if (e.key === 'Home') goTo(0); else if (e.key === 'End') goTo(slides.length - 1);
     else if (e.key.toLowerCase() === 'n') toggleNotes();
     else if (e.key.toLowerCase() === 'f') present();
   });
+  /* ---------- Slide menu: jump straight to any slide ---------- */
+  const NAV = {   // id: [title, section]
+    intro: ['Where do I even start?', 'Opening'], agenda: ['Today', 'Opening'], 'ch-sat': ['So\u2026 what is the SAT?', 'The SAT'],
+    sat: ['It all happens on a laptop', 'The SAT'], why: ['Why students take it', 'The SAT'], glitch: ['Spot the Glitch', 'Live game'],
+    'ch-method': ['How we work', 'How we work'], method: ['The Performance Engine', 'How we work'], elmy: ['Powered by Elmy', 'How we work'],
+    who: ['Who we are', 'Who we are'], legacy: ['Our legacy', 'Who we are'], numbers: ['Our numbers', 'Who we are'],
+    trusted: ['Trusted across Lebanon', 'Proof'], effect: ['The TestPrep Effect', 'Proof'], ecosystem: ['House of Prep', 'Who we are'],
+    challenge: ['Do U Think U Have What It Takes?', 'Live game'], close: ['Your next move', 'Close'],
+  };
+  const navmenu = document.getElementById('navmenu'), navgrid = document.getElementById('navgrid'), navbtn = document.getElementById('navbtn');
+  navgrid.innerHTML = slides.map((sl, i) => { const [t, sec] = NAV[sl.id] || [sl.dataset.chapter || sl.id, ''];
+    return `<button class="card${sec === 'Live game' ? ' game' : ''}" type="button" data-i="${i}"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t}</b><small>${sec}</small></button>`; }).join('');
+  let navOpen = false;
+  function openNav() {
+    if (navOpen) return; navOpen = true;
+    navgrid.querySelectorAll('.card').forEach(c => c.classList.toggle('on', +c.dataset.i === cur));
+    gsap.fromTo(navmenu, { autoAlpha: 0 }, { autoAlpha: 1, duration: reduce ? 0 : .25 });
+    gsap.fromTo(navmenu.querySelector('.panel'), { y: 18, scale: .985 }, { y: 0, scale: 1, duration: reduce ? 0 : .35, ease: 'power3.out' });
+    (navgrid.querySelector('.card.on') || navgrid.querySelector('.card'))?.focus({ preventScroll: true });
+  }
+  function closeNav() { if (!navOpen) return; navOpen = false; gsap.to(navmenu, { autoAlpha: 0, duration: reduce ? 0 : .3 }); navbtn.focus({ preventScroll: true }); }
+  navbtn.addEventListener('click', e => { e.currentTarget.blur(); navOpen ? closeNav() : openNav(); });
+  navmenu.addEventListener('click', e => {
+    const card = e.target.closest('.card');
+    if (!card) { if (e.target === navmenu) closeNav(); return; }
+    const i = +card.dataset.i;
+    if (i !== cur) { if (slides[i].id === 'legacy') primeMemories(); goTo(i, true); }   // jump under the menu, then let the menu fade away
+    closeNav();
+  });
+
   function toggleNotes() { notes.hidden = !notes.hidden; }
   function present() { const el = document.documentElement; const p = document.fullscreenElement ? document.exitFullscreen() : el.requestFullscreen?.(); p?.catch?.(() => {}); }
   // Logo: back to the very first slide, with the intro reset so the opener plays again.
