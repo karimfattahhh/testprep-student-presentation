@@ -402,6 +402,40 @@ header.bar, #progress { transition: opacity .6s; }
 .ef-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 @media (max-width: 899px) { #effect .wrap { grid-template-columns: minmax(0, 1fr); } }
 
+/* Two students: same program, different commitment. Real first diagnostic vs official SAT. */
+#two { background: #060F33 !important; color: #fff; }
+.tw-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(40% 55% at 25% 55%, rgba(30,77,196,.45), transparent 70%), radial-gradient(35% 45% at 80% 60%, rgba(255,150,62,.1), transparent 70%); }
+.tw-wrap { display: grid; gap: clamp(18px, 3vh, 30px); }
+.tw-wrap .label { margin: 0; color: #9DB0FF; }
+.tw-title { margin: 0; font-weight: 500; font-size: clamp(34px, 3.8vw, 62px); letter-spacing: -.045em; line-height: 1.02; }
+.tw-cards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 2.4vw, 36px); }
+.tw-card { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 18px; padding: clamp(20px, 2.4vw, 32px); border-radius: 28px;
+  background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03)); border: 1px solid rgba(157,176,255,.2); }
+.tw-card.b { opacity: .4; filter: saturate(.3); }
+.tw-who { display: grid; gap: 6px; align-content: start; }
+.tw-who small { font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: #9DB0FF; }
+.tw-who h3 { margin: 0; font-size: clamp(30px, 2.8vw, 46px); font-weight: 600; letter-spacing: -.04em; line-height: 1; }
+.tw-who h3.hid { display: inline-flex; align-items: center; gap: 10px; }
+.tw-who h3.hid span { filter: blur(9px); user-select: none; }
+.tw-who h3.hid em { font-style: normal; font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: rgba(255,255,255,.6); padding: 5px 10px; border-radius: 999px; border: 1px solid rgba(255,255,255,.22); }
+.tw-scores { display: grid; grid-template-columns: auto auto; gap: 4px 18px; margin-top: 14px; align-items: baseline; }
+.tw-scores span { font-size: 13px; color: rgba(255,255,255,.6); }
+.tw-scores b { font-size: clamp(26px, 2.3vw, 38px); font-weight: 600; letter-spacing: -.035em; font-variant-numeric: tabular-nums; }
+.tw-gain { margin-top: 14px; font-size: clamp(54px, 5.4vw, 92px); font-weight: 600; line-height: .9; letter-spacing: -.055em; font-variant-numeric: tabular-nums; }
+.tw-card.a .tw-gain { color: #FFC48E; } .tw-card.b .tw-gain { color: rgba(255,255,255,.75); }
+.tw-note { margin: 10px 0 0; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.5; color: rgba(255,255,255,.7); max-width: 26em; }
+.tw-meter { position: relative; width: 54px; height: clamp(220px, 34vh, 320px); border-radius: 999px; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12); overflow: hidden; }
+.tw-meter .fill { position: absolute; left: 0; right: 0; bottom: 0; border-radius: 999px; background: linear-gradient(0deg, #1E4DC4, #6E93FF 60%, #FFC48E); }
+.tw-card.b .tw-meter .fill { background: linear-gradient(0deg, #1E4DC4, #6E93FF); }
+.tw-meter .start { position: absolute; left: 6px; right: 6px; height: 2px; background: #fff; box-shadow: 0 0 8px rgba(255,255,255,.9); }
+.tw-meter .tick { position: absolute; right: 100%; margin-right: 8px; font-size: 10px; color: rgba(255,255,255,.45); transform: translateY(50%); font-variant-numeric: tabular-nums; }
+.tw-line { margin: 0; text-align: center; display: grid; gap: 6px; opacity: 0; visibility: hidden; }
+.tw-line b { font-size: clamp(26px, 2.6vw, 44px); font-weight: 600; letter-spacing: -.04em; }
+.tw-line b .grad { background: linear-gradient(90deg, #9DB0FF, #FFC48E 70%, #FF963E); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.tw-line > span { font-size: clamp(14px, 1.1vw, 17px); color: rgba(255,255,255,.7); }
+@media (max-width: 899px) { .tw-cards { grid-template-columns: minmax(0, 1fr); } .tw-meter { height: 180px; } }
+
 /* Who we are: Framer-style stage. Deep navy, words light up one by one, beliefs on hairlines, founders row. */
 #who { background: #060F33 !important; color: #fff; }
 .who-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
@@ -1524,6 +1558,35 @@ header.bar, #progress { transition: opacity .6s; }
     </div>
   </section>
 
+  <!-- Two students -->
+  <section class="slide dark" id="two" data-chapter="Two students" data-steps="1"
+    data-notes="'Two real students from our records.' Point at Alexy: 'Six hundred and eighty on the first diagnostic. One thousand two hundred and forty on the official SAT. Five hundred and sixty points, the biggest jump we have.' Press &#8594;: 'Same program. Same method. One thousand and forty, then one thousand and forty.' Pause. 'We bring the method. You bring the work. We are invested in you, and we need you invested too.'">
+    <div class="tw-glow" aria-hidden="true"></div>
+    <div class="wrap tw-wrap">
+      <p class="label">Two students, one program</p>
+      <h2 class="tw-title">Same method. Two very different results.</h2>
+      <div class="tw-cards">
+        <article class="tw-card a" data-d="680" data-o="1240">
+          <div class="tw-who"><small>Student A</small><h3>Alexy</h3>
+            <div class="tw-scores"><span>First diagnostic</span><span>Official SAT</span><b>680</b><b class="o">680</b></div>
+            <div class="tw-gain">+0</div>
+            <p class="tw-note">The biggest jump in our records.</p>
+          </div>
+          <div class="tw-meter" aria-hidden="true"><span class="fill"></span><span class="start"></span></div>
+        </article>
+        <article class="tw-card b" data-d="1040" data-o="1040">
+          <div class="tw-who"><small>Student B</small><h3 class="hid"><span>Hidden Name</span><em>Name hidden</em></h3>
+            <div class="tw-scores"><span>First diagnostic</span><span>Official SAT</span><b>1,040</b><b class="o">1,040</b></div>
+            <div class="tw-gain">+0</div>
+            <p class="tw-note">Same program, same method. The score did not move.</p>
+          </div>
+          <div class="tw-meter" aria-hidden="true"><span class="fill"></span><span class="start"></span></div>
+        </article>
+      </div>
+      <p class="tw-line" id="tw-line"><b>We bring the method. <span class="grad">You bring the work.</span></b><span>Studying with us alone is not enough. We are invested in you, and we need you invested too.</span></p>
+    </div>
+  </section>
+
   <!-- Ecosystem -->
   <section class="slide" id="ecosystem" data-chapter="House of Prep" data-steps="4"
     data-notes="Each press swings the carousel to the next brand, in the order a student meets them: PrepMe (school), TestPrep (tests), WeGuide (choosing), Taleb (university). One line per card. On Taleb: 'Mazen needed five different places. This is one roof, from grade 10 to graduation.' Last card, Elmy: 'And under all of it, the platform that tracks every answer.'">
@@ -2487,7 +2550,7 @@ header.bar, #progress { transition: opacity .6s; }
   }
 
   /* ---------- Steps within slides ---------- */
-  const state = { effect: 0, trusted: 0, nizar: 0, intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0, why: 0 };
+  const state = { two: 0, effect: 0, trusted: 0, nizar: 0, intro: 0, ecosystem: 0, method: 0, elmy: 0, glitch: 0, sat: 0, challenge: 0, why: 0 };
   renderElmy();
   const handlers = {
     intro: { next() { if (state.intro < 1) { state.intro = 1; intro.dataset.step = 1; return gather(); } }, prev() { if (state.intro > 0) { state.intro = 0; intro.dataset.step = 0; return scatter(); } } },
@@ -2498,6 +2561,7 @@ header.bar, #progress { transition: opacity .6s; }
     challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
     why: { next() { if (state.why < 3) { openDoors(++state.why); return true; } }, prev() { if (state.why > 0) { openDoors(--state.why); return true; } } },
     glitch: { next() { return glitchNext(); } },
+    two: { next() { if (state.two < 1) { twoStudents.go(++state.two); return true; } }, prev() { if (state.two > 0) { twoStudents.go(--state.two); return true; } } },
     effect: { next() { if (state.effect < 2) { effectChart.go(++state.effect); return true; } }, prev() { if (state.effect > 0) { effectChart.go(--state.effect); return true; } } },
     trusted: { next() { if (state.trusted < 1) { trusted.go(++state.trusted); return true; } }, prev() { if (state.trusted > 0) { trusted.go(--state.trusted); return true; } } },
     film: { next: () => film.next(), prev: () => film.prev() },
@@ -2905,6 +2969,34 @@ header.bar, #progress { transition: opacity .6s; }
     };
   })();
 
+  /* ---------- Two students: the meter fills from the first diagnostic to the official SAT ---------- */
+  const twoStudents = (() => {
+    const cards = [...document.querySelectorAll('#two .tw-card')], LO = 400, HI = 1600, pct = (v) => (v - LO) / (HI - LO) * 100;
+    cards.forEach(c => { const d = +c.dataset.d, m = c.querySelector('.tw-meter');
+      [400, 800, 1200, 1600].forEach(v => { const t = document.createElement('span'); t.className = 'tick'; t.textContent = v.toLocaleString('en-US'); t.style.bottom = pct(v) + '%'; m.appendChild(t); });
+      gsap.set(c.querySelector('.start'), { bottom: pct(d) + '%' }); gsap.set(c.querySelector('.fill'), { height: pct(d) + '%' }); });
+    function play(c, d) {
+      const s = +c.dataset.d, o = +c.dataset.o, ob = c.querySelector('.tw-scores .o'), g = c.querySelector('.tw-gain'), v = { x: s };
+      return gsap.timeline()
+        .to(c.querySelector('.fill'), { height: pct(o) + '%', duration: 1.6 * d, ease: 'power3.inOut' }, 0)
+        .to(v, { x: o, duration: 1.6 * d, ease: 'power3.inOut', onUpdate: () => { ob.textContent = Math.round(v.x).toLocaleString('en-US'); g.textContent = '+' + Math.round(v.x - s); } }, 0);
+    }
+    let at = 0;
+    return {
+      enter() { play(cards[0], reduce ? 0 : 1); },
+      go(n) {
+        const prev = at; at = n; const d = reduce ? 0 : 1;
+        if (n === 1 && prev === 0) return gsap.timeline()
+          .to(cards[1], { opacity: 1, filter: 'saturate(1)', duration: .6 * d }, 0)
+          .add(play(cards[1], d), .4 * d)
+          .fromTo('#tw-line', { autoAlpha: 0, y: 14 }, { autoAlpha: 1, y: 0, duration: .7 * d, ease: 'power3.out' }, 1.9 * d);
+        if (n === 0 && prev === 1) return gsap.timeline()
+          .to('#tw-line', { autoAlpha: 0, duration: .3 * d }, 0)
+          .to(cards[1], { opacity: .4, filter: 'saturate(.3)', duration: .5 * d }, 0);
+      },
+    };
+  })();
+
   const track = document.getElementById('track'), flyer = document.getElementById('flyer');
   const ringWrap = document.querySelector('.ring-wrap'), methodOrb = document.getElementById('method-orb');
   let moving = null;
@@ -2917,6 +3009,7 @@ header.bar, #progress { transition: opacity .6s; }
     document.body.classList.toggle('on-dark', el.classList.contains('dark'));
     if (el.id === 'trusted' && first) trusted.enter();
     if (el.id === 'effect' && first) effectChart.enter();
+    if (el.id === 'two' && first) twoStudents.enter();
     if (el.id === 'numbers') { if (linkState < 2) { linkState = 2; applyLink(); } if (first) countUp(); }
     if (el.id === 'legacy') playMemories();
     if (el.id !== 'film') film.stop();
@@ -3169,7 +3262,7 @@ header.bar, #progress { transition: opacity .6s; }
     sat: ['It all happens on a laptop', 'The SAT'], why: ['Why students take it', 'The SAT'], glitch: ['Spot the Glitch', 'Live game'],
     'ch-method': ['How we work', 'How we work'], method: ['The Performance Engine', 'How we work'], elmy: ['Powered by Elmy', 'How we work'],
     who: ['Who we are', 'Who we are'], legacy: ['Our legacy', 'Who we are'], numbers: ['Our numbers', 'Who we are'],
-    trusted: ['Trusted across Lebanon', 'Proof'], effect: ['The TestPrep Effect', 'Proof'], ecosystem: ['House of Prep', 'Who we are'],
+    trusted: ['Trusted across Lebanon', 'Proof'], effect: ['The TestPrep Effect', 'Proof'], two: ['Two students, one program', 'Proof'], ecosystem: ['House of Prep', 'Who we are'],
     challenge: ['Do U Think U Have What It Takes?', 'Live game'], close: ['Your next move', 'Close'],
   };
   const navmenu = document.getElementById('navmenu'), navgrid = document.getElementById('navgrid'), navbtn = document.getElementById('navbtn');
