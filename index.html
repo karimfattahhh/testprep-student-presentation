@@ -436,6 +436,46 @@ header.bar, #progress { transition: opacity .6s; }
 .tw-line > span { font-size: clamp(14px, 1.1vw, 17px); color: rgba(255,255,255,.7); }
 @media (max-width: 899px) { .tw-cards { grid-template-columns: minmax(0, 1fr); } .tw-meter { height: 180px; } }
 
+/* What people say: a maximalist wall of real Google reviews + the rating + a CTA to Google. */
+#reviews { background: #1740A9 !important; color: #fff; overflow: hidden; }
+#reviews .rv-bg { position: absolute; inset: 0; pointer-events: none; z-index: 0;
+  background: radial-gradient(40% 55% at 50% 50%, rgba(110,147,255,.45), transparent 70%), radial-gradient(30% 40% at 100% 0%, rgba(255,150,62,.35), transparent 70%); }
+#reviews .wrap { max-width: none; padding-inline: max(16px, 3vw); height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); gap: clamp(10px, 1.8vh, 18px); padding-block: clamp(58px, 8vh, 84px) clamp(14px, 2.4vh, 24px); }
+.rv-head { display: flex; align-items: baseline; gap: clamp(12px, 2vw, 28px); flex-wrap: wrap; }
+.rv-head .label { margin: 0; color: #FFC48E; }
+.rv-head h2 { margin: 0; font-weight: 600; font-size: clamp(30px, 3.4vw, 56px); letter-spacing: -.045em; line-height: 1; }
+.rv-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); grid-auto-flow: dense; gap: clamp(8px, 1vw, 14px); min-height: 0; }
+.rv { margin: 0; position: relative; border-radius: 22px; padding: clamp(10px, 1.1vw, 18px); display: grid; align-content: space-between; gap: 8px; min-height: 0; overflow: hidden;
+  box-shadow: 0 24px 50px -28px rgba(0,0,0,.6); }
+.rv.w2 { grid-column: span 2; } .rv.h2 { grid-row: span 2; }
+.rv q { display: block; min-width: 0; quotes: "\201C" "\201D"; font-weight: 600; letter-spacing: -.03em; line-height: 1.12; }
+.rv q::before { color: #FF963E; } .rv.orange q::before, .rv.orange q::after { color: #fff; }
+.rv.s q { font-size: clamp(12px, .95vw, 15px); font-weight: 500; letter-spacing: -.01em; line-height: 1.35; }
+.rv.m q { font-size: clamp(14px, 1.3vw, 20px); }
+.rv.l q { font-size: clamp(18px, 1.75vw, 28px); }
+.rv.xl q { font-size: clamp(22px, 2.2vw, 38px); line-height: 1.02; }
+.rv cite { font-style: normal; font-size: 12px; font-weight: 700; letter-spacing: .06em; display: flex; justify-content: space-between; gap: 8px; align-items: center; opacity: .8; }
+.rv cite i { font-style: normal; letter-spacing: 1px; color: #FF963E; }
+.rv.white { background: #fff; color: #0B0E1A; } .rv.cream { background: #FFF4E6; color: #0B0E1A; }
+.rv.sky { background: #9DB0FF; color: #060F33; } .rv.ink { background: #060F33; color: #fff; }
+.rv.orange { background: #FF963E; color: #060F33; } .rv.orange cite i { color: #fff; }
+.rv.outline { background: transparent; border: 2px solid rgba(255,255,255,.7); box-shadow: none; }
+.rv-rate { grid-column: span 2; grid-row: span 2; border-radius: 26px; background: #fff; color: #060F33; display: grid; align-content: center; justify-items: center; text-align: center; gap: 6px; padding: 16px;
+  box-shadow: 0 30px 70px -30px rgba(0,0,0,.7), 0 0 0 6px rgba(255,150,62,.35); }
+.rv-rate b { font-size: clamp(80px, 9vw, 150px); font-weight: 700; line-height: .85; letter-spacing: -.06em; color: #1740A9; }
+.rv-rate .st { font-size: clamp(22px, 2.2vw, 36px); letter-spacing: 4px; color: #FF963E; }
+.rv-rate span { font-size: clamp(13px, 1vw, 16px); font-weight: 600; color: #4B5063; }
+.rv-rate .g { display: inline-flex; align-items: center; gap: 8px; }
+.rv-cta { grid-column: span 2; border-radius: 22px; background: #060F33; color: #fff; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(10px, 1.2vw, 18px); align-items: center; padding: clamp(10px, 1.1vw, 16px); text-decoration: none;
+  box-shadow: 0 0 0 2px #FF963E, 0 24px 50px -24px rgba(0,0,0,.7); }
+.rv-cta .qr { height: 100%; max-height: 120px; aspect-ratio: 1; background: #fff; border-radius: 12px; padding: 6px; }
+.rv-cta .qr img { width: 100%; height: 100%; display: block; }
+.rv-cta b { display: block; font-size: clamp(16px, 1.45vw, 24px); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; }
+.rv-cta small { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 12px; line-height: 1.3; font-weight: 600; color: #FFC48E; }
+.rv-star { position: absolute; z-index: 3; width: clamp(34px, 3.2vw, 54px); aspect-ratio: 1; pointer-events: none; }
+@media (max-height: 780px) and (min-width: 900px) { .rv cite i, .rv-cta small { display: none; } .rv cite { font-size: 11px; } .rv { gap: 4px; padding: 9px 11px; } .rv-cta .qr { max-height: 78px; } .rv-cta { padding: 8px 12px 8px 8px; } }
+@media (max-width: 899px) { .rv-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-auto-rows: auto; } #reviews .wrap { height: auto; } }
+
 /* Who we are: Framer-style stage. Deep navy, words light up one by one, beliefs on hairlines, founders row. */
 #who { background: #060F33 !important; color: #fff; }
 .who-glow { position: absolute; inset: 0; pointer-events: none; z-index: 0;
@@ -1584,6 +1624,35 @@ header.bar, #progress { transition: opacity .6s; }
         </article>
       </div>
       <p class="tw-line" id="tw-line"><b>We bring the method. <span class="grad">You bring the work.</span></b><span>Studying with us alone is not enough. We are invested in you, and we need you invested too.</span></p>
+    </div>
+  </section>
+
+  <!-- What people say -->
+  <section class="slide dark" id="reviews" data-chapter="What people say"
+    data-notes="Let the wall fill up and read two or three out loud, the loud ones first ('Maryam is an amazingggggg teacher!!!!', 'second home to all of us'). Then point at the middle: '4.9 out of 5, from 48 Google reviews. Don't take our word for it: scan this and read them yourself.' Every quote is copied word for word from Google.">
+    <div class="rv-bg" aria-hidden="true"></div><svg class="rv-star" viewBox="0 0 24 24" aria-hidden="true" style="left:4%;top:16%;transform:rotate(-14deg)"><path fill="#FF963E" d="M12 1.5l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.6 5.6 21.1 7 14l-5.3-5 7.2-.9z"/></svg><svg class="rv-star" viewBox="0 0 24 24" aria-hidden="true" style="right:3%;top:46%;transform:rotate(18deg)"><path fill="#FF963E" d="M12 1.5l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.6 5.6 21.1 7 14l-5.3-5 7.2-.9z"/></svg><svg class="rv-star" viewBox="0 0 24 24" aria-hidden="true" style="left:46%;bottom:2%;transform:rotate(8deg)"><path fill="#FF963E" d="M12 1.5l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.6 5.6 21.1 7 14l-5.3-5 7.2-.9z"/></svg>
+    <div class="wrap">
+      <div class="rv-head"><p class="label">What people say</p><h2>Don&#8217;t take our word for it.</h2></div>
+      <div class="rv-grid" id="rv-grid">
+<figure class="rv orange xl " style="--r:-2.2deg"><q>Maryam is an amazingggggg teacher!!!!</q><cite>Luna B.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv white m w2" style="--r:1.4deg"><q>He gives us the time and space we need to think through problems, which has really boosted my confidence and progress.</q><cite>Sara A.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv cream l " style="--r:-1deg"><q>Best academic institute!</q><cite>Hadi Z.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv outline l " style="--r:2deg"><q>second home to all of us</q><cite>Lamita S.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<div class="rv-rate" id="rv-rate"><b>4.9</b><div class="st">&#9733;&#9733;&#9733;&#9733;&#9733;</div><span class="g"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.7z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9h-4v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.7V6.6h-4a12 12 0 0 0 0 10.8l4-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>48 Google reviews</span></div>
+<figure class="rv sky m " style="--r:-1.6deg"><q>I learned a lot and definitely feel more confident. Highly recommend!</q><cite>Lynn K.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv ink l " style="--r:0.8deg"><q>Everything is fantastic.</q><cite>Lynn S.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv cream s w2" style="--r:-0.6deg"><q>The learning environment is perfect. It provides excellent preparation for the sat and other tests in general.</q><cite>Mohamad S.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv white m " style="--r:1.8deg"><q>Maryam makes learning a lot funner.</q><cite>Loulwa M.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv orange s " style="--r:-2deg"><q>Ali and the test prep team are like brothers to us, amazing experience.</q><cite>Malek N.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv sky m " style="--r:1.1deg"><q>Very supportive and nice environment, feels like home</q><cite>Celine C.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<a class="rv-cta" id="rv-cta" href="https://maps.app.goo.gl/E5wXNdwgkVeUCJMEA" target="_blank" rel="noopener"><span class="qr"><img src="assets/qr-google.svg" alt="QR code to TestPrep on Google" width="29" height="29"></span><span><b>Check our reviews on Google</b><small><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.7z"/><path fill="#34A853" d="M12 24c3.2 0 6-1.1 7.9-2.9l-3.9-3c-1.1.7-2.4 1.2-4 1.2-3.1 0-5.7-2.1-6.6-4.9h-4v3.1A12 12 0 0 0 12 24z"/><path fill="#FBBC05" d="M5.4 14.4a7.2 7.2 0 0 1 0-4.7V6.6h-4a12 12 0 0 0 0 10.8l4-3z"/><path fill="#EA4335" d="M12 4.8c1.7 0 3.3.6 4.5 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8z"/></svg>Scan, or search TestPrep House of Prep</small></span></a>
+<figure class="rv white s " style="--r:-1.3deg"><q>Very useful to prepare for sat and efficient way to learn while still having fun</q><cite>Hamza B.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv ink m " style="--r:2.2deg"><q>made studying ten times better!</q><cite>Nayla E.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv cream xl " style="--r:-0.8deg"><q>Ahla teacher</q><cite>Teddy R.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv outline m " style="--r:1.6deg"><q>best academic institute!!</q><cite>Krystia C.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv white m " style="--r:-1.8deg"><q>really good courses</q><cite>Majd M.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+<figure class="rv orange m " style="--r:0.6deg"><q>Love Miss Batoul</q><cite>Zeinab B.<i>&#9733;&#9733;&#9733;&#9733;&#9733;</i></cite></figure>
+      </div>
     </div>
   </section>
 
@@ -2999,6 +3068,30 @@ header.bar, #progress { transition: opacity .6s; }
     };
   })();
 
+  /* ---------- What people say: the cards slam in, the rating lands last ---------- */
+  const reviewsWall = (() => {
+    const grid = document.getElementById('rv-grid'), items = [...grid.children], stars = [...document.querySelectorAll('#reviews .rv-star')];
+    function fit() {   // each quote keeps its size class, then shrinks just enough to fit its card on this screen
+      grid.querySelectorAll('.rv q').forEach(q => { q.style.fontSize = ''; const card = q.closest('.rv'); let fs = parseFloat(getComputedStyle(q).fontSize), n = 0;
+        while ((card.scrollHeight > card.clientHeight + 1 || q.scrollWidth > q.clientWidth + 1) && fs > 11 && n++ < 40) { fs -= 1; q.style.fontSize = fs + 'px'; } });
+    }
+    addEventListener('resize', () => requestAnimationFrame(fit));
+    document.fonts?.ready.then(fit); fit();
+    items.forEach(el => { const r = parseFloat(el.style.getPropertyValue('--r')) || 0; gsap.set(el, { rotation: r }); });
+    if (!reduce) gsap.set([...items, ...stars], { opacity: 0, scale: .6 });
+    return { enter() {
+      fit();
+      if (reduce) return;
+      const order = items.filter(el => el.id !== 'rv-rate' && el.id !== 'rv-cta');
+      gsap.timeline()
+        .to(order, { opacity: 1, scale: 1, duration: .55, ease: 'back.out(2.2)', stagger: { each: .07, from: 'random' } }, .1)
+        .to('#rv-rate', { opacity: 1, scale: 1, duration: .8, ease: 'back.out(2.6)' }, .1 + order.length * .07)
+        .fromTo('#rv-rate b', { textContent: 0 }, { textContent: 4.9, duration: 1, snap: { textContent: .1 }, ease: 'power2.out', onUpdate() { const b = document.querySelector('#rv-rate b'); b.textContent = (+b.textContent).toFixed(1); } }, '<')
+        .to('#rv-cta', { opacity: 1, scale: 1, duration: .6, ease: 'back.out(2)' }, '<.5')
+        .to(stars, { opacity: 1, scale: 1, duration: .5, ease: 'back.out(3)', stagger: .12 }, '<.2');
+    } };
+  })();
+
   const track = document.getElementById('track'), flyer = document.getElementById('flyer');
   const ringWrap = document.querySelector('.ring-wrap'), methodOrb = document.getElementById('method-orb');
   let moving = null;
@@ -3012,6 +3105,7 @@ header.bar, #progress { transition: opacity .6s; }
     if (el.id === 'trusted' && first) trusted.enter();
     if (el.id === 'effect' && first) effectChart.enter();
     if (el.id === 'two' && first) twoStudents.enter();
+    if (el.id === 'reviews' && first) reviewsWall.enter();
     if (el.id === 'numbers') { if (linkState < 2) { linkState = 2; applyLink(); } if (first) countUp(); }
     if (el.id === 'legacy') playMemories();
     if (el.id !== 'film') film.stop();
@@ -3264,7 +3358,7 @@ header.bar, #progress { transition: opacity .6s; }
     sat: ['It all happens on a laptop', 'The SAT'], why: ['Why students take it', 'The SAT'], glitch: ['Spot the Glitch', 'Live game'],
     'ch-method': ['How we work', 'How we work'], method: ['The Performance Engine', 'How we work'], elmy: ['Powered by Elmy', 'How we work'],
     who: ['Who we are', 'Who we are'], legacy: ['Our legacy', 'Who we are'], numbers: ['Our numbers', 'Who we are'],
-    trusted: ['Trusted across Lebanon', 'Proof'], effect: ['The TestPrep Effect', 'Proof'], two: ['Two students, one program', 'Proof'], ecosystem: ['House of Prep', 'Who we are'],
+    trusted: ['Trusted across Lebanon', 'Proof'], effect: ['The TestPrep Effect', 'Proof'], two: ['Two students, one program', 'Proof'], reviews: ['What people say', 'Proof'], ecosystem: ['House of Prep', 'Who we are'],
     challenge: ['Do U Think U Have What It Takes?', 'Live game'], close: ['Your next move', 'Close'],
   };
   const navmenu = document.getElementById('navmenu'), navgrid = document.getElementById('navgrid'), navbtn = document.getElementById('navbtn');
