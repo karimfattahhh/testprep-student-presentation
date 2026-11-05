@@ -349,6 +349,7 @@ header.bar, #progress { transition: opacity .6s; }
 .ef-stats span { font-size: 13px; color: var(--muted); line-height: 1.4; }
 .ef-stats b span { font: inherit; color: inherit; letter-spacing: inherit; }
 .ef-note { margin: 0; font-size: 12px; color: #6E7386; line-height: 1.5; max-width: 36em; }
+.ef-chart, .ef-schools { grid-column: 2; grid-row: 1; }
 .ef-chart { position: relative; width: 100%; aspect-ratio: 1.15; max-height: 74vh; justify-self: center; }
 .ef-chart svg { width: 100%; height: 100%; overflow: visible; display: block; }
 .ef-chart .grid line { stroke: var(--line); stroke-width: 1; }
@@ -363,6 +364,22 @@ header.bar, #progress { transition: opacity .6s; }
 .ef-chart .band { fill: rgba(255,150,62,.09); opacity: 0; }
 .ef-chart .band-l { stroke: var(--orange); stroke-width: 1.5; stroke-dasharray: 5 5; opacity: 0; }
 .ef-chart .band-t { font-family: var(--sans); font-size: 12px; font-weight: 700; fill: #D2691A; letter-spacing: .06em; opacity: 0; }
+.ef-schools { position: relative; display: grid; align-content: center; gap: clamp(8px, 1.4vh, 14px); opacity: 0; visibility: hidden; }
+.ef-schools h3 { margin: 0 0 6px; font-weight: 500; font-size: clamp(22px, 2vw, 32px); letter-spacing: -.035em; }
+.ef-schools h3 small { display: block; margin-top: 4px; font-size: 13px; font-weight: 400; letter-spacing: 0; color: var(--muted); }
+.ef-row { display: grid; grid-template-columns: clamp(54px, 4.6vw, 72px) minmax(0, 1.05fr) minmax(0, 1.25fr) 3.6em; gap: clamp(10px, 1.2vw, 18px); align-items: center; padding: 6px 0; border-top: 1px solid var(--line); }
+.ef-row img { width: 100%; height: auto; aspect-ratio: 1.5; object-fit: contain; background: #fff; border-radius: 8px; box-shadow: 0 0 0 1px var(--line); }
+.ef-row .nm { display: grid; gap: 1px; min-width: 0; } .ef-row .nm b { font-size: clamp(13px, 1.05vw, 16px); font-weight: 600; line-height: 1.2; }
+.ef-row .nm span { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.ef-db { position: relative; height: 26px; }
+.ef-db::before { content: ""; position: absolute; left: 0; right: 0; top: 12px; height: 2px; background: var(--line); }
+.ef-db .bar { position: absolute; top: 10px; height: 6px; border-radius: 6px; background: linear-gradient(90deg, #9DB0FF, var(--orange)); transform-origin: left center; }
+.ef-db .a, .ef-db .b { position: absolute; top: 6px; width: 14px; height: 14px; margin-left: -7px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 1px rgba(23,64,169,.25); }
+.ef-db .a { background: #9DB0FF; } .ef-db .b { background: var(--orange); }
+.ef-db .t { position: absolute; top: -13px; font-size: 10px; color: #6E7386; transform: translateX(-50%); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ef-row .g { font-size: clamp(18px, 1.6vw, 24px); font-weight: 700; color: #D2691A; text-align: right; font-variant-numeric: tabular-nums; letter-spacing: -.02em; }
+.ef-key { display: flex; gap: 18px; font-size: 12px; color: var(--muted); padding-top: 6px; border-top: 1px solid var(--line); }
+.ef-key i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
 @media (max-width: 899px) { #effect .wrap { grid-template-columns: minmax(0, 1fr); } }
 
 /* Who we are: Framer-style stage. Deep navy, words light up one by one, beliefs on hairlines, founders row. */
@@ -1466,8 +1483,8 @@ header.bar, #progress { transition: opacity .6s; }
   </section>
 
   <!-- The TestPrep Effect -->
-  <section class="slide" id="effect" data-chapter="The TestPrep Effect" data-steps="1"
-    data-notes="Let the lines draw. 'Every line is one of our students: where they started on their first TestPrep diagnostic, and where they finished on the official SAT.' Point at the orange line: 'On average, 149 points higher.' Press &#8594;: 'And this is the line every university notices: 1,200. 58 of them started above it. 142 finished above it.'">
+  <section class="slide" id="effect" data-chapter="The TestPrep Effect" data-steps="2"
+    data-notes="Let the lines draw. 'Every line is one of our students: where they started on their first TestPrep diagnostic, and where they finished on the official SAT.' Point at the orange line: 'On average, 149 points higher.' Press &#8594;: 'And this is the line every university notices: 1,200. 58 of them started above it. 142 finished above it.' Press &#8594; again: 'School by school, these are the seven schools with the most of our students. Every one of them moved up by more than 100 points on average.'">
     <div class="wrap">
       <div class="ef-copy">
         <p class="label">The TestPrep Effect</p>
@@ -1481,6 +1498,7 @@ header.bar, #progress { transition: opacity .6s; }
         <p class="ef-note">261 students from 45 schools with a first TestPrep diagnostic and an official SAT score, 2023 to 2026.</p>
       </div>
       <div class="ef-chart" id="ef-chart" aria-label="Slope chart: 261 students, first diagnostic to official SAT. Average 1,050 to 1,199." role="img"></div>
+      <div class="ef-schools" id="ef-schools" aria-label="Average gain at the seven schools with the most TestPrep students"><h3>School by school<small>Our seven schools with the most students: average first diagnostic to average official SAT</small></h3><div class="ef-row"><img src="assets/schools/s36.jpg" alt="" width="360" height="240"><div class="nm"><b>International College</b><span>37 students</span></div><div class="ef-db"><span class="bar" style="left:59.8%;width:31.0%"></span><span class="a" style="left:59.8%"></span><span class="b" style="left:90.8%"></span><span class="t" style="left:90.8%">1,272</span></div><span class="g">+161</span></div><div class="ef-row"><img src="assets/schools/s60.jpg" alt="" width="360" height="240"><div class="nm"><b>Coll&#232;ge Notre-Dame de Jamhour</b><span>20 students</span></div><div class="ef-db"><span class="bar" style="left:52.3%;width:41.5%"></span><span class="a" style="left:52.3%"></span><span class="b" style="left:93.8%"></span><span class="t" style="left:93.8%">1,288</span></div><span class="g">+216</span></div><div class="ef-row"><img src="assets/schools/s65.jpg" alt="" width="360" height="240"><div class="nm"><b>Coll&#232;ge Louise Wegmann</b><span>15 students</span></div><div class="ef-db"><span class="bar" style="left:49.8%;width:39.2%"></span><span class="a" style="left:49.8%"></span><span class="b" style="left:89.0%"></span><span class="t" style="left:89.0%">1,263</span></div><span class="g">+204</span></div><div class="ef-row"><img src="assets/schools/s30.jpg" alt="" width="360" height="240"><div class="nm"><b>Grand Lyc&#233;e Franco-Libanais</b><span>15 students</span></div><div class="ef-db"><span class="bar" style="left:35.6%;width:25.2%"></span><span class="a" style="left:35.6%"></span><span class="b" style="left:60.8%"></span><span class="t" style="left:60.8%">1,116</span></div><span class="g">+131</span></div><div class="ef-row"><img src="assets/schools/s07.jpg" alt="" width="360" height="240"><div class="nm"><b>Coll&#232;ge Protestant Fran&#231;ais</b><span>14 students</span></div><div class="ef-db"><span class="bar" style="left:59.8%;width:19.8%"></span><span class="a" style="left:59.8%"></span><span class="b" style="left:79.6%"></span><span class="t" style="left:79.6%">1,214</span></div><span class="g">+103</span></div><div class="ef-row"><img src="assets/schools/s11.jpg" alt="" width="360" height="240"><div class="nm"><b>American Community School</b><span>10 students</span></div><div class="ef-db"><span class="bar" style="left:27.3%;width:31.0%"></span><span class="a" style="left:27.3%"></span><span class="b" style="left:58.3%"></span><span class="t" style="left:58.3%">1,103</span></div><span class="g">+161</span></div><div class="ef-row"><img src="assets/schools/s59.jpg" alt="" width="360" height="240"><div class="nm"><b>City International School</b><span>10 students</span></div><div class="ef-db"><span class="bar" style="left:6.5%;width:23.7%"></span><span class="a" style="left:6.5%"></span><span class="b" style="left:30.2%"></span><span class="t" style="left:30.2%">957</span></div><span class="g">+123</span></div><div class="ef-key"><span><i style="background:#9DB0FF"></i>First diagnostic</span><span><i style="background:var(--orange)"></i>Official SAT</span></div></div>
     </div>
   </section>
 
@@ -2458,7 +2476,7 @@ header.bar, #progress { transition: opacity .6s; }
     challenge: { next() { if (state.challenge < 5) { renderChallenge(++state.challenge); return true; } }, prev() { if (state.challenge > 0) { renderChallenge(--state.challenge); return true; } } },
     why: { next() { if (state.why < 3) { openDoors(++state.why); return true; } }, prev() { if (state.why > 0) { openDoors(--state.why); return true; } } },
     glitch: { next() { return glitchNext(); } },
-    effect: { next() { if (state.effect < 1) { effectChart.go(++state.effect); return true; } }, prev() { if (state.effect > 0) { effectChart.go(--state.effect); return true; } } },
+    effect: { next() { if (state.effect < 2) { effectChart.go(++state.effect); return true; } }, prev() { if (state.effect > 0) { effectChart.go(--state.effect); return true; } } },
     trusted: { next() { if (state.trusted < 1) { trusted.go(++state.trusted); return true; } }, prev() { if (state.trusted > 0) { trusted.go(--state.trusted); return true; } } },
     film: { next: () => film.next(), prev: () => film.prev() },
     nizar: { next() { if (state.nizar < 2) { nizar.go(++state.nizar); return true; } }, prev() { if (state.nizar > 0) { nizar.go(--state.nizar); return true; } } },
@@ -2834,6 +2852,20 @@ header.bar, #progress { transition: opacity .6s; }
       go(n) {
         tl?.progress(1); const prev = at; at = n;
         const t = gsap.timeline({ defaults: { duration: .7, ease: 'power2.inOut' } });
+        const panel = document.getElementById('ef-schools');
+        if (n === 2 && prev === 1) {
+          const rows = panel.querySelectorAll('.ef-row');
+          t.to(box, { autoAlpha: 0, x: 30, duration: .45, ease: 'power2.in' }, 0)
+           .fromTo(panel, { autoAlpha: 0 }, { autoAlpha: 1, duration: .4 }, .35)
+           .fromTo(rows, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .5, stagger: .08, ease: 'power3.out' }, .4)
+           .fromTo(panel.querySelectorAll('.bar'), { scaleX: 0 }, { scaleX: 1, duration: .8, stagger: .08, ease: 'power3.out' }, .6)
+           .fromTo(panel.querySelectorAll('.b, .t, .g'), { opacity: 0 }, { opacity: 1, duration: .3, stagger: .03 }, 1.1);
+          return t;
+        }
+        if (n === 1 && prev === 2) {
+          t.to(panel, { autoAlpha: 0, duration: .35 }, 0).to(box, { autoAlpha: 1, x: 0, duration: .5, ease: 'power3.out' }, .3);
+          return t;
+        }
         if (n === 1 && prev === 0) {
           t.to(band, { opacity: 1 }, 0)
            .to(lines, { stroke: 'rgba(23,64,169,.06)' }, 0)
